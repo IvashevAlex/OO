@@ -171,7 +171,7 @@ def question(bot, message):
     itembtn8 = types.KeyboardButton('Эльба')
     itemhelp = types.KeyboardButton('Помощь')
 
-    markup.row(itembtn14, itembtn13, itembtn15 itembtn1)
+    markup.row(itembtn14, itembtn13, itembtn15)
     markup.row(itembtn1, itembtn2, itembtn3)
     markup.row(itembtn12, itembtn4, itembtn5)
     markup.row(itembtn6, itembtn7, itembtn8)
