@@ -1,7 +1,9 @@
-#Тут мы проверяем зареган ли пользователь, давать ли ему доступ к тестам
-
+import openpyxl
 import pypyodbc
+import re
 import telebot
+from telebot import types
+import random
 
 #bot = telebot.TeleBot('935355674:AAFDc4BwAB4jQtugRIpcGiEPqyhKZqv3XSU',  threaded=False)
 bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) #OOHelper

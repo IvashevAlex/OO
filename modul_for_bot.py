@@ -1,8 +1,15 @@
 from telebot import types
 import random
+import requests
+import time
 import openpyxl
+import pypyodbc
+import re
 from WhiteList import *
 from telebot.types import CallbackQuery
+
+alex_id = 233770916 #ID телеграма Лёхи, для обработки сообщений об ошибке
+toha_id = 391368365 #ID Антохи, для обработки технической ошибки
 
 data_base = {'BotUsers': {},
              'UserQuestions': {},
@@ -16,6 +23,8 @@ count = 0
 rand = 0
 
 a = {}
+save_check = {'wic_search':{}
+              }
 tests_data = {}
 practicks_data = {'check_attempt':{}}
 ans = {'lower': {}}
@@ -25,7 +34,8 @@ file_dir = 'Data/screens/'  # Указываем путь до папок отд
 save_message_id = {'check_answer': {},
                    'message_id': {},
                    'message_text':{},
-                   'message_id_answer':{}}
+                   'message_id_answer':{}
+                   }
 
 rand_question = {} #<-- тут мы держим номера вопросов, которые нужно задать
 
@@ -43,7 +53,7 @@ db_data['BH'] = openpyxl.load_workbook('./Data/Бухгалтерия.xlsx', rea
 db_data['ELB'] = openpyxl.load_workbook('./Data/Эльба.xlsx', read_only=True)
 db_data['OFD'] = openpyxl.load_workbook('./Data/ОФД.xlsx', read_only=True)
 db_data['INST'] = openpyxl.load_workbook('./Data/Установка.xlsx', read_only=True)
-
+db_data['WIC'] = openpyxl.load_workbook('./Data/WIC.xlsx', read_only=True)
 
 # ------------ Функция обработки нажатия кнопок ---------- #
 def quest(theme, number_of_page, bot):
@@ -57,11 +67,13 @@ def quest(theme, number_of_page, bot):
             pass
 
         a[callback_query.from_user.id] = number_of_page  # <--- Запоминаем номер страницы с продуктом (Ехель)
+        save_check['wic_search'][callback_query.from_user.id] = False #Отвечает за нажатие кнопки Wic поиск знаний. Для того чтобы формируя кейс влиять на сообщение
+
         if practicks_data.get(callback_query.from_user.id) == 'PR':  # <---- находимся ли мы в кейсах
             if tests_data[callback_query.from_user.id] == 'extrn':
-                a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
+                a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1 #из Екселя берем number_of_page + 1, ибо в файле 1ая табла тесты а следующая кейсы
             elif tests_data[callback_query.from_user.id] == 'BUH':
-                a[callback_query.from_user.id] = 7
+                a[callback_query.from_user.id] = 7 #В продукте КБ кейсы всегда на 7 индексе
             elif tests_data[callback_query.from_user.id] == 'ELB':
                 a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
             elif tests_data[callback_query.from_user.id] == 'OFD':
@@ -76,10 +88,13 @@ def quest(theme, number_of_page, bot):
                 a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
             elif tests_data[callback_query.from_user.id] == 'DD':
                 a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
+            elif tests_data[callback_query.from_user.id] == 'WIC':
+                if callback_query.data == 'WIC.Поиск_знаний': #Проверяем нажата ли кнопка поиск знаний раздела ВИК
+                    save_check['wic_search'][callback_query.from_user.id] = True #Если нажата то активируем переменную, для формирования определенного сообщения в кейсах
 
-            answers_prk(bot, callback_query)
+            answers_prk(bot, callback_query) #Запускаем цикл вопрос\ответ по кейсам
         else:
-            answers(bot, callback_query)
+            answers(bot, callback_query) #Если выбрали не кейсы, то запускаем цикл вопрос\ответ по тестам
 
 
 def back_to_menu(bot, message):
@@ -100,6 +115,10 @@ def sql_user(bot, callback_query):
                                                               'UserCounterTrueAns': '0'}
 
         rand_question[callback_query.from_user.id] = []
+        try:
+            del callback_check[callback_query.from_user.id]
+        except:
+            pass
 
 
     else:
@@ -115,6 +134,12 @@ def sql_user(bot, callback_query):
         del data_base['UserQuestions'][callback_query.from_user.id]
     except:
         pass
+
+    try:
+        del callback_check[callback_query.from_user.id]
+    except:
+        pass
+
     results = data_base['BotUsers'][callback_query.from_user.id]['UserChat'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns']
@@ -135,22 +160,23 @@ def question(bot, message):
     itembtn4 = types.KeyboardButton('Maркет')
     itembtn12 = types.KeyboardButton('УЦ')
     itembtn13 = types.KeyboardButton('Установка')
+    itembtn14 = types.KeyboardButton('WIC')
     itembtn5 = types.KeyboardButton('OФД')
     itembtn6 = types.KeyboardButton('ФMС')
     itembtn7 = types.KeyboardButton('Бухгалтерия')
     itembtn8 = types.KeyboardButton('Эльба')
     itemhelp = types.KeyboardButton('Помощь')
 
-    markup.row(itembtn1, itembtn2, itembtn3)
-    markup.row(itembtn12, itembtn4, itembtn13)
-    markup.row(itembtn5, itembtn6, itembtn7)
-    markup.row(itembtn8)
+    markup.row(itembtn14, itembtn13, itembtn1)
+    markup.row(itembtn2, itembtn3, itembtn12)
+    markup.row(itembtn4, itembtn5, itembtn6)
+    markup.row(itembtn7, itembtn8)
     markup.row(itemhelp)
     bot.send_message(message.chat.id, "Привет :) Это бот Отдела Обучения.\n"
                                       "Выбери нужную тему с помощью кнопок внизу.", reply_markup=markup)
 
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
-
+    callback_check[message.from_user.id] = 'admin'
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Обновить таблицы', callback_data='Обновить таблицы')
     itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
@@ -174,6 +200,18 @@ def Inst_menu(name, bot):
         tests_data[message.chat.id] = 'INST'
         sql_user(bot, message)
         test_INST(bot, message)  # <--- тут будет отправка и меню с выбором
+
+def WIC_menu(name, bot):
+    @bot.message_handler(func=lambda message: message.text == name)
+    def wic_menu(message):
+        try:
+            del practicks_data[message.chat.id]
+        except:
+            pass
+
+        practicks_data[message.from_user.id] = 'PR'
+        tests_data[message.chat.id] = 'WIC'
+        prk_wic(bot, message)  # <--- тут будет отправка и меню с выбором
 
 
 def DD_menu(name, bot):
@@ -551,6 +589,25 @@ def praktics(bot):
 
 
 # ------------  Клавиатура кейсов для каждого отдела -----------------#
+def prk_wic(bot, message):
+    sql_user(bot, message)
+
+    try:
+        bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
+    except Exception as Abc:
+        pass
+
+    markup = types.InlineKeyboardMarkup()
+    itembtn1 = types.InlineKeyboardButton('Поиск знаний', callback_data='WIC.Поиск_знаний')
+    itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='WIC.Кейсы')
+
+
+    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+
+    markup.add(itembtn1, itembtn2)
+    markup.add(itembtn3)
+
+    bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
 
 def prk_ext(bot, callback_query):
     sql_user(bot, callback_query)
@@ -744,6 +801,8 @@ def check_product(callback_query):
         db = db_data['ELB']
     elif tests_data[callback_query.from_user.id] == 'INST':
         db = db_data['INST']
+    elif tests_data[callback_query.from_user.id] == 'WIC':
+        db = db_data['WIC']
     else:
         db = db_data['all']
 
@@ -777,11 +836,6 @@ def random_question(id_user, max_row):
 
 def answers(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по тестам
     print('1')
-    try:
-        del callback_check[callback_query.from_user.id]
-    except:
-        pass
-
     db = check_product(callback_query)
 
     name_sheet = db.sheetnames[int(a[callback_query.from_user.id])]  # <--- Получаем название вкладки (продукта) в таблице
@@ -817,6 +871,8 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         bot.send_message(callback_query.from_user.id, f'Ты ответил на все вопросы! \n'
                                                       f'\nКоличество вопросов, которые были заданы: {str(ans_q)}'
                                                       f'\nПравильных ответов: {int(sc[1])}')
+
+        callback_check[callback_query.from_user.id] = 'end'
 
     else:  # <--- Если ответил не на все вопросы
         t = 0
@@ -873,31 +929,29 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         # ----------------------------------------------------- #
 
         markup = types.InlineKeyboardMarkup()
-        itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
+        #itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
         itembtn1 = types.InlineKeyboardButton('Результаты', callback_data='Результаты')
         itembtn2 = types.InlineKeyboardButton('Сообщить об ошибке', callback_data='Сообщить об ошибке')
 
-        markup.add(itembtn_test, itembtn1)
+        markup.add(itembtn1)
         markup.add(itembtn2)
 
         message_question += '\n\nПиши правильные варианты ответа цифрами без дополнительных символов и пробелов. \n' \
                             'Помни! Вариантов ответов может быть несколько.\n' \
-                            'Напиши ответ → Нажми «Отправить».\n' \
-                            'Если уверен в правильности ответа → Нажми «Ответить».'
+                            'Если уверен в правильности ответа → Нажми «Отправить».'
+
         message_id = bot.send_message(callback_query.from_user.id, message_question, parse_mode='HTML', reply_markup=markup)
 
         save_message_id['message_text'][callback_query.from_user.id] = message_id.text
 
         save_message_id['check_answer'][callback_query.from_user.id] = message_id.message_id  # сохраняем ID заданного вопроса
+        callback_check[callback_query.from_user.id] = 'tests' # Указываем что тест еще выполняется (для обработки текстового сообщения)
+
 
     print('results[0][1] = ', results[1])
 
 
 def answers_prk(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по кейсам
-    try:
-        del callback_check[callback_query.from_user.id]
-    except:
-        pass
     practicks_data['check_attempt'][callback_query.from_user.id] = '1'
 
     db = check_product(callback_query)
@@ -935,6 +989,7 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         bot.send_message(callback_query.from_user.id, f'Ты выполнил все кейсы! \n'
                                                       f'\nКоличество кейсов, которые были заданы: {str(ans_q)}'
                                                       f'\nПравильных ответов: {int(sc[1])}')
+        callback_check[callback_query.from_user.id] = 'end'
 
     else:  # <--- Если ответил не на все вопросы
         t = 0
@@ -975,23 +1030,35 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         print('Номер вопроса = ', int(fs[0]), type(fs), 'из ', int(fs[1]), type(fs))
 
         # ----- формируем сообщение для отправки вопроса ------ #
+        mes_qv = f'{sheet[chr(65) + str(fs[0])].value}' #Формируем вопрос, чтобы дальше его проверить на недопустимые символы
 
-        message_question = f'<b>Кейс</b>: {sheet[chr(65) + str(fs[0])].value}'
+        if save_check['wic_search'][callback_query.from_user.id] == True: #Смотрим активна ли переменная Поиск знаний
+            message_question = '' #Задача убрать слово "Кейс" из сообщения в вопросе
+        else:
+            message_question = f'<b>Кейс</b>: '
+
+        if '<' in mes_qv or '>' in mes_qv: #Ищем есть ли в вопросе знак <, он вызывает конфликт при parse_mode=HTML
+            for i in mes_qv: #Пробегаем по каждому символу в вопросе
+                if i == '<':
+                    i = '&lt' #Если нашли этот знак то меняем его на &lt
+                message_question += i #Добавляем каждую букву к итоговому сообщению
+        else: #Если символа такого в вопросе нет, то к итоговому сообщению добавим сразу вопрос
+            message_question += mes_qv
+
         message_question += f'\n\nПиши правильные ответы в соответствии с требованиями вопросов. ' \
                             f'\nТочку в конце не ставь.\n' \
-                            f'Напиши ответ → Нажми «Отправить».\n' \
-                            f'Если уверен в правильности ответа → Нажми «Ответить».'
+                            f'Если уверен в правильности ответа → Нажми «Отправить».'
 
         # Ниже уже делаем запрос к екселю через chr получаем букву столбика и смотрим что в строке (номер вопроса)
 
         # ----------------------------------------------------- #
 
         markup = types.InlineKeyboardMarkup()
-        itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
+        #itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
         itembtn1 = types.InlineKeyboardButton('Результаты', callback_data='Результаты')
         itembtn2 = types.InlineKeyboardButton('Сообщить об ошибке', callback_data='Сообщить об ошибке')
 
-        markup.add(itembtn_test, itembtn1)
+        markup.add(itembtn1)
         markup.add(itembtn2)
 
         if sheet[chr(67) + str(fs[0])].value != None:  # <-- Смотрим на столбик "С", ищем путь к файлу для отправки. Если есть то
@@ -1015,6 +1082,7 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
 
         save_message_id['message_text'][callback_query.from_user.id] = message_question
         save_message_id['check_answer'][callback_query.from_user.id] = message_id.message_id  # сохраняем ID заданного вопроса
+        callback_check[callback_query.from_user.id] = 'practicks'
 
 
 
@@ -1075,24 +1143,26 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
 def continue_(bot, message):  # <--- функция обработки простых текстовых сообщений
     print("Ввод пользователя - ", message.text)
 
-    if callback_check.get(message.chat.id) == None:  # Если пользователь не нажимал "Сообщить об ошибке"
+    if callback_check.get(message.chat.id) in ('tests', 'practicks', 'admin'):  # Если пользователь не нажимал "Сообщить об ошибке"
         try:
             data_base['BotUsers'][message.chat.id]['UserAnswer'] = str(message.text)
         except:
             data_base['BotUsers'][message.chat.id] = {'UserAnswer': 'None'}
             data_base['BotUsers'][message.chat.id]['UserAnswer'] = str(message.text)
 
+
+
     elif callback_check[message.chat.id] == '1':  # Если пользователь нажал на сообщить об ошибке
         bot.send_message(message.chat.id, 'Ты еще не выбрал о какой ошибке хочешь сообщить. Если не хочешь сообщать, нажми «Отмена».')
 
     elif callback_check[message.chat.id] == '2':  # Если пользователь нажал на сообщить об ошибке и выбрал "о технческой ошибке"
         text_error = 'Антоха, конс нашел техническую ошибку: '
-        bot.send_message(391368365, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
-        bot.send_message(message.chat.id, 'Спасибо! Информация передана ответственному.\nЕсли понадобится уточнение он с тобой свяжется.')
-        del callback_check[message.chat.id]
+        bot.send_message(toha_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
+        bot.send_message(message.chat.id, 'Спасибо! Информация передана ответственному.\nЕсли понадобится уточнение он с тобой свяжется.'
+                                          '\nМожешь продолжить отвечать на вопросы.')
+        callback_check[message.from_user.id] = save_check[message.from_user.id]
 
     elif callback_check[message.chat.id] == '3':  # Если пользователь нажал на сообщить об ошибке и выбрал "об ошибке в вопросе"
-
         if tests_data[message.chat.id] == 'DD':
             product = 'Диадок'
 
@@ -1121,15 +1191,17 @@ def continue_(bot, message):  # <--- функция обработки прос�
             product = 'Эльба'
 
         text_error = f'<b>Лёха, конс нашел ошибку в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+        bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
-        bot.send_message(233770916, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+        bot.send_message(message.chat.id, 'Спасибо! Информация передана ответственному.\nЕсли понадобится уточнение он с тобой свяжется.'
+                                          '\nМожешь продолжить отвечать на вопросы.')
+        callback_check[message.from_user.id] = save_check[message.from_user.id]
 
 
-        bot.send_message(message.chat.id, 'Спасибо! Информация передана ответственному.\nЕсли понадобится уточнение он с тобой свяжется.')
-        del callback_check[message.chat.id]
 
 
 def check_answer(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по тестам
+    print(callback_query.from_user.id)
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserAnswer'], \
@@ -1206,11 +1278,11 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
         else:
             if practicks_data['check_attempt'][callback_query.from_user.id] == '1':
                 markup = types.InlineKeyboardMarkup()
-                itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
+                #itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
                 itembtn1 = types.InlineKeyboardButton('Результаты', callback_data='Результаты')
                 itembtn2 = types.InlineKeyboardButton('Сообщить об ошибке', callback_data='Сообщить об ошибке')
 
-                markup.add(itembtn_test, itembtn1)
+                markup.add(itembtn1)
                 markup.add(itembtn2)
 
                 message_id = bot.edit_message_text("Неправильно! У тебя есть еще одна попытка.", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id], reply_markup=markup)
@@ -1235,10 +1307,6 @@ def lesten_res(bot):
 
 
 def res(bot, callback_query):  # Функция публикует результат
-    try:
-        del callback_check[callback_query.from_user.id]
-    except:
-        pass
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns']
@@ -1259,6 +1327,7 @@ def res(bot, callback_query):  # Функция публикует резуль�
 
 # ------------------------------- Обработка Inline клавиатуры ---------------------------------------#
 def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить об ошибке"
+
     error_markup = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('О технической ошибке', callback_data='error_tehn')
@@ -1268,8 +1337,11 @@ def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить �
     error_markup.add(itembtn1, itembtn2)
     error_markup.add(itembtn3)
     bot.send_message(callback_query.from_user.id, 'Выбери направление о какой ошибке хочешь сообщить?', reply_markup=error_markup)
+    save_check[callback_query.from_user.id] = callback_check[callback_query.from_user.id]
+
     callback_check[callback_query.from_user.id] = '1'  # Присваиваем ИД переменную, чтобы дальше фильтровать
     callback_check['text'][callback_query.from_user.id] = callback_query.message.text.split('Пиши')[0]
+
 
 
 def cancel_error(bot):  # <---  Обрабатываем если нажали "отмена"
@@ -1299,7 +1371,6 @@ def txt_error(bot):  # <---  Обрабатываем если нажали "о�
                               message_id=callback_query.message.message_id)
 
         callback_check[callback_query.from_user.id] = '3'  # Присваиваем ИД переменную, чтобы дальше фильтровать
-
 
 
 def btn_back_menu(bot):
