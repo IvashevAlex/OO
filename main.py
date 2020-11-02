@@ -82,6 +82,7 @@ praktics(bot)
 #----- Главное меню -------#
 WIC_menu("WIC", bot)
 Inst_menu("Устанoвка", bot)
+Other_srvice_menu("Внутренние сервисы", bot)
 DD_menu("Диaдoк", bot)
 EDI_menu("Ритейл", bot)
 ext_menu("Экстерн", bot)
@@ -107,6 +108,11 @@ quest('Сертификаты УЦ', 4, bot)
 quest('Работа с ЭП не на Windows', 5, bot)
 quest('DSS', 6, bot)
 quest('Установка общее', 7, bot)
+
+#------- Кнопки внутр сервисы ------#
+quest('Билли', 0, bot)
+quest('КабУЦ', 1, bot)
+quest('Клиент-Сервис', 2, bot)
 
 #-----------Кнопки Диадок --------#
 quest("Web.Диадок", 0, bot)

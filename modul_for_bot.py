@@ -54,6 +54,7 @@ db_data['ELB'] = openpyxl.load_workbook('./Data/Эльба.xlsx', read_only=True
 db_data['OFD'] = openpyxl.load_workbook('./Data/ОФД.xlsx', read_only=True)
 db_data['INST'] = openpyxl.load_workbook('./Data/Установка.xlsx', read_only=True)
 db_data['WIC'] = openpyxl.load_workbook('./Data/WIC.xlsx', read_only=True)
+db_data['OTHER'] = openpyxl.load_workbook('./Data/WIC.xlsx', read_only=True)
 
 # ------------ Функция обработки нажатия кнопок ---------- #
 def quest(theme, number_of_page, bot):
@@ -91,6 +92,8 @@ def quest(theme, number_of_page, bot):
             elif tests_data[callback_query.from_user.id] == 'WIC':
                 if callback_query.data == 'WIC.Поиск_знаний': #Проверяем нажата ли кнопка поиск знаний раздела ВИК
                     save_check['wic_search'][callback_query.from_user.id] = True #Если нажата то активируем переменную, для формирования определенного сообщения в кейсах
+            elif tests_data[callback_query.from_user.id] == 'OTHER':
+                pass # нам не нужно присваивать новые номера для внутр сервисов
 
             answers_prk(bot, callback_query) #Запускаем цикл вопрос\ответ по кейсам
         else:
@@ -161,16 +164,17 @@ def question(bot, message):
     itembtn12 = types.KeyboardButton('УЦ')
     itembtn13 = types.KeyboardButton('Устанoвка')
     itembtn14 = types.KeyboardButton('WIC')
+    itembtn15 = types.KeyboardButton('Внутренние сервисы')
     itembtn5 = types.KeyboardButton('OФД')
     itembtn6 = types.KeyboardButton('ФMС')
     itembtn7 = types.KeyboardButton('Бухгалтерия')
     itembtn8 = types.KeyboardButton('Эльба')
     itemhelp = types.KeyboardButton('Помощь')
 
-    markup.row(itembtn14, itembtn13, itembtn1)
-    markup.row(itembtn2, itembtn3, itembtn12)
-    markup.row(itembtn4, itembtn5, itembtn6)
-    markup.row(itembtn7, itembtn8)
+    markup.row(itembtn14, itembtn13, itembtn15 itembtn1)
+    markup.row(itembtn1, itembtn2, itembtn3)
+    markup.row(itembtn12, itembtn4, itembtn5)
+    markup.row(itembtn6, itembtn7, itembtn8)
     markup.row(itemhelp)
     bot.send_message(message.chat.id, "Привет :) Это бот Отдела Обучения.\n"
                                       "Выбери нужную тему с помощью кнопок внизу.", reply_markup=markup)
@@ -213,6 +217,16 @@ def WIC_menu(name, bot):
         tests_data[message.chat.id] = 'WIC'
         prk_wic(bot, message)  # <--- тут будет отправка и меню с выбором
 
+def Other_srvice_menu(name, bot):
+    @bot.message_handler(func=lambda message: message.text == name)
+    def in_menu(message):
+        try:
+            del practicks_data[message.chat.id]
+        except:
+            pass
+        practicks_data[message.from_user.id] = 'PR'
+        tests_data[message.chat.id] = 'OTHER'
+        other_service_prk(bot, message)  # <--- тут будет отправка и меню с выбором
 
 def DD_menu(name, bot):
     @bot.message_handler(func=lambda message: message.text == name)
@@ -318,7 +332,7 @@ def tests(bot):
 
         elif tests_data[callback_query.from_user.id] == 'ELB':
             test_elb(bot, callback_query)
-
+        
 
 # ----------------------------- функции с клавиатурами после выбора отдела, тесты ---------------------------------- #
 def test_menu(bot, message):
@@ -609,6 +623,28 @@ def prk_wic(bot, message):
 
     bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
 
+def other_service_prk(bot, message):
+    sql_user(bot, message)
+
+    try:
+        bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
+    except Exception as Abc:
+        pass
+
+    markup = types.InlineKeyboardMarkup()
+    itembtn1 = types.InlineKeyboardButton('Билли', callback_data='Билли')
+    itembtn2 = types.InlineKeyboardButton('КабУЦ', callback_data='КабУЦ')
+    itembtn4 = types.InlineKeyboardButton('Клиент-Сервис', callback_data='Клиент-Сервис')
+
+
+    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+
+    markup.add(itembtn1, itembtn2, itembtn4)
+    markup.add(itembtn3)
+
+    bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
+
+
 def prk_ext(bot, callback_query):
     sql_user(bot, callback_query)
 
@@ -803,6 +839,8 @@ def check_product(callback_query):
         db = db_data['INST']
     elif tests_data[callback_query.from_user.id] == 'WIC':
         db = db_data['WIC']
+    elif tests_data[callback_query.from_user.id] == 'OTHER':
+        db = db_data['OTHER']
     else:
         db = db_data['all']
 
