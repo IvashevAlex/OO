@@ -54,7 +54,7 @@ db_data['ELB'] = openpyxl.load_workbook('./Data/Эльба.xlsx', read_only=True
 db_data['OFD'] = openpyxl.load_workbook('./Data/ОФД.xlsx', read_only=True)
 db_data['INST'] = openpyxl.load_workbook('./Data/Установка.xlsx', read_only=True)
 db_data['WIC'] = openpyxl.load_workbook('./Data/WIC.xlsx', read_only=True)
-db_data['OTHER'] = openpyxl.load_workbook('./Data/WIC.xlsx', read_only=True)
+db_data['OTHER'] = openpyxl.load_workbook('./Data/Вн. сервисы.xlsx', read_only=True)
 
 # ------------ Функция обработки нажатия кнопок ---------- #
 def quest(theme, number_of_page, bot):
