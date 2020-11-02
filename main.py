@@ -21,9 +21,6 @@ from telebot.types import CallbackQuery
 #bot = telebot.TeleBot('935355674:AAFDc4BwAB4jQtugRIpcGiEPqyhKZqv3XSU',  threaded=False)
 bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) #OOHelper
 
-# Открываем файл на чтение
-#db = xlrd.open_workbook('111.xlsx')
-#db = openpyxl.load_workbook('./Data/111.xlsx')
 
 global a
 a = 0
@@ -84,7 +81,7 @@ praktics(bot)
 
 #----- Главное меню -------#
 WIC_menu("WIC", bot)
-Inst_menu("Установка", bot)
+Inst_menu("Устанoвка", bot)
 DD_menu("Диaдoк", bot)
 EDI_menu("Ритейл", bot)
 ext_menu("Экстерн", bot)
