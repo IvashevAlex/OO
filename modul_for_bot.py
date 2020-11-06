@@ -696,12 +696,12 @@ def prk_diadoc(bot, callback_query):
     itembtn5 = types.InlineKeyboardButton('Web', callback_data='Web.Диадок')
     itembtn6 = types.InlineKeyboardButton('Модуль', callback_data='Модуль.Диадок')
     itembtn7 = types.InlineKeyboardButton('Роуминг', callback_data='Роуминг.Диадок')
-    itembtn8 = types.InlineKeyboardButton('Коннекторы', callback_data='Коннекторы.Дидаок')
+    # itembtn8 = types.InlineKeyboardButton('Коннекторы', callback_data='Коннекторы.Дидаок')
 
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
     markup.add(itembtn5, itembtn6, itembtn7)
-    markup.add(itembtn8)
+    # markup.add(itembtn8) Коннекторы диадок
     markup.add(itembtn12)
     bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
                           message_id=callback_query.message.message_id, reply_markup=markup)
