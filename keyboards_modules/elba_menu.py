@@ -47,3 +47,6 @@ def prk_elb(bot, callback_query):
     markup.add(itembtn12)
     bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
                           message_id=callback_query.message.message_id, reply_markup=markup)
+
+
+Elba_menu("Эльба", bot)

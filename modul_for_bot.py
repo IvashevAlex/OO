@@ -147,73 +147,6 @@ def sql_user(bot, callback_query):
     print(results)
 
 
-# ----------------------------- Обрабатываем если выбрали "тесты" ---------------------------------- #
-def tests(bot):
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Тесты')
-    def tests_hm(callback_query: CallbackQuery):
-
-        bot.answer_callback_query(callback_query.id)
-        if tests_data[callback_query.from_user.id] == 'DD':
-            test_DD(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'EDI':
-            test_EDI(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'extrn':
-            test_ext(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'UC':
-            test_uc(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'MK':
-            test_mk(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'FMS':
-            test_fms(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'OFD':
-            test_ofd(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'BUH':
-            test_buh(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'ELB':
-            test_elb(bot, callback_query)
-        
-def praktics(bot):
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Кейсы')
-    def tests_h(callback_query: CallbackQuery):
-        bot.answer_callback_query(callback_query.id)
-
-        practicks_data[callback_query.from_user.id] = 'PR'  # <-- Ставим метку что мы нажали кнопку "Кейсы"
-        if tests_data[callback_query.from_user.id] == 'DD':
-            prk_diadoc(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'EDI':
-            prk_edi(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'extrn':
-            prk_ext(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'UC':
-            prk_uc(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'MK':
-            prk_mk(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'FMS':
-            prk_fms(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'OFD':
-            prk_ofd(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'BUH':
-            prk_buh(bot, callback_query)
-
-        elif tests_data[callback_query.from_user.id] == 'ELB':
-            prk_elb(bot, callback_query)
-
-# ---------------------------------------------------#
 # ------ Проверяем по какому продукту сейчас проходит тестирование ------------#
 def check_product(callback_query):
     if tests_data[callback_query.from_user.id] == 'DD':
@@ -272,7 +205,6 @@ def random_question(id_user, max_row):
 
 
 def answers(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по тестам
-    print('1')
     db = check_product(callback_query)
 
     name_sheet = db.sheetnames[int(a[callback_query.from_user.id])]  # <--- Получаем название вкладки (продукта) в таблице

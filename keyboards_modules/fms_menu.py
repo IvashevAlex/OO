@@ -47,3 +47,4 @@ def prk_fms(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
+FMS_menu("ФMС", bot)

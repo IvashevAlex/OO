@@ -47,3 +47,6 @@ def prk_edi(bot, callback_query):
 
     bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
                           message_id=callback_query.message.message_id, reply_markup=markup)
+
+
+EDI_menu("Ритейл", bot)

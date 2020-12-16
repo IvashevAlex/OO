@@ -66,26 +66,8 @@ tehn_error(bot)
 txt_error(bot)
 lesten_res(bot)
 btn_back_menu(bot) #Кнопка назад
+
 #---- инициализируем меню тестов\кейсов -----#
-tests(bot)
-praktics(bot)
-
-#----- Главное меню -------#
-WIC_menu("WIC", bot)
-Inst_menu("Устанoвка", bot)
-Other_srvice_menu("Внутренние сервисы", bot)
-DD_menu("Диaдoк", bot)
-EDI_menu("Ритейл", bot)
-ext_menu("Экстерн", bot)
-UC_menu("УЦ", bot)
-M_menu("Maркет", bot)
-OFD_menu("OФД", bot)
-FMS_menu("ФMС", bot)
-Buh_menu("Бухгалтерия", bot)
-Elba_menu("Эльба", bot)
-
-#--------------------------#
-
 
 #--------------------#
 
