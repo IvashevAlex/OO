@@ -1,116 +1,194 @@
-# Данный файл инициилизирует Кнопки отделов и их разделов + доп кнопки
-
-from modul_for_bot import *
-
-bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) # - @OOHelper
-
-
-reg_user(bot)
-del_user(bot)
-update_tables(bot)
-cancel_error(bot) #Кнопка Отмена
-tehn_error(bot)
-txt_error(bot)
-lesten_res(bot)
-btn_back_menu(bot) #Кнопка назад
-
-#---- инициализируем меню тестов\кейсов -----#
-tests(bot)
-praktics(bot)
-
-#----- Главное меню -------#
-Inst_menu("Установка", bot)
-DD_menu("Диaдoк", bot)
-EDI_menu("Ритейл", bot)
-ext_menu("Экстерн", bot)
-UC_menu("УЦ", bot)
-M_menu("Maркет", bot)
-OFD_menu("OФД", bot)
-FMS_menu("ФMС", bot)
-Buh_menu("Бухгалтерия", bot)
-Elba_menu("Эльба", bot)
+from WhiteList import *
+import modul_for_bot
+from keyboards_modules.fms_menu import *
+from keyboards_modules.diadoc_menu import *
+from keyboards_modules.extern_menu import *
+from keyboards_modules.buh_menu import *
+from keyboards_modules.edi_menu import *
+from keyboards_modules.elba_menu import *
+from keyboards_modules.market_menu import *
+from keyboards_modules.ofd_menu import *
+from keyboards_modules.uc_menu import *
 
 
-#------ Кнопки Установки -----#
-quest('Компоненты для работы с ЭП', 0, bot)
-quest('Запрос КЭП', 1, bot)
-quest('Работа с ЭП', 2, bot)
-quest('КЭП для ЕГАИС', 3, bot)
-quest('Сертификаты УЦ', 4, bot)
-quest('Работа с ЭП не на Windows', 5, bot)
-quest('DSS', 6, bot)
-quest('Установка общее', 7, bot)
+def question(bot, message):
+    print(message.chat.id)
 
-#-----------Кнопки Диадок --------#
-quest("Web.Диадок", 0, bot)
-quest("Модуль.Диадок", 2,bot)
-quest("Роуминг.Диадок", 4,bot)
-quest("Коннекторы.Диадок", 6,bot)
+    modul_for_bot.sql_user(bot, message)
 
-#---- Кнопки КЭ ------#
-quest('Интерфейс', 0, bot)
-quest('Режим работы', 2, bot)
-quest('ФНС', 4, bot)
-quest('ИОН', 6, bot)
-quest('Таблица отчетности', 8, bot)
-quest('Письма ФНС', 10, bot)
-quest('ПФР', 12, bot)
-quest('НДС и требования', 14, bot)
-quest('НДФЛ', 16, bot)
-quest('Росстат', 18, bot)
-quest('РСВ', 20, bot)
-quest('Заполнение ПФР', 22, bot)
+    # bot.send_message(message.chat.id, 'Диадок \nEDI \nЭкстерн \nУЦ \nУстановка')
+    markup = types.ReplyKeyboardMarkup(row_width=4, resize_keyboard=True, one_time_keyboard=True)
+    itembtn1 = types.KeyboardButton('Диaдoк')
+    itembtn2 = types.KeyboardButton('Ритейл')
+    itembtn3 = types.KeyboardButton('Экстерн')
+    itembtn4 = types.KeyboardButton('Maркет')
+    itembtn12 = types.KeyboardButton('УЦ')
+    itembtn13 = types.KeyboardButton('Устанoвка')
+    itembtn14 = types.KeyboardButton('WIC')
+    itembtn15 = types.KeyboardButton('Внутренние сервисы')
+    itembtn5 = types.KeyboardButton('OФД')
+    itembtn6 = types.KeyboardButton('ФMС')
+    itembtn7 = types.KeyboardButton('Бухгалтерия')
+    itembtn8 = types.KeyboardButton('Эльба')
+    itemhelp = types.KeyboardButton('Помощь')
 
-#-----Кнопки Бухгалтерия -----#
-quest('ОСНО', 0, bot)
-quest('ЕНВД', 1, bot)
-quest('УСН', 2, bot)
-quest('ОПФ. Реквизиты. Взносы ИП', 3, bot)
-quest('Сотрудники', 4, bot)
-quest('БО и бухучет', 5, bot)
-quest('Работа в сервисе', 6, bot)
+    markup.row(itembtn14, itembtn13, itembtn15)
+    markup.row(itembtn1, itembtn2, itembtn3)
+    markup.row(itembtn12, itembtn4, itembtn5)
+    markup.row(itembtn6, itembtn7, itembtn8)
+    markup.row(itemhelp)
+    bot.send_message(message.chat.id, "Привет :) Это бот Отдела Обучения.\n"
+                                      "Выбери нужную тему с помощью кнопок внизу.", reply_markup=markup)
 
-#------Кнопки Эльба-------#
-quest('Реквизиты и ОПФ', 0, bot)
-quest('Налоги и взносы', 1, bot)
-quest('Сотрудники.Эльба', 3, bot)
-quest('Работа в сервисе.Эльба', 5, bot)
-quest('БО.Эльба', 7, bot)
 
-#----- Кнопки ОФД --------#
-quest("ОФД", 0, bot)
-quest("ККТ", 2, bot)
-quest("API", 4, bot)
-quest("1C", 6, bot)
+def test_menu(bot, message):
+    try:
+        del modul_for_bot.practicks_data[message.from_user.id]
+    except:
+        pass
 
-#----- Кнопки EDI (Ритейл) -----#
-quest("EDI Web", 0, bot)
-quest("EDI 1C", 2, bot)
-quest("Поставки", 4, bot)
-quest("Меркурий", 6, bot)
+    try:
+        bot.edit_message_reply_markup(
+            message.from_user.id, message.message_id - 1)
+    except Exception as Abc:
+        pass
 
-#--- Кнопки ФМС -----#
-quest("ФМС", 0, bot)
-quest("Отель", 2, bot)
-quest("Фокус", 4, bot)
-quest("Фокус API", 6, bot)
-quest("Компас", 8, bot)
+    markup_1 = types.InlineKeyboardMarkup()
 
-#----- Кнопки УЦ -----#
-quest("Проекты УЦ", 0, bot)
-quest("ЭТП", 2, bot)
-quest("ИС", 4, bot)
-quest("Закупки", 6, bot)
-quest("Реестро", 8, bot)
-quest("Контур.Торги", 9, bot)
-quest("Декларант", 10, bot)
-quest("Школа", 12, bot)
+    itembtn1 = types.InlineKeyboardButton('Тесты', callback_data='Тесты')
+    itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='Кейсы')
+    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
 
-#----- Кнопки Маркета -----#
-quest("Маркет", 0, bot)
-quest("ЕГАИС", 2, bot)
-quest("КМК", 4, bot)
-quest("Меркурий в Маркете", 6, bot)
-quest("Маркировка в Маркете", 8, bot)
-quest("РАР", 10, bot)
-#--------------------#
+    markup_1.add(itembtn1, itembtn2)
+    markup_1.add(itembtn12)
+
+    try:
+        bot.send_message(
+            message.from_user.id, "Какой вид обучения тебя интересует?", reply_markup=markup_1)
+    except Exception as E:
+        pass
+
+
+def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
+    modul_for_bot.callback_check[message.from_user.id] = 'admin'
+    markup = types.InlineKeyboardMarkup()
+    itembtn1 = types.InlineKeyboardButton('Обновить таблицы', callback_data='Обновить таблицы')
+    itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
+    itembtn3 = types.InlineKeyboardButton('Удалить пользователя', callback_data='Удалить пользователя')
+
+    itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+
+    markup.add(itembtn1)
+    markup.add(itembtn2, itembtn3)
+    markup.add(itembtn9)
+    bot.send_message(message.from_user.id, 'Привет! Если ты видишь это сообщение, то у тебя чуть больше прав чем у других))\n'
+                                           'Выбирай необходимое действие.', reply_markup=markup)
+
+def Inst_menu(name, bot):
+    @bot.message_handler(func=lambda message: message.text == name)
+    def in_menu(message):
+        try:
+            del modul_for_bot.practicks_data[message.chat.id]
+        except:
+            pass
+        modul_for_bot.tests_data[message.chat.id] = 'INST'
+        modul_for_bot.sql_user(bot, message)
+        test_INST(bot, message)  # <--- тут будет отправка и меню с выбором
+
+def WIC_menu(name, bot):
+    @bot.message_handler(func=lambda message: message.text == name)
+    def wic_menu(message):
+        try:
+            del modul_for_bot.practicks_data[message.chat.id]
+        except:
+            pass
+
+        modul_for_bot.practicks_data[message.from_user.id] = 'PR'
+        modul_for_bot.tests_data[message.chat.id] = 'WIC'
+        prk_wic(bot, message)  # <--- тут будет отправка и меню с выбором
+
+def Other_srvice_menu(name, bot):
+    @bot.message_handler(func=lambda message: message.text == name)
+    def in_menu(message):
+        try:
+            del modul_for_bot.practicks_data[message.chat.id]
+        except:
+            pass
+        modul_for_bot.practicks_data[message.from_user.id] = 'PR'
+        modul_for_bot.tests_data[message.chat.id] = 'OTHER'
+        other_service_prk(bot, message)  # <--- тут будет отправка и меню с выбором
+
+
+def test_INST(bot, message):
+    modul_for_bot.sql_user(bot, message)
+
+    try:
+        bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
+    except Exception as Abc:
+        pass
+
+    markup = types.InlineKeyboardMarkup()
+    itembtn1 = types.InlineKeyboardButton('Компоненты для работы с ЭП', callback_data='Компоненты для работы с ЭП')
+    itembtn2 = types.InlineKeyboardButton('Запрос КЭП', callback_data='Запрос КЭП')
+    itembtn3 = types.InlineKeyboardButton('Работа с ЭП', callback_data='Работа с ЭП')
+    itembtn4 = types.InlineKeyboardButton('КЭП для ЕГАИС', callback_data='КЭП для ЕГАИС')
+    itembtn5 = types.InlineKeyboardButton('Сертификаты УЦ', callback_data='Сертификаты УЦ')
+    itembtn6 = types.InlineKeyboardButton('Работа с ЭП не на Windows', callback_data='Работа с ЭП не на Windows')
+    itembtn7 = types.InlineKeyboardButton('DSS', callback_data='DSS')
+    itembtn8 = types.InlineKeyboardButton('Установка общее', callback_data='Установка общее')
+    itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+
+
+    markup.add(itembtn1, itembtn2, itembtn3)
+    markup.add(itembtn4, itembtn5, itembtn6)
+    markup.add(itembtn7, itembtn8)
+    markup.add(itembtn9)
+
+    bot.send_message(message.chat.id, "Выбери тему: ", reply_markup=markup)
+
+# ------------  Клавиатура кейсов для каждого отдела -----------------#
+def prk_wic(bot, message):
+    modul_for_bot.sql_user(bot, message)
+
+    try:
+        bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
+    except Exception as Abc:
+        pass
+
+    markup = types.InlineKeyboardMarkup()
+    itembtn1 = types.InlineKeyboardButton('Поиск знаний', callback_data='WIC.Поиск_знаний')
+    itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='WIC.Кейсы')
+
+
+    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+
+    markup.add(itembtn1, itembtn2)
+    markup.add(itembtn3)
+
+    bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
+
+
+def other_service_prk(bot, message):
+    modul_for_bot.sql_user(bot, message)
+
+    try:
+        bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
+    except Exception as Abc:
+        pass
+
+    markup = types.InlineKeyboardMarkup()
+    itembtn1 = types.InlineKeyboardButton('Билли', callback_data='Билли')
+    itembtn2 = types.InlineKeyboardButton('КабУЦ', callback_data='КабУЦ')
+    itembtn4 = types.InlineKeyboardButton('Клиент-Сервис', callback_data='Клиент-Сервис')
+
+
+    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+
+    markup.add(itembtn1, itembtn2, itembtn4)
+    markup.add(itembtn3)
+
+    bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
+
+
+def back_to_menu(bot, message):
+    test_menu(bot, message)
