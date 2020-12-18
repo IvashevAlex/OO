@@ -4,6 +4,7 @@ import time
 import openpyxl
 import pypyodbc
 import re
+import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
 
@@ -39,28 +40,32 @@ save_message_id = {'check_answer': {},
 
 rand_question = {} #<-- тут мы держим номера вопросов, которые нужно задать
 
-db_data = {}  # <-- тут мы для храним файл ексель для каждого отдела
+db_data = get_db_excel.get_question()  # <-- тут мы для храним файл ексель для каждого отдела
 
 # -----------------------   Загружаем все эксели в базу -------------------------#
-db_data['all'] = openpyxl.load_workbook('./Data/УЦ.xlsx', read_only=True)
-db_data['UC'] = openpyxl.load_workbook('./Data/УЦ.xlsx', read_only=True)
-db_data['FMS'] = openpyxl.load_workbook('./Data/ФМС.xlsx', read_only=True)
-db_data['MK'] = openpyxl.load_workbook('./Data/Маркет.xlsx', read_only=True)
-db_data['EDI'] = openpyxl.load_workbook('./Data/Ритейл.xlsx', read_only=True)
-db_data['DD'] = openpyxl.load_workbook('./Data/Диадок.xlsx', read_only=True)
-db_data['KE'] = openpyxl.load_workbook('./Data/KE.xlsx', read_only=True)
-db_data['BH'] = openpyxl.load_workbook('./Data/Бухгалтерия.xlsx', read_only=True)
-db_data['ELB'] = openpyxl.load_workbook('./Data/Эльба.xlsx', read_only=True)
-db_data['OFD'] = openpyxl.load_workbook('./Data/ОФД.xlsx', read_only=True)
-db_data['INST'] = openpyxl.load_workbook('./Data/Установка.xlsx', read_only=True)
-db_data['WIC'] = openpyxl.load_workbook('./Data/WIC.xlsx', read_only=True)
-db_data['OTHER'] = openpyxl.load_workbook('./Data/Вн. сервисы.xlsx', read_only=True)
+# db_data['all'] = openpyxl.load_workbook('./Data/УЦ.xlsx', read_only=True)
+# db_data['UC'] = openpyxl.load_workbook('./Data/УЦ.xlsx', read_only=True)
+# db_data['FMS'] = openpyxl.load_workbook('./Data/ФМС.xlsx', read_only=True)
+# db_data['MK'] = openpyxl.load_workbook('./Data/Маркет.xlsx', read_only=True)
+# db_data['EDI'] = openpyxl.load_workbook('./Data/Ритейл.xlsx', read_only=True)
+# db_data['DD'] = openpyxl.load_workbook('./Data/Диадок.xlsx', read_only=True)
+# db_data['KE'] = openpyxl.load_workbook('./Data/KE.xlsx', read_only=True)
+# db_data['BH'] = openpyxl.load_workbook('./Data/Бухгалтерия.xlsx', read_only=True)
+# db_data['ELB'] = openpyxl.load_workbook('./Data/Эльба.xlsx', read_only=True)
+# db_data['OFD'] = openpyxl.load_workbook('./Data/ОФД.xlsx', read_only=True)
+# db_data['INST'] = openpyxl.load_workbook('./Data/Установка.xlsx', read_only=True)
+# db_data['WIC'] = openpyxl.load_workbook('./Data/WIC.xlsx', read_only=True)
+# db_data['OTHER'] = openpyxl.load_workbook('./Data/Вн. сервисы.xlsx', read_only=True)
 
 # ------------ Функция обработки нажатия кнопок ---------- #
 
 def quest(theme, number_of_page, bot):
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == theme)
     def name_def(callback_query):
+        if echo(callback_query) != True:
+            bot.send_message(callback_query.from_user.id, 'У тебя недостаточно прав, чтобы воспользоваться ботом.')
+            return
+
         try:
             bot.edit_message_text(text='Подготавливаю вопросы, это займёт некоторое время.',
                                   chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
@@ -195,7 +200,7 @@ def get_max_row(sheet):  # <--- Функция для получения мак�
 def random_question(id_user, max_row):
 
     if len(rand_question[id_user]) < 1:
-        for i in range(2, max_row + 1):
+        for i in range(1, max_row + 1):
             rand_question[id_user].append(i)
 
     number = random.choice(rand_question[id_user])  # <--- получаем случайное число из списка
@@ -205,23 +210,27 @@ def random_question(id_user, max_row):
 
 
 def answers(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по тестам
-    db = check_product(callback_query)
+    db = check_product(callback_query)  # db = db_data['FMS'][0]
 
-    name_sheet = db.sheetnames[int(a[callback_query.from_user.id])]  # <--- Получаем название вкладки (продукта) в таблице
-    sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
+    # <--- Получаем название вкладки (продукта) в таблице
+    name_sheet = int(a[callback_query.from_user.id])
+    # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
+    sheet = db[name_sheet]
 
-    results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
+    results = data_base['BotUsers'][callback_query.from_user.id][
+        'UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
 
     if str(results[1]) == 'None':
         data_base['BotUsers'][callback_query.from_user.id]['UserPage'] = str(a[callback_query.from_user.id])
-        data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'] = get_max_row(sheet)
+        data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'] = len(sheet)
 
     data_base['BotUsers'][callback_query.from_user.id]['UserAnswer'] = 'None'
 
     results = int(data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'])
 
     try:
-        ress = len(data_base['UserQuestions'][callback_query.from_user.id]['UserRand']) + 1  # смотрим сколько всего вопросов было и добавляем 1
+        # смотрим сколько всего вопросов было и добавляем 1
+        ress = len(data_base['UserQuestions'][callback_query.from_user.id]['UserRand']) + 1
     except:
         ress = 0 + 1
 
@@ -231,7 +240,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         print('Task complete!')
 
         results_cmpl = data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'], \
-                       data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns']
+            data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns']
 
         sc = results_cmpl
         results_cmpl = len(data_base['UserQuestions'][callback_query.from_user.id]['UserRand'])
@@ -248,9 +257,9 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         while t != 1:
             try:  # <--- Если номер вопроса получится тем же на который уже был ответ то получим исключение
                 # --------------- Ниже мы получаем рандомное число вопроса, и записываем егов BotUsers UserRand ------- #
-                max_row = get_max_row(sheet)
-                number = random_question(callback_query.from_user.id, max_row) #Получаем случайный вопрос
-
+                max_row = len(sheet)
+                # Получаем случайный вопрос
+                number = random_question(callback_query.from_user.id, max_row)
 
                 try:
                     data_base['UserQuestions'][callback_query.from_user.id]['UserChat'] = str(callback_query.from_user.id)
@@ -262,15 +271,18 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
                 try:
                     user_rand = data_base['UserQuestions'][callback_query.from_user.id]['UserRand']
                 except:
-                    data_base['UserQuestions'][callback_query.from_user.id]['UserRand'] = []
+                    data_base['UserQuestions'][callback_query.from_user.id]['UserRand'] = [
+                    ]
                     user_rand = data_base['UserQuestions'][callback_query.from_user.id]['UserRand']
 
-                if str(number) not in user_rand: #<-- Если сгенерированного вопроса нет в списке заданных вопросов, то его мы опубликуем
+                # <-- Если сгенерированного вопроса нет в списке заданных вопросов, то его мы опубликуем
+                if str(number) not in user_rand:
                     user_rand.append(str(number))
                 else:
                     continue
 
-                data_base['BotUsers'][callback_query.from_user.id]['UserRand'] = str(number)
+                data_base['BotUsers'][callback_query.from_user.id]['UserRand'] = str(
+                    number)
 
                 t += 1
             except Exception as ty:
@@ -285,16 +297,17 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         print('Номер вопроса =', int(fs[0]), type(fs), 'из', int(fs[1]), type(fs))
 
         # ----- формируем сообщение для отправки вопроса ------ #
+        question_dict = sheet[int(fs[0])]
 
-        message_question = f'<b>Вопрос</b>: {sheet[chr(65) + str(fs[0])].value}'
-        i = 1
-        # Ниже уже делаем запрос к екселю через chr получаем букву столбика и смотрим что в строке (номер вопроса)
-        while sheet[chr(65 + i) + str(fs[0])].value != 'stop':  # пока не натыкаемся на стоп продолжаем смотреть ячейки
-            if sheet[chr(65 + i) + str(fs[0])].value != None:  # если наткнулись на пустую ячейку, то тормозим
-                message_question += f'\n<b>{i}</b>. {sheet[chr(65 + i) + str(fs[0])].value}'
-                i += 1
-            else:
-                break
+        # Формируем сообщение
+        message_question = f'<b>Вопрос</b>: {question_dict["Вопрос"]}'
+        number_question = 1  # Номер вопроса
+
+        #Перебираем каждый ключ в словаре с вопросом
+        for i in question_dict:
+            if 'Вопрос' not in i and question_dict[i] != 'stop' and 'Ответ' not in i:
+                message_question += f"\n<b>{number_question}</b>. {question_dict[i]}"
+                number_question += 1
         # ----------------------------------------------------- #
 
         markup = types.InlineKeyboardMarkup()
@@ -313,9 +326,10 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
 
         save_message_id['message_text'][callback_query.from_user.id] = message_id.text
 
-        save_message_id['check_answer'][callback_query.from_user.id] = message_id.message_id  # сохраняем ID заданного вопроса
-        callback_check[callback_query.from_user.id] = 'tests' # Указываем что тест еще выполняется (для обработки текстового сообщения)
-
+        # сохраняем ID заданного вопроса
+        save_message_id['check_answer'][callback_query.from_user.id] = message_id.message_id
+        # Указываем что тест еще выполняется (для обработки текстового сообщения)
+        callback_check[callback_query.from_user.id] = 'tests'
 
     print('results[0][1] = ', results[1])
 
@@ -325,14 +339,15 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
 
     db = check_product(callback_query)
 
-    name_sheet = db.sheetnames[int(a[callback_query.from_user.id])]  # <--- Получаем название вкладки (продукта) в таблице
+    name_sheet = int(a[callback_query.from_user.id])  # <--- Получаем название вкладки (продукта) в таблице
     sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
+
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
 
     if str(results[1]) == 'None':
         data_base['BotUsers'][callback_query.from_user.id]['UserPage'] = str(a[callback_query.from_user.id])
-        data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'] = get_max_row(sheet)
+        data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'] = len(sheet)
 
     data_base['BotUsers'][callback_query.from_user.id]['UserAnswer'] = 'None'
 
@@ -365,7 +380,7 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         while t != 1:
             try:  # <--- Если номер вопроса получится тем же на который уже был ответ то получим исключение
                 # --------------- Ниже мы получаем рандомное число вопроса, и записываем егов BotUsers UserRand ------- #
-                max_row = get_max_row(sheet)
+                max_row = len(sheet)
                 number = random_question(callback_query.from_user.id, max_row)  # <--- генерируем случайное число чтобы получить вопрос
 
                 try:
@@ -399,7 +414,12 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         print('Номер вопроса = ', int(fs[0]), type(fs), 'из ', int(fs[1]), type(fs))
 
         # ----- формируем сообщение для отправки вопроса ------ #
-        mes_qv = f'{sheet[chr(65) + str(fs[0])].value}' #Формируем вопрос, чтобы дальше его проверить на недопустимые символы
+        question_dict = sheet[int(fs[0])]
+
+        if question_dict.get('Кейс') != None:
+            mes_qv = f'{question_dict["Кейс"]}' #Формируем вопрос, чтобы дальше его проверить на недопустимые символы
+        else:
+            mes_qv = f'{question_dict["Вопрос"]}' #Формируем вопрос, чтобы дальше его проверить на недопустимые символы
 
         if save_check['wic_search'][callback_query.from_user.id] == True: #Смотрим активна ли переменная Поиск знаний
             message_question = '' #Задача убрать слово "Кейс" из сообщения в вопросе
@@ -430,10 +450,10 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         markup.add(itembtn1)
         markup.add(itembtn2)
 
-        if sheet[chr(67) + str(fs[0])].value != None:  # <-- Смотрим на столбик "С", ищем путь к файлу для отправки. Если есть то
+        if question_dict.get('Вложение') != None:  # <-- Смотрим на столбик "С", ищем путь к файлу для отправки. Если есть то
 
             file_id[callback_query.from_user.id] = file_dir
-            file_id[callback_query.from_user.id] = f'{file_id[callback_query.from_user.id]}{sheet[chr(67) + str(fs[0])].value}'
+            file_id[callback_query.from_user.id] = f'{file_id[callback_query.from_user.id]}{question_dict['Вложение']}'
 
             try:
                 with open(file_id[callback_query.from_user.id], 'rb') as file:
@@ -453,13 +473,10 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         save_message_id['check_answer'][callback_query.from_user.id] = message_id.message_id  # сохраняем ID заданного вопроса
         callback_check[callback_query.from_user.id] = 'practicks'
 
-
-
     print('results[0][1] = ', results[1])
 
 
 def true_ans(callback_query):  # <--- Функция отвечает за запись правильных ответов по тестам, чтобы в дальнейшем сравнить с тем что написал пользователь
-    i = 0
     ans[callback_query.from_user.id] = []
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
@@ -467,24 +484,13 @@ def true_ans(callback_query):  # <--- Функция отвечает за за�
     print('При проверке, номер вопроса =', int(results[0]), 'номер темы в экселе =', int(results[1]), 'ID пользователя =', str(callback_query.from_user.id))
 
     db = check_product(callback_query)
-    sheet = db[db.sheetnames[int(results[1])]]
+    sheet = db[int(results[1])]
 
-    try:
-        while sheet[chr(83 + i) + str(results[0])].value != 'stop':
-            if sheet[chr(83 + i) + str(results[0])].value != None:
-                ans[callback_query.from_user.id].append(str(sheet[chr(83 + i) + str(results[0])].value))
-                i += 1
-            else:
-                break
-    except:
-        if i >= 8:
-            i = 0
-            while sheet['A' + chr(65 + i) + str(results[0])].value != 'stop':
-                if sheet['A' + chr(65 + i) + str(results[0])].value != None:
-                    ans[callback_query.from_user.id].append(str(sheet['A' + chr(65 + i) + str(results[0])].value))
-                    i += 1
-                else:
-                    break
+    question_dict = sheet[int(results[0])]
+
+    for i in question_dict:
+        if 'Ответ' in i and 'stop' not in i and 'stop' != question_dict[i]:
+            ans[callback_query.from_user.id].append(str(question_dict[i]))
 
     print('правильные ответы - ', ans[callback_query.from_user.id])
     return ans[callback_query.from_user.id]
@@ -499,8 +505,8 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
     print('При проверке, номер вопроса = ', int(results[0]), 'номер темы в экселе = ', int(results[1]))
 
     db = check_product(callback_query)
-    sheet = db[db.sheetnames[int(results[1])]]
-    sheet = (str(sheet[chr(66) + str(results[0])].value))
+    sheet = db[int(results[1])]
+    sheet = (str(sheet['Ответ']))
     for i in sheet.split(';'):
         ans['lower'][callback_query.from_user.id].append(i)
         ans[callback_query.from_user.id].append(i.strip().upper())
@@ -567,8 +573,6 @@ def continue_(bot, message):  # <--- функция обработки прос�
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
 
-
-
 def check_answer(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по тестам
     print(callback_query.from_user.id)
 
@@ -580,8 +584,7 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
     print('1 if')
     if results[1] == 'None':  # <---смотрим в БД пустой ли ответ
         bot.edit_message_text("Ты вводишь пустой ответ. Пока не напишешь варианты ответа, дальше не двинемся.",
-                              chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id]
-                              )
+                              chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
     else:
         print('2 if')
 
@@ -592,6 +595,7 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
                               text=save_message_id['message_text'][callback_query.from_user.id], reply_markup=markup)
 
         check_true_ans = true_ans(callback_query)
+
         if sorted(set(map(str, results[1]))) == check_true_ans:
             bot.edit_message_text("Красава!", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
             data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns'] = str(int(results[2]) + 1)
