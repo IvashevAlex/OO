@@ -200,13 +200,13 @@ def get_max_row(sheet):  # <--- Функция для получения мак�
 def random_question(id_user, max_row):
 
     if len(rand_question[id_user]) < 1:
-        for i in range(1, max_row + 1):
+        for i in range(1, max_row):
             rand_question[id_user].append(i)
 
-    number = random.choice(rand_question[id_user])  # <--- получаем случайное число из списка
-    rand_question[id_user].remove(number)
+    index_question = random.choice(rand_question[id_user])  # <--- получаем случайное число из списка
+    rand_question[id_user].remove(index_question)
 
-    return number
+    return index_question
 
 
 def answers(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по тестам
@@ -216,6 +216,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
     name_sheet = int(a[callback_query.from_user.id])
     # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
     sheet = db[name_sheet]
+    
 
     results = data_base['BotUsers'][callback_query.from_user.id][
         'UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
@@ -398,6 +399,7 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
 
                 if str(number) not in user_rand:
                     user_rand.append(str(number))
+
                 else:
                     continue
                 data_base['BotUsers'][callback_query.from_user.id]['UserRand'] = str(number)
