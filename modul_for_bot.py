@@ -39,6 +39,7 @@ save_message_id = {'check_answer': {},
                    }
 
 rand_question = {} #<-- тут мы держим номера вопросов, которые нужно задать
+db_data = {} #<---- База данных с вопросами по всем продуктам
 
 db_data = get_db_excel.get_question()  # <-- тут мы для храним файл ексель для каждого отдела
 
@@ -783,6 +784,7 @@ def update_tables(bot):
         bot.answer_callback_query(callback_query.id)
 
         bot.send_message(chat_id=callback_query.from_user.id, text='Таблицы успешно обновлены!')
+        print('Таблицы были обновлены!')
 
 def reg_user(bot):
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Зарегистрировать пользователя')  # <--- кнопка "об ошибке в вопросе"
