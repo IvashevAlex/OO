@@ -200,7 +200,7 @@ def get_max_row(sheet):  # <--- Функция для получения мак�
 def random_question(id_user, max_row):
 
     if len(rand_question[id_user]) < 1:
-        for i in range(0, max_row - 1):
+        for i in range(0, max_row + 1):
             rand_question[id_user].append(i)
 
     index_question = random.choice(rand_question[id_user])  # <--- получаем случайное число из списка
