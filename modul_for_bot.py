@@ -779,6 +779,7 @@ def btn_back_menu(bot):
 def update_tables(bot):
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Обновить таблицы')  # <--- кнопка "об ошибке в вопросе"
     def upd_tb(callback_query: CallbackQuery):
+        db_data = {}
         db_data = get_db_excel.get_question()
 
         bot.answer_callback_query(callback_query.id)
