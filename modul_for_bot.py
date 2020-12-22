@@ -294,7 +294,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
 
         fs = results  # <-- тут мы имеем сразу UserRand и UserRowQuestions
         # sc = re.findall(r'\b\d+\b', fs) #<--- распарсиваем их чтоб можно было выбрать, но надо ли?
-        print('Номер вопроса =', int(fs[0]), type(fs), 'из', int(fs[1]), type(fs))
+        print('Номер вопроса =', int(fs[0])+1, type(fs), 'из', int(fs[1]), type(fs))
 
         # ----- формируем сообщение для отправки вопроса ------ #
         question_dict = sheet[int(fs[0])]
