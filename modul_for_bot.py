@@ -774,17 +774,7 @@ def btn_back_menu(bot):
 def update_tables(bot):
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Обновить таблицы')  # <--- кнопка "об ошибке в вопросе"
     def upd_tb(callback_query: CallbackQuery):
-        db_data['all'] = openpyxl.load_workbook('./Data/УЦ.xlsx', read_only=True)
-        db_data['UC'] = openpyxl.load_workbook('./Data/УЦ.xlsx', read_only=True)
-        db_data['FMS'] = openpyxl.load_workbook('./Data/ФМС.xlsx', read_only=True)
-        db_data['MK'] = openpyxl.load_workbook('./Data/Маркет.xlsx', read_only=True)
-        db_data['EDI'] = openpyxl.load_workbook('./Data/Ритейл.xlsx', read_only=True)
-        db_data['DD'] = openpyxl.load_workbook('./Data/Диадок.xlsx', read_only=True)
-        db_data['KE'] = openpyxl.load_workbook('./Data/KE.xlsx', read_only=True)
-        db_data['BH'] = openpyxl.load_workbook('./Data/Бухгалтерия.xlsx', read_only=True)
-        db_data['ELB'] = openpyxl.load_workbook('./Data/Эльба.xlsx', read_only=True)
-        db_data['OFD'] = openpyxl.load_workbook('./Data/ОФД.xlsx', read_only=True)
-        db_data['INST'] = openpyxl.load_workbook('./Data/Установка.xlsx', read_only=True)
+        db_data = get_db_excel.get_question()
 
         bot.answer_callback_query(callback_query.id)
 

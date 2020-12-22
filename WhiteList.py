@@ -20,44 +20,43 @@ mes_pas = ("У тебя нет прав на использования данн
 
 
 def echo(callback_query):
-    return True
-    # connection = pypyodbc.connect('Driver={SQL Server};'
-    #                               'Server=' + mySQLServer + ';'
-    #                                                         'Database=' + myDatabase + ';'
-    #                               )
+    connection = pypyodbc.connect('Driver={SQL Server};'
+                                  'Server=' + mySQLServer + ';'
+                                                            'Database=' + myDatabase + ';'
+                                  )
 
-    # cursor = connection.cursor()
+    cursor = connection.cursor()
 
-    # SQLQuery = ("""SELECT top(1) iif(UserChat = """ + str(callback_query.from_user.id) + """, convert(varchar(max), UserChat), 'False') as res
-    #                     FROM dbo.WhiteList order by res""")
-    # cursor.execute(SQLQuery)
-    # count = cursor.fetchall()
-    # userid = str(count[0][0])
-    # print('uID = ', userid, type(userid))
+    SQLQuery = ("""SELECT top(1) iif(UserChat = """ + str(callback_query.from_user.id) + """, convert(varchar(max), UserChat), 'False') as res
+                        FROM dbo.WhiteList order by res""")
+    cursor.execute(SQLQuery)
+    count = cursor.fetchall()
+    userid = str(count[0][0])
+    print('uID = ', userid, type(userid))
 
-    # if str(callback_query.from_user.id) == userid:
-    #     SQLQuery = ("""select UserMark from dbo.WhiteList where UserChat = """ + str(callback_query.from_user.id) + """;""")
+    if str(callback_query.from_user.id) == userid:
+        SQLQuery = ("""select UserMark from dbo.WhiteList where UserChat = """ + str(callback_query.from_user.id) + """;""")
 
-    #     cursor.execute(SQLQuery)
+        cursor.execute(SQLQuery)
 
-    #     result = cursor.fetchall()
+        result = cursor.fetchall()
 
-    #     print(result[0][0])
+        print(result[0][0])
 
-    #     if (result[0][0] == False):
-    #         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
-    # else:
-    #     SQLQuery = ("""insert into dbo.WhiteList (UserChat, UserId, UserFIO)
-    #                     values (""" + str(callback_query.from_user.id) + """, '@' + '""" + str(
-    #         callback_query.from_user.username) + """', '""" + str(callback_query.from_user.first_name) + ' ' + str(
-    #         callback_query.from_user.last_name) + """');"""
-    #                 )
-    #     cursor.execute(SQLQuery)
-    #     bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
-    #     connection.commit()
-    #     connection.close()
+        if (result[0][0] == False):
+            bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+    else:
+        SQLQuery = ("""insert into dbo.WhiteList (UserChat, UserId, UserFIO)
+                        values (""" + str(callback_query.from_user.id) + """, '@' + '""" + str(
+            callback_query.from_user.username) + """', '""" + str(callback_query.from_user.first_name) + ' ' + str(
+            callback_query.from_user.last_name) + """');"""
+                    )
+        cursor.execute(SQLQuery)
+        bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+        connection.commit()
+        connection.close()
 
-    # return result[0][0]
+    return result[0][0]
 
 
 def add_user(message, data_base):
