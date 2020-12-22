@@ -218,8 +218,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
     sheet = db[name_sheet]
     
 
-    results = data_base['BotUsers'][callback_query.from_user.id][
-        'UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
+    results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
 
     if str(results[1]) == 'None':
         data_base['BotUsers'][callback_query.from_user.id]['UserPage'] = str(a[callback_query.from_user.id])
@@ -231,7 +230,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
 
     try:
         # смотрим сколько всего вопросов было и добавляем 1
-        ress = len(data_base['UserQuestions'][callback_query.from_user.id]['UserRand']) + 1
+        ress = len(data_base['UserQuestions'][callback_query.from_user.id]['UserRand'])
     except:
         ress = 0 + 1
 
