@@ -453,7 +453,7 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         if question_dict.get('Вложение') != None:  # <-- Смотрим на столбик "С", ищем путь к файлу для отправки. Если есть то
 
             file_id[callback_query.from_user.id] = file_dir
-            file_id[callback_query.from_user.id] = f'{file_id[callback_query.from_user.id]}{question_dict['Вложение']}'
+            file_id[callback_query.from_user.id] = f'{file_id[callback_query.from_user.id]}{question_dict["Вложение"]}'
 
             try:
                 with open(file_id[callback_query.from_user.id], 'rb') as file:
