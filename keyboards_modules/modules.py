@@ -35,6 +35,7 @@ def add_modules():
     modul_for_bot.quest("Модуль.Диадок", 2, bot)
     modul_for_bot.quest("Роуминг.Диадок", 4, bot)
     modul_for_bot.quest("Коннекторы.Диадок", 6, bot)
+    modul_for_bot.quest("Геракл.Диадок", 7, bot)
 
     #---- Кнопки КЭ ------#
     modul_for_bot.quest('Интерфейс', 0, bot)

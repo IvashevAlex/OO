@@ -20,10 +20,11 @@ def test_DD(bot, callback_query):
     itembtn2 = types.InlineKeyboardButton('Модуль', callback_data='Модуль.Диадок')
     itembtn3 = types.InlineKeyboardButton('Роуминг', callback_data='Роуминг.Диадок')
     itembtn4 = types.InlineKeyboardButton('Коннекторы', callback_data='Коннекторы.Диадок')
+    itembtn5 = types.InlineKeyboardButton('Геракл', callback_data='Геракл.Диадок')
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
     markup.add(itembtn1, itembtn2, itembtn3)
-    markup.add(itembtn4)
+    markup.add(itembtn4, itembtn5)
     markup.add(itembtn12)
 
     bot.edit_message_text("Выбери тему: ", chat_id=callback_query.from_user.id,
