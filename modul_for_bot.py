@@ -330,8 +330,11 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         save_message_id['check_answer'][callback_query.from_user.id] = message_id.message_id
         # Указываем что тест еще выполняется (для обработки текстового сообщения)
         callback_check[callback_query.from_user.id] = 'tests'
-
-    print('results[0][1] = ', results[1])
+    
+    try:
+        print('results[0][1] = ', results[1])
+    except:
+        pass
 
 
 def answers_prk(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по кейсам
