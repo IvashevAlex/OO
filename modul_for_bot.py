@@ -500,12 +500,16 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
 
     db = check_product(callback_query)
     sheet = db[int(results[1])]
-    sheet = (str(sheet['Ответ']))
-    for i in sheet.split(';'):
+    question_dict = sheet[int(results[0])]
+
+    question_dict = (str(sheet['Ответ']))
+
+    for i in question_dict.split(';'):
         ans['lower'][callback_query.from_user.id].append(i)
         ans[callback_query.from_user.id].append(i.strip().upper())
 
     print('правильные ответы - ', ans[callback_query.from_user.id])
+
     return ans[callback_query.from_user.id], ans['lower'][callback_query.from_user.id]
 
 
@@ -769,7 +773,7 @@ def update_tables(bot):
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Обновить таблицы')  # <--- кнопка "об ошибке в вопросе"
     def upd_tb(callback_query: CallbackQuery):
         global db_data
-        
+
         db_data = {}
         db_data = get_db_excel.get_question()
 
