@@ -502,7 +502,7 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
     sheet = db[int(results[1])]
     question_dict = sheet[int(results[0])]
 
-    question_dict = (str(sheet['Ответ']))
+    question_dict = (str(question_dict['Ответ']))
 
     for i in question_dict.split(';'):
         ans['lower'][callback_query.from_user.id].append(i)
