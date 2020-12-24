@@ -686,7 +686,7 @@ def res(bot, callback_query):  # Функция публикует резуль�
     results = len(data_base['UserQuestions'][callback_query.from_user.id]['UserRand'])
     ans_q = results
 
-    bot.send_message(text=f'Результаты! \nКоличество всех вопросов: {int(sc[0]) - 1} '
+    bot.send_message(text=f'Результаты! \nКоличество всех вопросов: {int(sc[0])} '
                           f'\nКоличество вопросов, которые были заданы: {str(ans_q)}'
                           f'\nПравильных ответов: {int(sc[1])}',
                      chat_id=callback_query.from_user.id)
