@@ -562,6 +562,13 @@ def continue_(bot, message):  # <--- функция обработки прос�
 
         elif tests_data[message.chat.id] == 'ELB':
             product = 'Эльба'
+        
+        elif tests_data[message.chat.id] == 'WIC':
+            product = 'WIC'
+        
+        elif tests_data[message.chat.id] == 'OTHER':
+            product = 'Вн.сервисы'
+        
 
         text_error = f'<b>Лёха, конс нашел ошибку в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
         bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
