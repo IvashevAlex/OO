@@ -590,7 +590,7 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
         itembtn2 = types.InlineKeyboardButton('Сообщить об ошибке', callback_data='Сообщить об ошибке')
         markup.add(itembtn2)
         bot.edit_message_text(chat_id=callback_query.from_user.id, message_id=save_message_id['check_answer'][callback_query.from_user.id],
-                              text=save_message_id['message_text'][callback_query.from_user.id], reply_markup=markup)
+                              text=save_message_id['message_text'][callback_query.from_user.id], reply_markup=markup, parse_mode='HTML')
 
         check_true_ans = true_ans(callback_query)
 
