@@ -314,7 +314,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
 
         message_id = bot.send_message(callback_query.from_user.id, message_question, parse_mode='HTML', reply_markup=markup)
 
-        save_message_id['message_text'][callback_query.from_user.id] = message_id.text
+        save_message_id['message_text'][callback_query.from_user.id] = message_question
 
         # сохраняем ID заданного вопроса
         save_message_id['check_answer'][callback_query.from_user.id] = message_id.message_id
@@ -568,6 +568,9 @@ def continue_(bot, message):  # <--- функция обработки прос�
         
         elif tests_data[message.chat.id] == 'OTHER':
             product = 'Вн.сервисы'
+
+        elif tests_data[message.chat.id] == 'INST':
+            product = 'Установка'
         
 
         text_error = f'<b>Лёха, конс нашел ошибку в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
