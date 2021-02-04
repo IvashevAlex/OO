@@ -200,12 +200,16 @@ def random_question(id_user, max_row):
 
 def answers(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по тестам
     
-    db = check_product(callback_query)  # db = db_data['FMS'][0]
+    db = check_product(callback_query)  # db = db_data['FMS']['Название листа'] внутри будет dict с вопросами и вариантами ответов
 
     # <--- Получаем название вкладки (продукта) в таблице
     name_sheet = int(a[callback_query.from_user.id])
     # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
-    sheet = db[name_sheet]
+    sheets_name = list(db.keys()) #Тут мы получили название листов
+
+    name_sheet = sheets_name[name_sheet] #Тут мы получаем название нужного листа
+
+    sheet = db[name_sheet] #Получаем вопросы из полученного листа
     
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
@@ -333,6 +337,11 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
     db = check_product(callback_query)
 
     name_sheet = int(a[callback_query.from_user.id])  # <--- Получаем название вкладки (продукта) в таблице
+
+    sheets_name = list(db.keys())
+
+    name_sheet = sheets_name[name_sheet]
+
     sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
 
 
@@ -478,7 +487,12 @@ def true_ans(callback_query):  # <--- Функция отвечает за за�
     print('При проверке, номер вопроса =', int(results[0]), 'номер темы в экселе =', int(results[1]), 'ID пользователя =', str(callback_query.from_user.id))
 
     db = check_product(callback_query)
-    sheet = db[int(results[1])]
+
+    sheets_name = list(db.keys()) #Получаем все названия листов
+
+    sheet_name = sheets_name[int(results[1])] #Получаем название листа
+
+    sheet = db[sheet_name]
 
     question_dict = sheet[int(results[0])]
 
@@ -499,7 +513,13 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
     print('При проверке, номер вопроса = ', int(results[0]), 'номер темы в экселе = ', int(results[1]))
 
     db = check_product(callback_query)
-    sheet = db[int(results[1])]
+
+    sheets_name = list(db.keys()) #Получаем все названия листов
+
+    sheet_name = sheets_name[int(results[1])] #Получаем название листа
+
+    sheet = db[sheet_name]
+
     question_dict = sheet[int(results[0])]
 
     question_dict = (str(question_dict['Ответ']))
