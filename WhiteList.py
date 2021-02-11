@@ -6,8 +6,8 @@ from telebot import types
 from telebot.types import CallbackQuery
 import random
 
-bot = telebot.TeleBot('1174261024:AAEfPd9lElQbGXvRST8t9e2YAhwAPWlOLGs',  threaded=False)
-# bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) #OOHelper
+# bot = telebot.TeleBot('1174261024:AAEfPd9lElQbGXvRST8t9e2YAhwAPWlOLGs',  threaded=False)
+bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) #OOHelper
 
 mySQLServer = "K1606047"
 myDatabase = "UsersDB"
@@ -48,8 +48,8 @@ def echo(callback_query):
     else:
         SQLQuery = ("""insert into dbo.WhiteList (UserChat, UserId, UserFIO)
                         values (""" + str(callback_query.from_user.id) + """, '@' + '""" + str(
-            callback_query.from_user.username) + """', '""" + str(callback_query.from_user.first_name) + ' ' + str(
-            callback_query.from_user.last_name) + """');"""
+            callback_query.from_user.username) + """', '""" + callback_query.from_user.first_name + ' ' + 
+            callback_query.from_user.last_name + """');"""
                     )
         cursor.execute(SQLQuery)
         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
