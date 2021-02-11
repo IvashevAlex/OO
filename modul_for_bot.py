@@ -356,9 +356,9 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
     results = int(data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'])
 
     try:
-        ress = len(data_base['UserQuestions'][callback_query.from_user.id]['UserRand']) + 1  # смотрим сколько всего вопросов было и добавляем 1
+        ress = len(data_base['UserQuestions'][callback_query.from_user.id]['UserRand'])  # смотрим сколько всего вопросов было
     except:
-        ress = 0 + 1
+        ress = 0 
 
     print('ress = ', ress)
 
@@ -373,8 +373,8 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         ans_q = results_cmpl
 
         bot.send_message(callback_query.from_user.id, f'Ты выполнил все кейсы! \n'
-                                                      f'\nКоличество кейсов, которые были заданы: {str(ans_q)}'
-                                                      f'\nПравильных ответов: {int(sc[1])}')
+                                                      f'\nКоличество кейсов, которые были заданы: {str(ans_q)}.'
+                                                      f'\nПравильных ответов: {int(sc[1])}.')
         callback_check[callback_query.from_user.id] = 'end'
 
     else:  # <--- Если ответил не на все вопросы
