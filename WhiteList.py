@@ -48,9 +48,10 @@ def echo(callback_query):
     else:
         SQLQuery = ("""insert into dbo.WhiteList (UserChat, UserId, UserFIO)
                         values (""" + str(callback_query.from_user.id) + """, '@' + '""" + str(
-            callback_query.from_user.username) + """', '""" + callback_query.from_user.first_name + ' ' + 
-            callback_query.from_user.last_name + """');"""
+            callback_query.from_user.username) + """', '""" + str(callback_query.from_user.first_name) + ' ' + 
+            str(callback_query.from_user.last_name) + """');"""
                     )
+
         cursor.execute(SQLQuery)
         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
         connection.commit()
