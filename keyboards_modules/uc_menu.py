@@ -5,7 +5,7 @@ from WhiteList import bot
 
 
 def UC_menu(name, bot):
-  name = name + '1'
+  name = name + '1__'
   @bot.message_handler(func=lambda message: message.text == name)
   def UC(message):
     modul_for_bot.tests_data[message.chat.id] = 'UC'
