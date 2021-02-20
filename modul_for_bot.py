@@ -750,9 +750,9 @@ def query_data_handler(bot, data):
 
     if data == 'Отмена':
       bot.answer_callback_query(callback_query.id)
-      bot.edit_message_text('Действие отменено', chat_id=callback_query.from_user.id,
+      bot.edit_message_text('Действие отменено.', chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
-                            
+
       if callback_check[callback_query.from_user.id] == '2' or callback_check[callback_query.from_user.id] == '3':
         callback_check[callback_query.from_user.id] = save_check[callback_query.from_user.id]
 
