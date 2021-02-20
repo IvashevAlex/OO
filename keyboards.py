@@ -57,7 +57,7 @@ def test_menu(bot, message):
 
     itembtn1 = types.InlineKeyboardButton('Тесты', callback_data='Тесты')
     itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='Кейсы')
-    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup_1.add(itembtn1, itembtn2)
     markup_1.add(itembtn12)
@@ -76,7 +76,7 @@ def Admin_menu(message, bot): #Описание функций для меню �
     itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
     itembtn3 = types.InlineKeyboardButton('Удалить пользователя', callback_data='Удалить пользователя')
 
-    itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+    itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup.add(itembtn1)
     markup.add(itembtn2, itembtn3)
@@ -136,7 +136,7 @@ def test_INST(bot, message):
     itembtn6 = types.InlineKeyboardButton('Работа с ЭП не на Windows', callback_data='Работа с ЭП не на Windows')
     itembtn7 = types.InlineKeyboardButton('DSS', callback_data='DSS')
     itembtn8 = types.InlineKeyboardButton('Установка общее', callback_data='Установка общее')
-    itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+    itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
 
     markup.add(itembtn1, itembtn2, itembtn3)
@@ -160,7 +160,7 @@ def prk_wic(bot, message):
     itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='WIC.Кейсы')
 
 
-    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup.add(itembtn1, itembtn2)
     markup.add(itembtn3)
@@ -182,7 +182,7 @@ def other_service_prk(bot, message):
     itembtn4 = types.InlineKeyboardButton('Клиент-Сервис', callback_data='Клиент-Сервис')
 
 
-    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup.add(itembtn1, itembtn2, itembtn4)
     markup.add(itembtn3)

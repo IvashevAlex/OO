@@ -731,9 +731,9 @@ def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить �
 
     error_markup = types.InlineKeyboardMarkup()
 
-    itembtn1 = types.InlineKeyboardButton('О технической ошибке', callback_data='error_tehn')
-    itembtn2 = types.InlineKeyboardButton('Об ошибке в вопросе', callback_data='error_txt')
-    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+    itembtn1 = types.InlineKeyboardButton('О технической ошибке', callback_data='Техническая ошибка')
+    itembtn2 = types.InlineKeyboardButton('Об ошибке в вопросе', callback_data='Текстовая ошибка')
+    itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     error_markup.add(itembtn1, itembtn2)
     error_markup.add(itembtn3)
@@ -743,85 +743,78 @@ def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить �
     callback_check[callback_query.from_user.id] = '1'  # Присваиваем ИД переменную, чтобы дальше фильтровать
     callback_check['text'][callback_query.from_user.id] = callback_query.message.text.split('Пиши')[0]
 
+def query_data_handler(bot, data):
+  @bot.callback_query_handler(func=lambda callback_query: callback_query.data == data)  # <--- кнопка отмены
+  def func_handler(callback_query: CallbackQuery):
 
+    if data == 'Отмена':
+      bot.answer_callback_query(callback_query.id)
+      bot.edit_message_text('Действие отменено', chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
+      del callback_check[callback_query.from_user.id]
 
-def cancel_error(bot):  # <---  Обрабатываем если нажали "отмена"
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Cancel')  # <--- кнопка отмены
-    def error_cancel(callback_query: CallbackQuery):
-        bot.answer_callback_query(callback_query.id)
-        bot.edit_message_text('Действие отменено', chat_id=callback_query.from_user.id,
-                              message_id=callback_query.message.message_id)
-        del callback_check[callback_query.from_user.id]
+    elif data == 'Техническая ошибка':
+      bot.answer_callback_query(callback_query.id)
+      bot.edit_message_text('Опиши полностью техническую ошибку, которая у тебя произошла.', chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
 
+      callback_check[callback_query.from_user.id] = '2'  # Присваиваем ИД переменную, чтобы дальше фильтровать
+    
+    elif data == 'Текстовая ошибка':
+      bot.answer_callback_query(callback_query.id)
+      bot.edit_message_text('Опиши полностью ошибку в вопросе.', chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
 
-def tehn_error(bot):  # <---  Обрабатываем если нажали "о технической ошибке"
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'error_tehn')  # <--- кнопка о технической ошибке
-    def error_tehn(callback_query: CallbackQuery):
-        bot.answer_callback_query(callback_query.id)
-        bot.edit_message_text('Опиши полностью техническую ошибку, которая у тебя произошла.', chat_id=callback_query.from_user.id,
-                              message_id=callback_query.message.message_id)
+      callback_check[callback_query.from_user.id] = '3'  # Присваиваем ИД переменную, чтобы дальше фильтровать
 
-        callback_check[callback_query.from_user.id] = '2'  # Присваиваем ИД переменную, чтобы дальше фильтровать
+    elif data == 'Назад':
+      try:
+          del practicks_data[callback_query.from_user.id]
+      except:
+          pass
 
+      markup_1 = types.InlineKeyboardMarkup()
 
-def txt_error(bot):  # <---  Обрабатываем если нажали "об ошибке в вопросе"
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'error_txt')  # <--- кнопка "об ошибке в вопросе"
-    def error_txt(callback_query: CallbackQuery):
-        bot.answer_callback_query(callback_query.id)
-        bot.edit_message_text('Опиши полностью ошибку в вопросе.', chat_id=callback_query.from_user.id,
-                              message_id=callback_query.message.message_id)
+      itembtn1 = types.InlineKeyboardButton('Тесты', callback_data='Тесты')
+      itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='Кейсы')
+      itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-        callback_check[callback_query.from_user.id] = '3'  # Присваиваем ИД переменную, чтобы дальше фильтровать
+      markup_1.add(itembtn1, itembtn2)
+      markup_1.add(itembtn12)
 
+      try:
+          bot.edit_message_text(chat_id=callback_query.from_user.id, text="Какой вид обучения тебя интересует?",
+                                message_id=callback_query.message.message_id, reply_markup=markup_1)
+      except Exception as E:
+          print(E.args)
 
-def btn_back_menu(bot):
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Назад')  # <--- кнопка "об ошибке в вопросе"
-    def btn_back(callback_query: CallbackQuery):
-        try:
-            del practicks_data[callback_query.from_user.id]
-        except:
-            pass
+      bot.answer_callback_query(callback_query.id)
 
-        markup_1 = types.InlineKeyboardMarkup()
+    elif data == 'Обновить таблицы':
+      global db_data
 
-        itembtn1 = types.InlineKeyboardButton('Тесты', callback_data='Тесты')
-        itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='Кейсы')
-        itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Cancel')
+      db_data = {}
+      db_data = get_db_excel.get_question()
 
-        markup_1.add(itembtn1, itembtn2)
-        markup_1.add(itembtn12)
+      bot.answer_callback_query(callback_query.id)
 
-        try:
-            bot.edit_message_text(chat_id=callback_query.from_user.id, text="Какой вид обучения тебя интересует?",
-                                  message_id=callback_query.message.message_id, reply_markup=markup_1)
-        except Exception as E:
-            print(E.args)
+      bot.send_message(chat_id=callback_query.from_user.id, text='Таблицы успешно обновлены!')
+      print('Таблицы были обновлены!')
 
-        bot.answer_callback_query(callback_query.id)
+    elif data == 'Зарегистрировать пользователя':
+      add_user(callback_query, data_base)
+      bot.answer_callback_query(callback_query.id)
 
-def update_tables(bot):
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Обновить таблицы')  # <--- кнопка "об ошибке в вопросе"
-    def upd_tb(callback_query: CallbackQuery):
-        global db_data
-
-        db_data = {}
-        db_data = get_db_excel.get_question()
-
-        bot.answer_callback_query(callback_query.id)
-
-        bot.send_message(chat_id=callback_query.from_user.id, text='Таблицы успешно обновлены!')
-        print('Таблицы были обновлены!')
-
-def reg_user(bot):
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Зарегистрировать пользователя')  # <--- кнопка "об ошибке в вопросе"
-    def add_u(callback_query: CallbackQuery):
-        add_user(callback_query, data_base)
-        bot.answer_callback_query(callback_query.id)
-
-def del_user(bot):
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Удалить пользователя')  # <--- кнопка "об ошибке в вопросе"
-    def dell_user(callback_query: CallbackQuery):
+    elif data == 'Удалить пользователя':
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
 
+
 add_modules()
+query_data_handler(bot, 'Отмена')
+query_data_handler(bot, 'Техническая ошибка')
+query_data_handler(bot, 'Текстовая ошибка')
+query_data_handler(bot, 'Назад')
+query_data_handler(bot, 'Обновить таблицы')
+query_data_handler(bot, 'Зарегистрировать пользователя')
+query_data_handler(bot, 'Удалить пользователя')

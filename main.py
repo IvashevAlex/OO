@@ -58,15 +58,6 @@ def help_text(message):
     if echo(message) == True:
         bot.send_message(message.chat.id, info, parse_mode='Markdown')
 
-reg_user(bot)
-del_user(bot)
-update_tables(bot)
-cancel_error(bot) #Кнопка Отмена
-tehn_error(bot)
-txt_error(bot)
-lesten_res(bot)
-btn_back_menu(bot) #Кнопка назад
-
 #---- инициализируем меню тестов\кейсов -----#
 
 #--------------------#
