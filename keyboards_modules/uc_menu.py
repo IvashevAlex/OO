@@ -5,12 +5,12 @@ from WhiteList import bot
 
 
 def UC_menu(name, bot):
-    @bot.message_handler(func=lambda message: message.text == name)
-    def UC(message):
-      if modul_for_bot.practicks_data.get(message.from_user.id) != 'PR':
-        modul_for_bot.tests_data[message.chat.id] = 'UC'
-        modul_for_bot.sql_user(bot, message)
-        keyboards.test_menu(bot, message)
+  name = name + '1'
+  @bot.message_handler(func=lambda message: message.text == name)
+  def UC(message):
+    modul_for_bot.tests_data[message.chat.id] = 'UC'
+    modul_for_bot.sql_user(bot, message)
+    keyboards.test_menu(bot, message)
 
 
 def test_uc(bot, callback_query):  # <--- формируем меню с тестами для УЦ
