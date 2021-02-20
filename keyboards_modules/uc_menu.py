@@ -53,4 +53,4 @@ def prk_uc(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
-UC_menu("ᎩЦ", bot)
+UC_menu("УЦ ", bot)
