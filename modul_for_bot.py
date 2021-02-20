@@ -751,10 +751,9 @@ def query_data_handler(bot, data):
 
     if data == 'Отмена':
       bot.answer_callback_query(callback_query.id)
-      bot.edit_message_text('Действие отменено.', chat_id=callback_query.from_user.id,
-                            message_id=callback_query.message.message_id)
+      bot.edit_message_text('Действие отменено.', chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
 
-      callback_check.get(callback_query.from_user.id) in ('tests', 'practicks', 'admin'):
+      if callback_check.get(callback_query.from_user.id) in ('tests', 'practicks', 'admin'):
         del callback_check[callback_query.from_user.id]
 
     elif data == 'Техническая ошибка':
