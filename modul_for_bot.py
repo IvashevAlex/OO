@@ -755,16 +755,24 @@ def query_data_handler(bot, data):
       del callback_check[callback_query.from_user.id]
 
     elif data == 'Техническая ошибка':
+      markup = types.InlineKeyboardMarkup()
+      itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+      markup.add(itembtn9)
+
       bot.answer_callback_query(callback_query.id)
       bot.edit_message_text('Опиши полностью техническую ошибку, которая у тебя произошла.', chat_id=callback_query.from_user.id,
-                            message_id=callback_query.message.message_id)
+                            message_id=callback_query.message.message_id, reply_markup=markup)
 
       callback_check[callback_query.from_user.id] = '2'  # Присваиваем ИД переменную, чтобы дальше фильтровать
     
     elif data == 'Текстовая ошибка':
+      markup = types.InlineKeyboardMarkup()
+      itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+      markup.add(itembtn9)
+
       bot.answer_callback_query(callback_query.id)
       bot.edit_message_text('Опиши полностью ошибку в вопросе.', chat_id=callback_query.from_user.id,
-                            message_id=callback_query.message.message_id)
+                            message_id=callback_query.message.message_id, reply_markup=markup)
 
       callback_check[callback_query.from_user.id] = '3'  # Присваиваем ИД переменную, чтобы дальше фильтровать
 

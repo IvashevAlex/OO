@@ -5,7 +5,6 @@ from WhiteList import bot
 
 
 def UC_menu(name, bot):
-  name = name + '1__'
   @bot.message_handler(func=lambda message: message.text == name)
   def UC(message):
     modul_for_bot.tests_data[message.chat.id] = 'UC'
@@ -54,4 +53,4 @@ def prk_uc(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
-UC_menu("УЦ", bot)
+UC_menu("ᎩЦ", bot)
