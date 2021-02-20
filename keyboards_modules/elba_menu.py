@@ -49,4 +49,4 @@ def prk_elb(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
-Elba_menu("Эльба", bot)
+Elba_menu("Эльбa", bot)

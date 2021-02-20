@@ -51,4 +51,4 @@ def prk_buh(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
-Buh_menu("Бухгалтерия", bot)
+Buh_menu("Бухгaлтерия", bot)

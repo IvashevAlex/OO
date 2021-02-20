@@ -71,4 +71,4 @@ def prk_ext(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
-ext_menu("Экстерн", bot)
+ext_menu("Экстeрн", bot)

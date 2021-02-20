@@ -49,4 +49,4 @@ def prk_edi(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
-EDI_menu("Ритейл", bot)
+EDI_menu("Pитейл", bot)
