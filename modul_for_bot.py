@@ -705,9 +705,7 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
 
 
 def lesten_res(bot):
-    @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Результаты')
-    def les_res(callback_query: CallbackQuery):
-        res(bot, callback_query)
+    
 
 
 def res(bot, callback_query):  # Функция публикует результат
@@ -759,7 +757,6 @@ def query_data_handler(bot, data):
 
       elif callback_check.get(callback_query.from_user.id) in ('1', '2', '3'):
         callback_check[callback_query.from_user.id] = save_check[callback_query.from_user.id]
-
 
     elif data == 'Техническая ошибка':
       markup = types.InlineKeyboardMarkup()
@@ -825,6 +822,9 @@ def query_data_handler(bot, data):
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
 
+    elif data == 'Результаты':
+      res(bot, callback_query)
+
 
 add_modules()
 query_data_handler(bot, 'Отмена')
@@ -834,3 +834,4 @@ query_data_handler(bot, 'Назад')
 query_data_handler(bot, 'Обновить таблицы')
 query_data_handler(bot, 'Зарегистрировать пользователя')
 query_data_handler(bot, 'Удалить пользователя')
+query_data_handler(bot, 'Результаты')
