@@ -554,6 +554,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         bot.send_message(toha_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
         bot.send_message(message.chat.id, 'Спасибо! Информация передана ответственному.\nЕсли понадобится уточнение он с тобой свяжется.'
                                           '\nДля продолжения ответь на последний вопрос.')
+
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
     elif callback_check[message.chat.id] == '3':  # Если пользователь нажал на сообщить об ошибке и выбрал "об ошибке в вопросе"
@@ -754,7 +755,11 @@ def query_data_handler(bot, data):
       bot.edit_message_text('Действие отменено.', chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
 
       if callback_check.get(callback_query.from_user.id) in ('tests', 'practicks', 'admin'):
-        del callback_check[callback_query.from_user.id]
+          del callback_check[callback_query.from_user.id]
+
+      elif callback_check.get(callback_query.from_user.id) in ('1', '2', '3'):
+        callback_check[callback_query.from_user.id] = save_check[callback_query.from_user.id]
+
 
     elif data == 'Техническая ошибка':
       markup = types.InlineKeyboardMarkup()
