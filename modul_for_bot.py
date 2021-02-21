@@ -703,11 +703,6 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
             answers_prk(bot, callback_query)
             h += 1
 
-
-def lesten_res(bot):
-    
-
-
 def res(bot, callback_query):  # Функция публикует результат
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'], \
