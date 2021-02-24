@@ -25,7 +25,7 @@ def question(bot, message):
     itembtn12 = types.KeyboardButton('УЦ′')
     itembtn13 = types.KeyboardButton('Устaнoвка')
     itembtn14 = types.KeyboardButton('WIС')
-    itembtn15 = types.KeyboardButton('Bнутренние сервисы')
+    itembtn15 = types.KeyboardButton('Внутренние сервисы')
     itembtn5 = types.KeyboardButton('OФД')
     itembtn6 = types.KeyboardButton('ФMС')
     itembtn7 = types.KeyboardButton('Бухгaлтерия')
