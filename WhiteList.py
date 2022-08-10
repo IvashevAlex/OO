@@ -6,16 +6,16 @@ from telebot import types
 from telebot.types import CallbackQuery
 import random
 
-# bot = telebot.TeleBot('1174261024:AAEfPd9lElQbGXvRST8t9e2YAhwAPWlOLGs',  threaded=False)
-bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) #OOHelper
+bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) # токен продакшена
+# bot = telebot.TeleBot('2075877718:AAHdfH9_PL2rBX-8uBIvFsIh-tdnUnHNA98',  threaded=False) # токен тестирования
 
-mySQLServer = "K1606047"
 myDatabase = "UsersDB"
+mySQLServer = "K1606047" # сервер продакшена
+# mySQLServer = "ASUS\SQLEXPRESS" # сервер тестирования
 
-mes = ['233770916', '391368365']
+mes = ['233770916', '391368365', '1325029854']
 
 mes_pas = ("У тебя нет прав на использования данного бота!\n\n"
-           # "За доступом обратись к @fenix073 или @lexxxekb .\n\n"
            "Отправь @lexxxekb ссылку своей страницы на Стаффе и этот телеграмм ID: ")
 
 

@@ -37,7 +37,7 @@ def help(message):
 
 @bot.message_handler(commands=["admin"]) #<---- Обновить таблицы в памяти, после изменений
 def admin_menu(message):
-    if message.chat.id in (233770916, 391368365):
+    if message.chat.id in (233770916, 391368365, 1325029854):
         Admin_menu(message, bot)
     else:
         bot.send_message(message.from_user.id, 'У тебя нет доступа к данному функционалу.')

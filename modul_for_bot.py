@@ -9,15 +9,16 @@ from keyboards import *
 from keyboards_modules.modules import *
 
 
-alex_id = 233770916 #ID телеграма Лёхи, для обработки сообщений об ошибке
-toha_id = 391368365 #ID Антохи, для обработки технической ошибки
+alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе
+toha_id = 1325029854 #ID для обработки технической ошибки
 
 data_base = {'BotUsers': {},
              'UserQuestions': {},
              }
 
-mySQLServer = "K1606047"
 myDatabase = "UsersDB"
+mySQLServer = "K1606047" # сервер продакшена
+# mySQLServer = "ASUS\SQLEXPRESS" # сервер тестирования
 
 sheet = 0
 count = 0
