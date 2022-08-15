@@ -1,5 +1,3 @@
-import telebot
-import Proxy_bot
 from time import sleep
 from modul_for_bot import *
 import text
@@ -23,7 +21,7 @@ def help(message):
 
 
 # Обработка команды /admin
-@bot.message_handler(commands=["admin"]) #<---- Обновить таблицы в памяти, после изменений
+@bot.message_handler(commands=["admin"])
 def admin_menu(message):
     if message.chat.id in (233770916, 391368365, 1325029854):
         Admin_menu(message, bot)
@@ -41,7 +39,8 @@ def back(message):
 @bot.message_handler(func=lambda message: message.text == "Назад")
 def back(message):
     if echo(message) == True:
-        back_to_menu(bot, message) #Запускаем test_menu из modul_for_bot
+        # Запускаем test_menu из modul_for_bot
+        back_to_menu(bot, message)
 
 # Обработка текстового сообщения "Помощь"
 @bot.message_handler(func=lambda message: message.text == "Помощь")
@@ -52,6 +51,8 @@ def help_text(message):
 
 # Обработка текстового сообщения "Ответить"
 # todo Не уверен, что эта часть кода вообще запускается. Добавить в тестовой версии принт на запуск
+# todo В тесте данный код не запускается, т.к. расчитан на нажатие кнопки "Ответить"
+# todo Создание кнопок закомментировано. Бот работает без них. Можно удалять код
 @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Ответить')
 def ans_true(callback_query: CallbackQuery):
     bot.answer_callback_query(callback_query.id)
