@@ -1,18 +1,12 @@
-# Программа будет брать рандомную строку из xls файла и выводить в виде вопроса с 4 вариантами ответа.
-# Нужно ответить однозначно верно на поставленный вопрос.
-# Ставим ограничение на 20 вопросов на кейс, чтобы выяснить процент правильных ответов.
-# Корректность ответов проверяются сразу.
-
 import telebot
 import Proxy_bot
 from time import sleep
 from modul_for_bot import *
 
-#ip_port = Proxy_bot.read_proxy()
-#telebot.apihelper.proxy = {'https':'https://{}'.format(ip_port)}
-
-
-
+# Переменные
+# todo В тесте убрать переменную a. Она нигде не используется
+# todo В более позних версиях перенести большие текстовые переменные в отдельный файл
+ver = '1.0.0.2'
 global a
 a = 0
 info = "Выбери тему и вид обучения для подготовки." \
@@ -24,17 +18,21 @@ info = "Выбери тему и вид обучения для подготов
        "\n\nЕсли во время прохождения теста ты перейдешь в меню, то результат сбросится, помни об этом!"
 
 
+# Обработка команды /start
 @bot.message_handler(commands=["start"])
 def greeting(message):
     if echo(message) == True:
         question(bot, message)
 
 
+# Обработка команды /help
 @bot.message_handler(commands=["help"])
 def help(message):
     if echo(message) == True:
         bot.send_message(message.chat.id, info, parse_mode='Markdown')
 
+
+# Обработка команды /admin
 @bot.message_handler(commands=["admin"]) #<---- Обновить таблицы в памяти, после изменений
 def admin_menu(message):
     if message.chat.id in (233770916, 391368365, 1325029854):
@@ -43,25 +41,27 @@ def admin_menu(message):
         bot.send_message(message.from_user.id, 'У тебя нет доступа к данному функционалу.')
 
 
+# Обработка текстового сообщения "В меню"
 @bot.message_handler(func=lambda message: message.text == "В меню")
 def back(message):
     if echo(message) == True:
         question(bot, message)
 
+# Обработка текстового сообщения "Назад"
 @bot.message_handler(func=lambda message: message.text == "Назад")
 def back(message):
     if echo(message) == True:
         back_to_menu(bot, message) #Запускаем test_menu из modul_for_bot
 
+# Обработка текстового сообщения "Помощь"
 @bot.message_handler(func=lambda message: message.text == "Помощь")
 def help_text(message):
     if echo(message) == True:
         bot.send_message(message.chat.id, info, parse_mode='Markdown')
 
-#---- инициализируем меню тестов\кейсов -----#
 
-#--------------------#
-
+# Обработка текстового сообщения "Ответить"
+# todo Не уверен, что эта часть кода вообще запускается. Добавить в тестовой версии принт на запуск
 @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Ответить')
 def ans_true(callback_query: CallbackQuery):
     bot.answer_callback_query(callback_query.id)
@@ -90,17 +90,23 @@ def ans_true(callback_query: CallbackQuery):
             bot.edit_message_text("Ты пытаешься ответить на вопрос, который задавался гораздо раньше.",
                               chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
 
+
+# Обработка текстового сообщения "Результаты"
 @bot.message_handler(func=lambda message: message.text == "Результаты")
 def res0(message):
     if echo(message) == True:
         res(bot, message)
 
+
+# Обработка нажатия кнопки "Сообщить об ошибке"
 @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Сообщить об ошибке')
 def error_send(callback_query):
     if echo(callback_query) == True:
         send_error(bot, callback_query)
 
 
+# Обработка любых текстовых сообщений, исключая вышеперечисленные.
+# В среднем, считаем, что это ответы на вопросы, заданные пользователю.
 @bot.message_handler(content_types=['text'])
 def answer0(message):
 
@@ -127,6 +133,10 @@ def answer0(message):
 
     continue_(bot, message)
 
+# Информация по боту 
+print('Бот запущен! Текущая версия {ver}')
+
+# Запуск основного цикла работы бота
 while True:
 
     try:
