@@ -1,3 +1,4 @@
+from main import test_mode
 import openpyxl
 import pypyodbc
 import re
@@ -6,14 +7,17 @@ from telebot import types
 from telebot.types import CallbackQuery
 import random
 
-bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) # токен продакшена
-# bot = telebot.TeleBot('2075877718:AAHdfH9_PL2rBX-8uBIvFsIh-tdnUnHNA98',  threaded=False) # токен тестирования
+if test_mode == True:
+    bot = telebot.TeleBot('2075877718:AAHdfH9_PL2rBX-8uBIvFsIh-tdnUnHNA98',  threaded=False)    
+    myDatabase = "UsersDB"
+    mySQLServer = "ASUS\SQLEXPRESS" # тестовый сервер
+    mes = ['1325029854', '1325029854', '1325029854']
+else:   
+    bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) # токен продакшена
+    myDatabase = "UsersDB"
+    mySQLServer = "K1606047" # сервер продакшена
+    mes = ['233770916', '391368365', '1325029854']
 
-myDatabase = "UsersDB"
-mySQLServer = "K1606047" # сервер продакшена
-# mySQLServer = "ASUS\SQLEXPRESS" # сервер тестирования
-
-mes = ['233770916', '391368365', '1325029854']
 
 mes_pas = ("У тебя нет прав на использования данного бота!\n\n"
            "Отправь @lexxxekb ссылку своей страницы на Стаффе и этот телеграмм ID: ")
@@ -84,7 +88,6 @@ def add_user(message, data_base):
 
     connection.commit()
     connection.close()
-
 
 
 def rm_user(message, data_base):

@@ -5,6 +5,7 @@ import text
 # Переменные
 ver = '1.0.0.3'
 info = text.info
+test_mode = False
 
 # Обработка команды /start
 @bot.message_handler(commands=["start"])
@@ -35,12 +36,14 @@ def back(message):
     if echo(message) == True:
         question(bot, message)
 
+
 # Обработка текстового сообщения "Назад"
 @bot.message_handler(func=lambda message: message.text == "Назад")
 def back(message):
     if echo(message) == True:
         # Запускаем test_menu из modul_for_bot
         back_to_menu(bot, message)
+
 
 # Обработка текстового сообщения "Помощь"
 @bot.message_handler(func=lambda message: message.text == "Помощь")
@@ -124,12 +127,16 @@ def answer0(message):
 
     continue_(bot, message)
 
+
 # Информация по боту 
 print(f'Бот запущен! Текущая версия {ver}')
+if test_mode == True:
+    print('Активирован режим тестирования!')
+else:
+    pass
 
 # Запуск основного цикла работы бота
 while True:
-
     try:
         bot.polling(none_stop=True, interval=0, timeout=20)
     except Exception as e:

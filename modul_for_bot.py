@@ -4,20 +4,25 @@ import time
 import openpyxl
 import pypyodbc
 import re
+from main import test_mode
 import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
 
-
-alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе
-toha_id = 1325029854 #ID для обработки технической ошибки
+if test_mode == False:
+    alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе
+    toha_id = 1325029854 #ID для обработки технической ошибки
+else:
+    alex_id = 1325029854 #ID для обработки сообщений об ошибке в вопросе
+    toha_id = 1325029854 #ID для обработки технической ошибки
 
 data_base = {'BotUsers': {},
              'UserQuestions': {},
              }
 
-myDatabase = "UsersDB"
-mySQLServer = "K1606047" # сервер продакшена
+# todo данный код не используется здесь. Его можно удалить
+# myDatabase = "UsersDB"
+# mySQLServer = "K1606047" # сервер продакшена
 # mySQLServer = "ASUS\SQLEXPRESS" # сервер тестирования
 
 sheet = 0
