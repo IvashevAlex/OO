@@ -7,17 +7,28 @@ from telebot import types
 from telebot.types import CallbackQuery
 import random
 
-if test_mode == True:
-    bot = telebot.TeleBot('2075877718:AAHdfH9_PL2rBX-8uBIvFsIh-tdnUnHNA98',  threaded=False)    
-    myDatabase = "UsersDB"
-    mySQLServer = "ASUS\SQLEXPRESS" # тестовый сервер
-    mes = ['1325029854', '1325029854', '1325029854']
-else:   
-    bot = telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) # токен продакшена
-    myDatabase = "UsersDB"
-    mySQLServer = "K1606047" # сервер продакшена
-    mes = ['233770916', '391368365', '1325029854']
+def get_token(mode):
+    if mode == True:
+        return telebot.TeleBot('2075877718:AAHdfH9_PL2rBX-8uBIvFsIh-tdnUnHNA98',  threaded=False)    
+    else:
+        return telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False)
 
+def get_server(mode):
+    if mode == True:
+        return "ASUS\SQLEXPRESS" # тестовый сервер
+    else:
+        return "K1606047" # сервер продакшена
+
+def get_admins(mode):
+    if mode == True:
+        return ['1325029854', '1325029854', '1325029854']
+    else:
+        return ['233770916', '391368365', '1325029854']
+
+mes = get_admins(test_mode)
+mySQLServer = get_server(test_mode)
+bot = get_token(test_mode)
+myDatabase = "UsersDB"
 
 mes_pas = ("У тебя нет прав на использования данного бота!\n\n"
            "Отправь @lexxxekb ссылку своей страницы на Стаффе и этот телеграмм ID: ")
