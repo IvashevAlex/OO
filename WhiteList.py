@@ -1,4 +1,3 @@
-from main import test_mode
 import openpyxl
 import pypyodbc
 import re
@@ -24,6 +23,8 @@ def get_admins(mode):
         return ['1325029854', '1325029854', '1325029854']
     else:
         return ['233770916', '391368365', '1325029854']
+
+test_mode = False
 
 mes = get_admins(test_mode)
 mySQLServer = get_server(test_mode)

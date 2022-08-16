@@ -9,6 +9,8 @@ import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
 
+test_mode = False
+
 if test_mode == False:
     alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе
     toha_id = 1325029854 #ID для обработки технической ошибки
