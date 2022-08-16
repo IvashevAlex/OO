@@ -5,30 +5,13 @@ import telebot
 from telebot import types
 from telebot.types import CallbackQuery
 import random
+import test_mode_check
 
-def get_token(mode):
-    if mode == True:
-        return telebot.TeleBot('2075877718:AAHdfH9_PL2rBX-8uBIvFsIh-tdnUnHNA98',  threaded=False)    
-    else:
-        return telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False)
+test_mode = test_mode_check.test_mode
 
-def get_server(mode):
-    if mode == True:
-        return "ASUS\SQLEXPRESS" # тестовый сервер
-    else:
-        return "K1606047" # сервер продакшена
-
-def get_admins(mode):
-    if mode == True:
-        return ['1325029854', '1325029854', '1325029854']
-    else:
-        return ['233770916', '391368365', '1325029854']
-
-test_mode = False
-
-mes = get_admins(test_mode)
-mySQLServer = get_server(test_mode)
-bot = get_token(test_mode)
+mes = test_mode_check.get_admins(test_mode_check.test_mode)
+mySQLServer = test_mode_check.get_server(test_mode_check.test_mode)
+bot = test_mode_check.get_token(test_mode_check.test_mode)
 myDatabase = "UsersDB"
 
 mes_pas = ("У тебя нет прав на использования данного бота!\n\n"

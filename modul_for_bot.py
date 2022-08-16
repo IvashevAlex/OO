@@ -4,12 +4,12 @@ import time
 import openpyxl
 import pypyodbc
 import re
-from main import test_mode
+
 import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
 
-test_mode = False
+test_mode = test_mode_check.test_mode
 
 if test_mode == False:
     alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе
