@@ -26,6 +26,3 @@ def get_question():
             bd_questions[name_dict[i]] = json.load(file)
 
     return bd_questions
-
-
-

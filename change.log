@@ -1,3 +1,11 @@
+ver. 1.0.0.4
+test_mode_check.py - добавлены клмментарии к функциям
+
+WhiteList.py - смена форматирования SQL запроса в функции echo. Суть запроса не менялась
+               форматирование изменено для add_user и rm_user
+               добавлены комментарии с описанием сути работы функции
+
+
 ver. 1.0.0.3c 
 test_mode = test_mode_check.test_mode заменено на test_mode = test_mode_check.test_mode()
 Добавлены test_mode_check в файлах, где функия используется
