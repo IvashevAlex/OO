@@ -9,7 +9,7 @@ import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
 
-test_mode = test_mode_check.test_mode
+test_mode = test_mode_check.test_mode()
 
 if test_mode == False:
     alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе

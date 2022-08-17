@@ -1,3 +1,6 @@
+ver. 1.0.0.3c 
+test_mode = test_mode_check.test_mode заменено на test_mode = test_mode_check.test_mode()
+
 ver. 1.0.0.3b
 Добавлено в gitignore /__pycache__ и /keyboards_modules/__pycache__
 Удалены все "from main import test_mode"

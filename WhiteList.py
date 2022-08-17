@@ -7,11 +7,11 @@ from telebot.types import CallbackQuery
 import random
 import test_mode_check
 
-test_mode = test_mode_check.test_mode
+test_mode = test_mode_check.test_mode()
 
-mes = test_mode_check.get_admins(test_mode_check.test_mode)
-mySQLServer = test_mode_check.get_server(test_mode_check.test_mode)
-bot = test_mode_check.get_token(test_mode_check.test_mode)
+mes = test_mode_check.get_admins(test_mode)
+mySQLServer = test_mode_check.get_server(test_mode)
+bot = test_mode_check.get_token(test_mode)
 myDatabase = "UsersDB"
 
 mes_pas = ("У тебя нет прав на использования данного бота!\n\n"
