@@ -1,11 +1,12 @@
 from time import sleep
 from modul_for_bot import *
 import text
+import test_mode_check
 
 # Переменные
 ver = '1.0.0.3'
 info = text.info
-test_mode = False
+test_mode = test_mode_check.test_mode()
 
 # Обработка команды /start
 @bot.message_handler(commands=["start"])

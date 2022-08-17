@@ -7,9 +7,10 @@ def test_mode():
 def get_token(mode):
     if mode == True:
         return telebot.TeleBot('2075877718:AAHdfH9_PL2rBX-8uBIvFsIh-tdnUnHNA98',  threaded=False)    
-    else:
+    elif mode == False:
         return telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False)
-
+    else:
+        print('Что-то пошло не так! Не удалось определить режим запуска!')
 
 def get_server(mode):
     if mode == True:
