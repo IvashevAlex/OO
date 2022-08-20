@@ -19,13 +19,15 @@ mes_pas = ("У тебя нет прав на использования данн
 
 # Проверяет наличие доступа у пользователя
 def echo(callback_query):
+    # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
+    # Если он есть, то он в виде строки передается в переменную userid
+    # Если его нет, то в переменную userid подается значение False
     connection = pypyodbc.connect('Driver={SQL Server};'
                                   'Server=' + mySQLServer + ';'
                                   'Database=' + myDatabase + ';')
 
     cursor = connection.cursor()
 
-    # 
     SQLQuery = (""" SELECT TOP(1) 
                     IIF(UserChat = """ + str(callback_query.from_user.id) + """, 
                         CONVERT(VARCHAR(max), UserChat), 
@@ -37,8 +39,8 @@ def echo(callback_query):
     userid = str(count[0][0])
     print('uID = ', userid, type(userid))
 
+    # Если юзер уже есть в списке, то проверяем флаг доступа из UserMark
     if str(callback_query.from_user.id) == userid:
-        # 
         SQLQuery = ("""SELECT UserMark 
                        FROM dbo.WhiteList 
                        WHERE UserChat = """ + str(callback_query.from_user.id) + """;""")
@@ -47,10 +49,14 @@ def echo(callback_query):
         result = cursor.fetchall()
         print(result[0][0])
 
+        # Если флаг 0, то сообаем юзеру об остутствии прав на использование
         if (result[0][0] == False):
             bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+    
+    # Если юзера нет в списке, то вносим его данные из Телеграм. 
+    # Флаг остается нулевым. Изменение значения флага производит админ через меню бота
     else:
-        # 
+    
         SQLQuery = (""" INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO)
                         VALUES (""" + str(callback_query.from_user.id) + """, 
                         '@' + '""" + str(callback_query.from_user.username) + """', 
@@ -70,13 +76,16 @@ def add_user(message, data_base):
                                   'Server=' + mySQLServer + ';'
                                   'Database=' + myDatabase + ';')
     cursor = connection.cursor()
-
+    
+    # Если запрос получен от админа, то формируем переменную res со значением id добовляемого пользователя
     if str(message.from_user.id) in mes:
         res = data_base['BotUsers'][message.from_user.id]['UserAnswer']
     else:
         return
 
     print(res)
+
+    # SQL запрос на смену флага доступа для пользователя с id указанным в переменной res
     SQLQuery = """UPDATE dbo.WhiteList
                   SET UserMark = 1
                   WHERE UserChat = """ + str(res) + """;"""
