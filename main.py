@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.0.5'
+ver = '1.0.0.6'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -51,39 +51,6 @@ def back(message):
 def help_text(message):
     if echo(message) == True:
         bot.send_message(message.chat.id, info, parse_mode='Markdown')
-
-
-# Обработка текстового сообщения "Ответить"
-# todo Не уверен, что эта часть кода вообще запускается. Добавить в тестовой версии принт на запуск
-# todo В тесте данный код не запускается, т.к. расчитан на нажатие кнопки "Ответить"
-# todo Создание кнопок закомментировано. Бот работает без них. Можно удалять код
-@bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Ответить')
-def ans_true(callback_query: CallbackQuery):
-    bot.answer_callback_query(callback_query.id)
-    if echo(callback_query) == True:
-        try:
-            del callback_check[callback_query.from_user.id]
-        except:
-            pass
-
-        try:
-            check_answer_id = save_message_id['check_answer'][callback_query.from_user.id] #ПОлучаем ID сообщения заданного послений раз вопроса
-        except:
-            check_answer_id = 0 #Если вопрос не задавался то ставим 0
-
-        if check_answer_id == callback_query.message.message_id: #Совпадает ли ID запомненного вопроса с ID где мы нажали кнопку "Ответить"
-
-            message = bot.send_message(callback_query.from_user.id, "Проверяем ответ.\nПодожди немного.")
-            save_message_id['message_id'][callback_query.from_user.id] = message.message_id
-
-            if practicks_data.get(callback_query.from_user.id) == 'PR':
-                check_answer_prk(bot, callback_query)
-            else:
-                check_answer(bot, callback_query)
-
-        else: #Если нажали Ответить не в последнем заданном вопросе, то
-            bot.edit_message_text("Ты пытаешься ответить на вопрос, который задавался гораздо раньше.",
-                              chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
 
 
 # Обработка текстового сообщения "Результаты"

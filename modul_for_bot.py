@@ -313,7 +313,6 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         # ----------------------------------------------------- #
 
         markup = types.InlineKeyboardMarkup()
-        #itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
         itembtn1 = types.InlineKeyboardButton('Результаты', callback_data='Результаты')
         itembtn2 = types.InlineKeyboardButton('Сообщить об ошибке', callback_data='Сообщить об ошибке')
 
@@ -454,7 +453,6 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         # ----------------------------------------------------- #
 
         markup = types.InlineKeyboardMarkup()
-        #itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
         itembtn1 = types.InlineKeyboardButton('Результаты', callback_data='Результаты')
         itembtn2 = types.InlineKeyboardButton('Сообщить об ошибке', callback_data='Сообщить об ошибке')
 
@@ -690,7 +688,6 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
         else:
             if practicks_data['check_attempt'][callback_query.from_user.id] == '1':
                 markup = types.InlineKeyboardMarkup()
-                #itembtn_test = types.InlineKeyboardButton('Ответить', callback_data='Ответить')
                 itembtn1 = types.InlineKeyboardButton('Результаты', callback_data='Результаты')
                 itembtn2 = types.InlineKeyboardButton('Сообщить об ошибке', callback_data='Сообщить об ошибке')
 
