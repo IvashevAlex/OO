@@ -6,6 +6,7 @@ from telebot import types
 from telebot.types import CallbackQuery
 import random
 import test_mode_check
+import text
 
 test_mode = test_mode_check.test_mode()
 
@@ -14,8 +15,7 @@ mySQLServer = test_mode_check.get_server(test_mode)
 bot = test_mode_check.get_token(test_mode)
 myDatabase = "UsersDB"
 
-mes_pas = ("У тебя нет прав на использования данного бота!\n\n"
-           "Отправь @lexxxekb ссылку своей страницы на Стаффе и этот телеграмм ID: ")
+mes_pas = text.no_access
 
 # Проверяет наличие доступа у пользователя
 def echo(callback_query):
