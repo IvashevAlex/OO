@@ -28,7 +28,7 @@ def admin_menu(message):
     if message.chat.id in (233770916, 391368365, 1325029854):
         Admin_menu(message, bot)
     else:
-        bot.send_message(message.from_user.id, 'У тебя нет доступа к данному функционалу.')
+        bot.send_message(message.from_user.id, text.no_admin_access)
 
 
 # Обработка текстового сообщения "В меню"
@@ -76,21 +76,21 @@ def answer0(message):
 
     if callback_check.get(message.from_user.id) == 'tests':
         continue_(bot, message)
-        messages = bot.send_message(message.from_user.id, "Проверяем ответ.\nПодожди немного.")
+        messages = bot.send_message(message.from_user.id, text.waiting_check)
         save_message_id['message_id'][message.from_user.id] = messages.message_id
         check_answer(bot, message)
         return
 
     elif callback_check.get(message.from_user.id) == 'practicks':
         continue_(bot, message)
-        messages = bot.send_message(message.from_user.id, "Проверяем ответ.\nПодожди немного.")
+        messages = bot.send_message(message.from_user.id, text.waiting_check)
         save_message_id['message_id'][message.from_user.id] = messages.message_id
         check_answer_prk(bot, message)
         return
 
     elif callback_check.get(message.from_user.id) == None:
         if echo(message) == True:
-            messages = bot.send_message(message.from_user.id, "Ты ещё не выбрал тему для прохождения тестов.")
+            messages = bot.send_message(message.from_user.id, text.not_selected)
             save_message_id['message_id'][message.from_user.id] = messages.message_id
 
     continue_(bot, message)

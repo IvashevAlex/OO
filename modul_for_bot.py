@@ -9,6 +9,8 @@ import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
 
+import text
+
 test_mode = test_mode_check.test_mode()
 
 if test_mode == False:
@@ -60,12 +62,11 @@ def quest(theme, number_of_page, bot):
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == theme)
     def name_def(callback_query):
         if echo(callback_query) != True:
-            bot.send_message(callback_query.from_user.id, 'У тебя недостаточно прав, чтобы воспользоваться ботом.')
+            bot.send_message(callback_query.from_user.id, text.no_rights)
             return
 
         try:
-            bot.edit_message_text(text='Подготавливаю вопросы, это займёт некоторое время.',
-                                  chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
+            bot.edit_message_text(text=text.wait, chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
             bot.edit_message_reply_markup(callback_query.from_user.id, callback_query.message.message_id)
         except Exception as Abc:
             pass
@@ -319,9 +320,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         markup.add(itembtn1)
         markup.add(itembtn2)
 
-        message_question += '\n\nПиши правильные варианты ответа цифрами без дополнительных символов и пробелов. \n' \
-                            'Помни! Вариантов ответов может быть несколько.\n' \
-                            'Если уверен в правильности ответа → Нажми «Отправить».'
+        message_question += text.instruction
 
         message_id = bot.send_message(callback_query.from_user.id, message_question, parse_mode='HTML', reply_markup=markup)
 
@@ -558,8 +557,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
     elif callback_check[message.chat.id] == '2':  # Если пользователь нажал на сообщить об ошибке и выбрал "о технческой ошибке"
         text_error = 'Антоха, конс нашел техническую ошибку: '
         bot.send_message(toha_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
-        bot.send_message(message.chat.id, 'Спасибо! Информация передана ответственному.\nЕсли понадобится уточнение он с тобой свяжется.'
-                                          '\nДля продолжения ответь на последний вопрос.')
+        bot.send_message(message.chat.id, text.tech_error_msg)
 
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
@@ -604,8 +602,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         text_error = f'<b>Лёха, конс нашел ошибку в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
         bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
-        bot.send_message(message.chat.id, 'Спасибо! Информация передана ответственному.\nЕсли понадобится уточнение он с тобой свяжется.'
-                                          '\nДля продолжения ответь на последний вопрос.')
+        bot.send_message(message.chat.id, text.tech_error_msg)
 
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
@@ -620,8 +617,7 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
 
     print('1 if')
     if results[1] == 'None':  # <---смотрим в БД пустой ли ответ
-        bot.edit_message_text("Ты вводишь пустой ответ. Пока не напишешь варианты ответа, дальше не двинемся.",
-                              chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
+        bot.edit_message_text(text.empty_answer, chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
     else:
         print('2 if')
 
@@ -738,7 +734,7 @@ def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить �
 
     error_markup.add(itembtn1, itembtn2)
     error_markup.add(itembtn3)
-    bot.send_message(callback_query.from_user.id, 'Выбери направление о какой ошибке хочешь сообщить?', reply_markup=error_markup)
+    bot.send_message(callback_query.from_user.id, text.error_choice, reply_markup=error_markup)
     save_check[callback_query.from_user.id] = callback_check[callback_query.from_user.id]
 
     callback_check[callback_query.from_user.id] = '1'  # Присваиваем ИД переменную, чтобы дальше фильтровать

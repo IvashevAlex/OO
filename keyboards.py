@@ -10,6 +10,7 @@ from keyboards_modules.market_menu import *
 from keyboards_modules.ofd_menu import *
 from keyboards_modules.uc_menu import *
 
+import text
 
 def question(bot, message):
     print(message.chat.id)
@@ -37,8 +38,7 @@ def question(bot, message):
     markup.row(itembtn12, itembtn4, itembtn5)
     markup.row(itembtn6, itembtn7, itembtn8)
     markup.row(itemhelp)
-    bot.send_message(message.chat.id, "Привет :) Это бот Отдела Обучения.\n"
-                                      "Выбери нужную тему с помощью кнопок внизу.", reply_markup=markup)
+    bot.send_message(message.chat.id, text.hello_mes, reply_markup=markup)
 
 
 def test_menu(bot, message):
@@ -64,7 +64,7 @@ def test_menu(bot, message):
 
     try:
         bot.send_message(
-            message.from_user.id, "Какой вид обучения тебя интересует?", reply_markup=markup_1)
+            message.from_user.id, text.education_type, reply_markup=markup_1)
     except Exception as E:
         pass
 
@@ -81,8 +81,7 @@ def Admin_menu(message, bot): #Описание функций для меню �
     markup.add(itembtn1)
     markup.add(itembtn2, itembtn3)
     markup.add(itembtn9)
-    bot.send_message(message.from_user.id, 'Привет! Если ты видишь это сообщение, то у тебя чуть больше прав чем у других))\n'
-                                           'Выбирай необходимое действие.', reply_markup=markup)
+    bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
 
 def Inst_menu(name, bot):
     @bot.message_handler(func=lambda message: message.text == name)
