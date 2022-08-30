@@ -61,7 +61,7 @@ def echo(callback_query):
         SQLQuery = (""" INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO)
                         VALUES (""" + str(callback_query.from_user.id) + """, 
                         '@' + '""" + str(callback_query.from_user.username) + """', 
-                        '""" + str(callback_query.from_user.first_name) + ' ' + str(callback_query.from_user.last_name) + """'
+                        '""" + str(callback_query.from_user.first_name) + ' ' + str(callback_query.from_user.last_name) + """',
                         '""" + str(time.strftime('%Y-%m-%d')) + """');""")
 
         cursor.execute(SQLQuery)
