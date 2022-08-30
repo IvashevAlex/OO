@@ -58,7 +58,7 @@ def echo(callback_query):
     # Флаг остается нулевым. Изменение значения флага производит админ через меню бота
     else:
     
-        SQLQuery = (""" INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO)
+        SQLQuery = (""" INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO, AddUserDate)
                         VALUES (""" + str(callback_query.from_user.id) + """, 
                         '@' + '""" + str(callback_query.from_user.username) + """', 
                         '""" + str(callback_query.from_user.first_name) + ' ' + str(callback_query.from_user.last_name) + """',
