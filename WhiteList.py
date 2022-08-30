@@ -7,6 +7,7 @@ from telebot.types import CallbackQuery
 import random
 import test_mode_check
 import text
+import time
 
 test_mode = test_mode_check.test_mode()
 
@@ -60,7 +61,8 @@ def echo(callback_query):
         SQLQuery = (""" INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO)
                         VALUES (""" + str(callback_query.from_user.id) + """, 
                         '@' + '""" + str(callback_query.from_user.username) + """', 
-                        '""" + str(callback_query.from_user.first_name) + ' ' + str(callback_query.from_user.last_name) + """');""")
+                        '""" + str(callback_query.from_user.first_name) + ' ' + str(callback_query.from_user.last_name) + """'
+                        '""" + str(time.strftime('%Y-%m-%d')) + """');""")
 
         cursor.execute(SQLQuery)
         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
@@ -112,10 +114,6 @@ def rm_user(message, data_base):
         return
 
     SQLQuery = """DELETE dbo.WhiteList 
-                  WHERE UserChat = """ + str(res) + """;
-                  DELETE dbo.BotUsers 
-                  WHERE UserChat = """ + str(res) + """;
-                  DELETE dbo.UserQuestions 
                   WHERE UserChat = """ + str(res) + """;"""
 
     cursor.execute(SQLQuery)
