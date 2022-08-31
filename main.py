@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.2'
+ver = '1.0.1.3'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -30,6 +30,11 @@ def admin_menu(message):
     else:
         bot.send_message(message.from_user.id, text.no_admin_access)
 
+# Обработка команды /test_1
+@bot.message_handler(commands=["test_1"])
+def help(message):
+    if echo(message) == True:
+        bot.send_message(message.chat.id, text.test_1, parse_mode='Markdown')
 
 # Обработка текстового сообщения "В меню"
 @bot.message_handler(func=lambda message: message.text == "В меню")
@@ -105,6 +110,12 @@ else:
 
 # Запуск основного цикла работы бота
 while True:
+    timer = time.time()
+    timer_minute = 0
+    # Если число минут кратно 5 (10,15), то запускает цикл проверки необходимости рассылки
+    if timer_minute % 5 == 0:
+        pass
+
     try:
         bot.polling(none_stop=True, interval=0, timeout=20)
     except Exception as e:
