@@ -110,22 +110,27 @@ else:
 
 # Запуск основного цикла работы бота
 while True:
-    timer_minute = time.gmtime()[4]
-
     # Если число минут кратно 5 (10,15), то запускает цикл проверки необходимости рассылки
-    if timer_minute % 3 == 0:
-        print('Пришло время для 3-х минутной рассылки!')
-        bot.send_message(5484457194, 'Пришло время для 3-х минутной рассылки!')
-    if timer_minute % 5 == 0:
-        print('Пришло время для 5-ти минутной рассылки!')
-        bot.send_message(5737229331, 'Пришло время для 5-ти минутной рассылки!')
+    # Данный код пока запускается только один раз
+    # Ищем возможность прерывать пуллинг. Возможно, bot.polling(none_stop=False
+    if time.gmtime()[4] % 3 == 0:
+        if time.gmtime()[5] < 5:
+            print('Пришло время для 3-х минутной рассылки!')
+            bot.send_message(5484457194, 'Пришло время для 3-х минутной рассылки!')
+            time.sleep(5)
+    if time.gmtime()[4] % 5 == 0:
+        if time.gmtime()[5] < 5:
+            print('Пришло время для 5-ти минутной рассылки!')
+            bot.send_message(5737229331, 'Пришло время для 5-ти минутной рассылки!')
+            time.sleep(5)
     
         # Здесь необходимо определить форматы времени: человеческий и машинный
         # time.gmtime(0) - начало эпохи Юникса
         pass
-
+    
+    print('.', end='')
     try:
-        bot.polling(none_stop=True, interval=0, timeout=20)
+        bot.polling(none_stop=False, interval=0, timeout=20)
     except Exception as e:
         print(e.args)
         sleep(0.7)
