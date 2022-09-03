@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.3'
+ver = '1.0.1.4'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -110,24 +110,6 @@ else:
 
 # Запуск основного цикла работы бота
 while True:
-    # Если число минут кратно 5 (10,15), то запускает цикл проверки необходимости рассылки
-    # Данный код пока запускается только один раз
-    # Ищем возможность прерывать пуллинг. Возможно, bot.polling(none_stop=False
-    if time.gmtime()[4] % 3 == 0:
-        if time.gmtime()[5] < 5:
-            print('Пришло время для 3-х минутной рассылки!')
-            bot.send_message(5484457194, 'Пришло время для 3-х минутной рассылки!')
-            time.sleep(5)
-    if time.gmtime()[4] % 5 == 0:
-        if time.gmtime()[5] < 5:
-            print('Пришло время для 5-ти минутной рассылки!')
-            bot.send_message(5737229331, 'Пришло время для 5-ти минутной рассылки!')
-            time.sleep(5)
-    
-        # Здесь необходимо определить форматы времени: человеческий и машинный
-        # time.gmtime(0) - начало эпохи Юникса
-        pass
-    
     print('.', end='')
     try:
         bot.polling(none_stop=False, interval=0, timeout=20)

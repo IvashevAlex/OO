@@ -24,11 +24,6 @@ data_base = {'BotUsers': {},
              'UserQuestions': {},
              }
 
-# todo данный код не используется здесь. Его можно удалить
-# myDatabase = "UsersDB"
-# mySQLServer = "K1606047" # сервер продакшена
-# mySQLServer = "ASUS\SQLEXPRESS" # сервер тестирования
-
 sheet = 0
 count = 0
 rand = 0
