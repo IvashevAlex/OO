@@ -75,11 +75,13 @@ def Admin_menu(message, bot): #Описание функций для меню �
     itembtn1 = types.InlineKeyboardButton('Обновить таблицы', callback_data='Обновить таблицы')
     itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
     itembtn3 = types.InlineKeyboardButton('Удалить пользователя', callback_data='Удалить пользователя')
+    itembtn4 = types.InlineKeyboardButton('Рассылки', callback_data='Рассылки')
 
     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup.add(itembtn1)
     markup.add(itembtn2, itembtn3)
+    markup.add(itembtn4)
     markup.add(itembtn9)
     bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
 
@@ -260,6 +262,16 @@ def praktics(bot):
         elif modul_for_bot.tests_data[callback_query.from_user.id] == 'ELB':
             prk_elb(bot, callback_query)
 
+
+def sending_menu(bot):
+    markup_send = types.InlineKeyboardMarkup()
+
+    itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
+    itembtn2 = types.InlineKeyboardButton('Календарь рассылок', callback_data='Календарь рассылок')
+    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+
+    markup_send.add(itembtn1, itembtn2)
+    markup_send.add(itembtn12)
 
 Other_srvice_menu("Внутренние сервисы", bot)
 WIC_menu("WIС", bot)

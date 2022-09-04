@@ -806,12 +806,22 @@ def query_data_handler(bot, data):
       print('Таблицы были обновлены!')
 
     elif data == 'Зарегистрировать пользователя':
-      add_user(callback_query, data_base)
-      bot.answer_callback_query(callback_query.id)
+        add_user(callback_query, data_base)
+        bot.answer_callback_query(callback_query.id)
 
     elif data == 'Удалить пользователя':
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
+    
+    elif data == 'Рассылка':
+        print('Вход в меню рассылки')
+        sending_menu()
+
+    elif data == 'База сообщений':
+        print('Вход в базу сообщений')
+
+    elif data == 'Календарь рассылок':
+        print('Вход в Календарь рассылок')
 
     elif data == 'Результаты':
       res(bot, callback_query)
