@@ -1,10 +1,7 @@
-import openpyxl
 import pypyodbc
-import re
 import telebot
 from telebot import types
 from telebot.types import CallbackQuery
-import random
 import test_mode_check
 import text
 import time
