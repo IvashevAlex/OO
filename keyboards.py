@@ -263,7 +263,8 @@ def praktics(bot):
             prk_elb(bot, callback_query)
 
 
-def sending_menu(callback_query):
+def sending_menu(bot, callback_query):
+    
     markup_send = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
@@ -274,14 +275,12 @@ def sending_menu(callback_query):
     markup_send.add(itembtn12)
 
     try:
-        bot.edit_message_text(chat_id=callback_query.from_user.id, 
-                              text=text.send_actions, 
-                              message_id=callback_query.message.message_id, 
-                              reply_markup=markup_send)
+        bot.edit_message_text(chat_id=callback_query.from_user.id, text=text.send_actions, 
+                              message_id=callback_query.message.message_id, reply_markup=markup_send)
     except:
         pass
 
-def sending_menu_base(callback_query):
+def sending_menu_base(bot, callback_query):
     markup_base = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('Число сообщений', callback_data='Число сообщений')
@@ -303,31 +302,31 @@ def sending_menu_base(callback_query):
     except:
         pass
 
-def sending_menu_base_number(callback_query):
-    bot.send_message(callback_query.chat.id, 'Сообщает общее число записей в таблице рассылок', parse_mode='Markdown')
+def sending_menu_base_number(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Сообщает общее число записей в таблице рассылок', parse_mode='Markdown')
 
-def sending_menu_base_create(callback_query):
-    bot.send_message(callback_query.chat.id, 'Создает в таблице текст новой рассылки', parse_mode='Markdown')
+def sending_menu_base_create(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Создает в таблице текст новой рассылки', parse_mode='Markdown')
 
-def sending_menu_base_look(callback_query):
-    bot.send_message(callback_query.chat.id, 'Показывает содержимое рассылки по ее номеру', parse_mode='Markdown')
+def sending_menu_base_look(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Показывает содержимое рассылки по ее номеру', parse_mode='Markdown')
 
-def sending_menu_base_change(callback_query):
-    bot.send_message(callback_query.chat.id, 'Изменяет содержимое рассылки', parse_mode='Markdown')
+def sending_menu_base_change(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Изменяет содержимое рассылки', parse_mode='Markdown')
 
-def sending_menu_calendar_number(callback_query):
-    bot.send_message(callback_query.chat.id, 'Сообщает общее число рассылок', parse_mode='Markdown')
+def sending_menu_calendar_number(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Сообщает общее число рассылок', parse_mode='Markdown')
 
-def sending_menu_calendar_create(callback_query):
-    bot.send_message(callback_query.chat.id, 'Сообщает новую рассылку', parse_mode='Markdown')
+def sending_menu_calendar_create(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Сообщает новую рассылку', parse_mode='Markdown')
 
-def sending_menu_calendar_look(callback_query):
-    bot.send_message(callback_query.chat.id, 'Показывает рассылки по дате', parse_mode='Markdown')
+def sending_menu_calendar_look(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Показывает рассылки по дате', parse_mode='Markdown')
 
-def sending_menu_calendar_delete(callback_query):
-    bot.send_message(callback_query.chat.id, 'Удаляет рассылку по номеру', parse_mode='Markdown')
+def sending_menu_calendar_delete(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Удаляет рассылку по номеру', parse_mode='Markdown')
 
-def sending_menu_calendar(callback_query):
+def sending_menu_calendar(bot, callback_query):
     markup_calendar = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('Число рассылок', callback_data='Число рассылок')

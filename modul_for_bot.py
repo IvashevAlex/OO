@@ -813,38 +813,38 @@ def query_data_handler(bot, data):
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
     
-    elif data == 'Рассылка':
-        sending_menu(callback_query)
+    elif data == 'Рассылки':
+            sending_menu(bot, callback_query)
 
     elif data == 'База сообщений':
-        sending_menu_base(callback_query)
+        sending_menu_base(bot, callback_query)
 
     elif data == 'Календарь рассылок':
-        sending_menu_calendar(callback_query)
+        sending_menu_calendar(bot, callback_query)
 
     elif data == 'Число сообщений':
-        sending_menu_base_number(callback_query)
+        sending_menu_base_number(bot, callback_query)
         
     elif data == 'Создать сообщение':
-        sending_menu_base_create(callback_query)
+        sending_menu_base_create(bot, callback_query)
         
     elif data == 'Просмотреть сообщение':
-        sending_menu_base_look(callback_query)
+        sending_menu_base_look(bot, callback_query)
         
     elif data == 'Изменить сообщение':
-        sending_menu_base_change(callback_query)
+        sending_menu_base_change(bot, callback_query)
         
     elif data == 'Число рассылок':
-        sending_menu_calendar_number(callback_query)
+        sending_menu_calendar_number(bot, callback_query)
         
     elif data == 'Создать рассылку':
-        sending_menu_calendar_create(callback_query)
+        sending_menu_calendar_create(bot, callback_query)
         
     elif data == 'Просмотреть рассылку':
-        sending_menu_calendar_look(callback_query)
+        sending_menu_calendar_look(bot, callback_query)
         
     elif data == 'Удалить рассылку':
-        sending_menu_calendar_delete(callback_query)
+        sending_menu_calendar_delete(bot, callback_query)
 
     elif data == 'Результаты':
         res(bot, callback_query)
@@ -858,8 +858,11 @@ query_data_handler(bot, 'Назад')
 query_data_handler(bot, 'Обновить таблицы')
 query_data_handler(bot, 'Зарегистрировать пользователя')
 query_data_handler(bot, 'Удалить пользователя')
-
 query_data_handler(bot, 'Результаты')
+
+query_data_handler(bot, 'Рассылки')
+query_data_handler(bot, 'База сообщений')
+query_data_handler(bot, 'Календарь рассылок')
 query_data_handler(bot, 'Число сообщений')
 query_data_handler(bot, 'Создать сообщение')
 query_data_handler(bot, 'Просмотреть сообщение')

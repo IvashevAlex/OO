@@ -1,5 +1,7 @@
 ver.1.0.1.6 
-modul_for_bot.py - добавлена строчка query_data_handler(bot, 'Результаты')
+modul_for_bot.py - добавлена строчка query_data_handler(bot, 'Имя кнопки')
+                   
+                   добавлены обработки всех кнопок нового меню Рассылка
 
 keyboards.py - в функцию sending_menu добавлена edit_message_text для удаления
                прежнего меню из ленты бота
