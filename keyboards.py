@@ -303,6 +303,30 @@ def sending_menu_base(callback_query):
     except:
         pass
 
+def sending_menu_base_number(callback_query):
+    bot.send_message(callback_query.chat.id, 'Сообщает общее число записей в таблице рассылок', parse_mode='Markdown')
+
+def sending_menu_base_create(callback_query):
+    bot.send_message(callback_query.chat.id, 'Создает в таблице текст новой рассылки', parse_mode='Markdown')
+
+def sending_menu_base_look(callback_query):
+    bot.send_message(callback_query.chat.id, 'Показывает содержимое рассылки по ее номеру', parse_mode='Markdown')
+
+def sending_menu_base_change(callback_query):
+    bot.send_message(callback_query.chat.id, 'Изменяет содержимое рассылки', parse_mode='Markdown')
+
+def sending_menu_calendar_number(callback_query):
+    bot.send_message(callback_query.chat.id, 'Сообщает общее число рассылок', parse_mode='Markdown')
+
+def sending_menu_calendar_create(callback_query):
+    bot.send_message(callback_query.chat.id, 'Сообщает новую рассылку', parse_mode='Markdown')
+
+def sending_menu_calendar_look(callback_query):
+    bot.send_message(callback_query.chat.id, 'Показывает рассылки по дате', parse_mode='Markdown')
+
+def sending_menu_calendar_delete(callback_query):
+    bot.send_message(callback_query.chat.id, 'Удаляет рассылку по номеру', parse_mode='Markdown')
+
 def sending_menu_calendar(callback_query):
     markup_calendar = types.InlineKeyboardMarkup()
 
