@@ -263,7 +263,7 @@ def praktics(bot):
             prk_elb(bot, callback_query)
 
 
-def sending_menu(bot):
+def sending_menu(callback_query):
     markup_send = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
@@ -272,6 +272,58 @@ def sending_menu(bot):
 
     markup_send.add(itembtn1, itembtn2)
     markup_send.add(itembtn12)
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, 
+                              text=text.send_actions, 
+                              message_id=callback_query.message.message_id, 
+                              reply_markup=markup_send)
+    except:
+        pass
+
+def sending_menu_base(callback_query):
+    markup_base = types.InlineKeyboardMarkup()
+
+    itembtn1 = types.InlineKeyboardButton('Число сообщений', callback_data='Число сообщений')
+    itembtn2 = types.InlineKeyboardButton('Создать сообщение', callback_data='Создать сообщение')
+    itembtn3 = types.InlineKeyboardButton('Просмотреть сообщение', callback_data='Просмотреть сообщение')
+    itembtn4 = types.InlineKeyboardButton('Изменить сообщение', callback_data='Изменить сообщение')
+
+    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+
+    markup_base.add(itembtn1, itembtn2)
+    markup_base.add(itembtn3, itembtn4)
+    markup_base.add(itembtn12)
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, 
+                              text=text.sending_base, 
+                              message_id=callback_query.message.message_id, 
+                              reply_markup=markup_base)
+    except:
+        pass
+
+def sending_menu_calendar(callback_query):
+    markup_calendar = types.InlineKeyboardMarkup()
+
+    itembtn1 = types.InlineKeyboardButton('Число рассылок', callback_data='Число рассылок')
+    itembtn2 = types.InlineKeyboardButton('Создать рассылку', callback_data='Создать рассылку')
+    itembtn3 = types.InlineKeyboardButton('Просмотреть рассылку', callback_data='Просмотреть рассылку')
+    itembtn4 = types.InlineKeyboardButton('Удалить рассылку', callback_data='Удалить рассылку')
+
+    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+
+    markup_calendar.add(itembtn1, itembtn2)
+    markup_calendar.add(itembtn3, itembtn4)
+    markup_calendar.add(itembtn12)
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, 
+                              text=text.sending_calendar, 
+                              message_id=callback_query.message.message_id, 
+                              reply_markup=markup_calendar)
+    except:
+        pass
 
 Other_srvice_menu("Внутренние сервисы", bot)
 WIC_menu("WIС", bot)

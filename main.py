@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.5'
+ver = '1.0.1.6'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -110,7 +110,6 @@ else:
 
 # Запуск основного цикла работы бота
 while True:
-    print('.', end='')
     try:
         bot.polling(none_stop=False, interval=0, timeout=20)
     except Exception as e:

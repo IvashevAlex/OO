@@ -814,17 +814,40 @@ def query_data_handler(bot, data):
         bot.answer_callback_query(callback_query.id)
     
     elif data == 'Рассылка':
-        print('Вход в меню рассылки')
-        sending_menu()
+        sending_menu(callback_query)
 
     elif data == 'База сообщений':
-        print('Вход в базу сообщений')
+        sending_menu_base(callback_query)
 
     elif data == 'Календарь рассылок':
-        print('Вход в Календарь рассылок')
+        sending_menu_calendar(callback_query)
+
+    elif data == 'Число сообщений':
+        sending_menu_base_number(callback_query)
+        
+    elif data == 'Создать сообщение':
+        sending_menu_base_create(callback_query)
+        
+    elif data == 'Просмотреть сообщение':
+        sending_menu_base_look(callback_query)
+        
+    elif data == 'Изменить сообщение':
+        sending_menu_base_change(callback_query)
+        
+    elif data == 'Число рассылок':
+        sending_menu_calendar_number(callback_query)
+        
+    elif data == 'Создать рассылку':
+        sending_menu_calendar_create(callback_query)
+        
+    elif data == 'Просмотреть рассылку':
+        sending_menu_calendar_look(callback_query)
+        
+    elif data == 'Удалить рассылку':
+        sending_menu_calendar_delete(callback_query)
 
     elif data == 'Результаты':
-      res(bot, callback_query)
+        res(bot, callback_query)
 
 
 add_modules()
@@ -835,4 +858,13 @@ query_data_handler(bot, 'Назад')
 query_data_handler(bot, 'Обновить таблицы')
 query_data_handler(bot, 'Зарегистрировать пользователя')
 query_data_handler(bot, 'Удалить пользователя')
+
 query_data_handler(bot, 'Результаты')
+query_data_handler(bot, 'Число сообщений')
+query_data_handler(bot, 'Создать сообщение')
+query_data_handler(bot, 'Просмотреть сообщение')
+query_data_handler(bot, 'Изменить сообщение')
+query_data_handler(bot, 'Число рассылок')
+query_data_handler(bot, 'Создать рассылку')
+query_data_handler(bot, 'Просмотреть рассылку')
+query_data_handler(bot, 'Удалить рассылку')
