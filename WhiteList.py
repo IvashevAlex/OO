@@ -5,6 +5,7 @@ from telebot.types import CallbackQuery
 import test_mode_check
 import text
 import time
+import sql_queries
 
 test_mode = test_mode_check.test_mode()
 
@@ -20,9 +21,7 @@ def echo(callback_query):
     # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
     # Если он есть, то он в виде строки передается в переменную userid
     # Если его нет, то в переменную userid подается значение False
-    connection = pypyodbc.connect('Driver={SQL Server};'
-                                  'Server=' + mySQLServer + ';'
-                                  'Database=' + myDatabase + ';')
+    connection = sql_queries.connection_with_db(mySQLServer, myDatabase)
 
     cursor = connection.cursor()
 
