@@ -821,9 +821,6 @@ def query_data_handler(bot, data):
 
     elif data == 'Календарь рассылок':
         sending_menu_calendar(bot, callback_query)
-
-    elif data == 'Число сообщений':
-        sending_menu_base_number(bot, callback_query)
         
     elif data == 'Создать сообщение':
         sending_menu_base_create(bot, callback_query)
@@ -833,9 +830,6 @@ def query_data_handler(bot, data):
         
     elif data == 'Изменить сообщение':
         sending_menu_base_change(bot, callback_query)
-        
-    elif data == 'Число рассылок':
-        sending_menu_calendar_number(bot, callback_query)
         
     elif data == 'Создать рассылку':
         sending_menu_calendar_create(bot, callback_query)
