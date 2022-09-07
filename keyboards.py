@@ -303,7 +303,6 @@ def sending_menu_base(bot, callback_query):
     except:
         pass
 
-# Меню рассылки - Календарь рассылок
 def sending_menu_calendar(bot, callback_query):
     markup_calendar = types.InlineKeyboardMarkup()
 
