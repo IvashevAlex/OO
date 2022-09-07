@@ -263,6 +263,7 @@ def praktics(bot):
             prk_elb(bot, callback_query)
 
 
+# Меню рассылки
 def sending_menu(bot, callback_query):
     
     markup_send = types.InlineKeyboardMarkup()
@@ -280,17 +281,17 @@ def sending_menu(bot, callback_query):
     except:
         pass
 
+# Меню рассылки - База сообщений
 def sending_menu_base(bot, callback_query):
     markup_base = types.InlineKeyboardMarkup()
 
-    itembtn1 = types.InlineKeyboardButton('Число сообщений', callback_data='Число сообщений')
     itembtn2 = types.InlineKeyboardButton('Создать сообщение', callback_data='Создать сообщение')
     itembtn3 = types.InlineKeyboardButton('Просмотреть сообщение', callback_data='Просмотреть сообщение')
-    itembtn4 = types.InlineKeyboardButton('Изменить сообщение', callback_data='Изменить сообщение')
+    itembtn4 = types.InlineKeyboardButton('Удалить сообщение', callback_data='Удалить сообщение')
 
     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-    markup_base.add(itembtn1, itembtn2)
+    markup_base.add(itembtn2)
     markup_base.add(itembtn3, itembtn4)
     markup_base.add(itembtn12)
 
@@ -302,41 +303,17 @@ def sending_menu_base(bot, callback_query):
     except:
         pass
 
-def sending_menu_base_number(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Сообщает общее число записей в таблице рассылок', parse_mode='Markdown')
-
-def sending_menu_base_create(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Создает в таблице текст новой рассылки', parse_mode='Markdown')
-
-def sending_menu_base_look(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Показывает содержимое рассылки по ее номеру', parse_mode='Markdown')
-
-def sending_menu_base_change(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Изменяет содержимое рассылки', parse_mode='Markdown')
-
-def sending_menu_calendar_number(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Сообщает общее число рассылок', parse_mode='Markdown')
-
-def sending_menu_calendar_create(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Сообщает новую рассылку', parse_mode='Markdown')
-
-def sending_menu_calendar_look(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Показывает рассылки по дате', parse_mode='Markdown')
-
-def sending_menu_calendar_delete(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Удаляет рассылку по номеру', parse_mode='Markdown')
-
+# Меню рассылки - Календарь рассылок
 def sending_menu_calendar(bot, callback_query):
     markup_calendar = types.InlineKeyboardMarkup()
 
-    itembtn1 = types.InlineKeyboardButton('Число рассылок', callback_data='Число рассылок')
     itembtn2 = types.InlineKeyboardButton('Создать рассылку', callback_data='Создать рассылку')
     itembtn3 = types.InlineKeyboardButton('Просмотреть рассылку', callback_data='Просмотреть рассылку')
     itembtn4 = types.InlineKeyboardButton('Удалить рассылку', callback_data='Удалить рассылку')
 
     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-    markup_calendar.add(itembtn1, itembtn2)
+    markup_calendar.add(itembtn2)
     markup_calendar.add(itembtn3, itembtn4)
     markup_calendar.add(itembtn12)
 
@@ -347,6 +324,26 @@ def sending_menu_calendar(bot, callback_query):
                               reply_markup=markup_calendar)
     except:
         pass
+
+
+def sending_menu_base_create(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Создает в таблице текст новой рассылки', parse_mode='Markdown')
+
+def sending_menu_base_look(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Показывает содержимое рассылки по ее номеру', parse_mode='Markdown')
+
+def sending_menu_base_change(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Изменяет содержимое рассылки', parse_mode='Markdown')
+
+def sending_menu_calendar_create(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Сообщает новую рассылку', parse_mode='Markdown')
+
+def sending_menu_calendar_look(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Показывает рассылки по дате', parse_mode='Markdown')
+
+def sending_menu_calendar_delete(bot, callback_query):
+    bot.send_message(callback_query.from_user.id, 'Удаляет рассылку по номеру', parse_mode='Markdown')
+
 
 Other_srvice_menu("Внутренние сервисы", bot)
 WIC_menu("WIС", bot)
