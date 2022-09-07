@@ -5,7 +5,6 @@ from telebot.types import CallbackQuery
 import test_mode_check
 import text
 import time
-import sql_queries
 
 test_mode = test_mode_check.test_mode()
 
@@ -19,16 +18,26 @@ mes_pas = text.no_access
 # Проверяет наличие доступа у пользователя
 def echo(callback_query):
     # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
-    connection = sql_queries.connection_with_db(mySQLServer, myDatabase)
+    connection = pypyodbc.connect('Driver={SQL Server};'
+                                  'Server=' + mySQLServer + ';'
+                                  'Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.request_1(callback_query)
+    SQLQuery = """ SELECT TOP(1) 
+                    IIF(UserChat = """ + str(callback_query.from_user.id) + """, 
+                        CONVERT(VARCHAR(max), UserChat), 
+                        'False') as res
+                    FROM dbo.WhiteList ORDER BY res"""
+
     cursor.execute(SQLQuery)
     count = cursor.fetchall()
     userid = str(count[0][0])
 
     # Если юзер уже есть в списке, то проверяем флаг доступа из UserMark
     if str(callback_query.from_user.id) == userid:
-        SQLQuery = sql_queries.request_2(callback_query)
+        SQLQuery = """SELECT UserMark 
+                       FROM dbo.WhiteList 
+                       WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
+
         cursor.execute(SQLQuery)
         result = cursor.fetchall()
         print(result[0][0])
@@ -41,7 +50,12 @@ def echo(callback_query):
     # Флаг остается нулевым. Изменение значения флага производит админ через меню бота
     else:
     
-        SQLQuery = sql_queries.request_3(callback_query)
+        SQLQuery = """ INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO, AddUserDate)
+                        VALUES (""" + str(callback_query.from_user.id) + """, 
+                        '@' + '""" + str(callback_query.from_user.username) + """', 
+                        '""" + str(callback_query.from_user.first_name) + ' ' + str(callback_query.from_user.last_name) + """',
+                        '""" + str(time.strftime('%Y-%m-%d')) + """');"""
+
         cursor.execute(SQLQuery)
         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
         connection.commit()
@@ -52,7 +66,9 @@ def echo(callback_query):
 
 # Добавляет пользователю маркер о разрешении на доступ
 def add_user(message, data_base):
-    connection = sql_queries.connection_with_db(mySQLServer, myDatabase)
+    connection = pypyodbc.connect('Driver={SQL Server};'
+                                  'Server=' + mySQLServer + ';'
+                                  'Database=' + myDatabase + ';')
     cursor = connection.cursor()
     
     # Если запрос получен от админа, то формируем переменную res со значением id добовляемого пользователя
@@ -64,7 +80,10 @@ def add_user(message, data_base):
     print('Добавляем пользователя с номером ', res)
 
     # SQL запрос на смену флага доступа для пользователя с id указанным в переменной res
-    SQLQuery = sql_queries.request_4(res)
+    SQLQuery = """UPDATE dbo.WhiteList
+                  SET UserMark = 1
+                  WHERE UserChat = """ + str(res) + """;"""
+
     cursor.execute(SQLQuery)
     bot.send_message(chat_id=message.from_user.id, text=f'Пользователь с id {str(res)} добавлен.')
 
@@ -74,7 +93,9 @@ def add_user(message, data_base):
 
 # Удаляет всю информацию о пользователе из БД
 def rm_user(message, data_base):
-    connection = sql_queries.connection_with_db(mySQLServer, myDatabase)
+    connection = pypyodbc.connect('Driver={SQL Server};'
+                                  'Server=' + mySQLServer + ';'
+                                  'Database=' + myDatabase + ';')
     cursor = connection.cursor()
 
     if str(message.from_user.id) in mes:
@@ -82,7 +103,9 @@ def rm_user(message, data_base):
     else:
         return
 
-    SQLQuery = sql_queries.request_5(res)
+    SQLQuery = """DELETE dbo.WhiteList 
+                  WHERE UserChat = """ + str(res) + """;"""
+                  
     cursor.execute(SQLQuery)
     bot.send_message(chat_id=message.from_user.id, text=f"Пользователь с id {str(res)} удален.")
 
