@@ -12,7 +12,6 @@ mes = test_mode_check.get_admins(test_mode)
 mySQLServer = test_mode_check.get_server(test_mode)
 bot = test_mode_check.get_token(test_mode)
 myDatabase = "UsersDB"
-
 mes_pas = text.no_access
 
 # Проверяет наличие доступа у пользователя
