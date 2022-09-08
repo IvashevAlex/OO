@@ -11,6 +11,7 @@ from keyboards_modules.ofd_menu import *
 from keyboards_modules.uc_menu import *
 
 import text
+import sql_queries
 
 def question(bot, message):
     print(message.chat.id)
@@ -263,6 +264,10 @@ def praktics(bot):
             prk_elb(bot, callback_query)
 
 
+
+# ---------------------------------------------------------------------------------------------------
+
+
 # Меню рассылки
 def sending_menu(bot, callback_query):
     
@@ -270,9 +275,11 @@ def sending_menu(bot, callback_query):
 
     itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
     itembtn2 = types.InlineKeyboardButton('Календарь рассылок', callback_data='Календарь рассылок')
+    itembtn3 = types.InlineKeyboardButton('Разделение групп', callback_data='Разделение групп')
     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup_send.add(itembtn1, itembtn2)
+    markup_send.add(itembtn3)
     markup_send.add(itembtn12)
 
     try:
@@ -281,7 +288,7 @@ def sending_menu(bot, callback_query):
     except:
         pass
 
-# Меню рассылки - База сообщений
+# Меню рассылки - База сообщений (dbo.Messages)
 def sending_menu_base(bot, callback_query):
     markup_base = types.InlineKeyboardMarkup()
 
@@ -294,6 +301,18 @@ def sending_menu_base(bot, callback_query):
     markup_base.add(itembtn2)
     markup_base.add(itembtn3, itembtn4)
     markup_base.add(itembtn12)
+
+    number_of_valuse = sql_queries.number_of_values_in_messages()
+
+    connection = pypyodbc.connect('Driver={SQL Server};'
+                                  'Server=' + mySQLServer + ';'
+                                  'Database=' + myDatabase + ';')
+    
+    cursor = connection.cursor()
+    SQLQuery = number_of_valuse
+    cursor.execute(SQLQuery)
+    count = cursor.fetchall()
+    print(count)
 
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, 

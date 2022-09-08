@@ -1,9 +1,10 @@
 # ----------------------------- dbo.Messages -------------------------------
 
 # Получение общего числа записей в dbo.Messages
-""" SELECT COUNT(*)
-    FROM [dbo].[Messages]
-"""
+def number_of_values_in_messages():
+    return """ SELECT COUNT(*)
+               FROM [dbo].[Messages]
+           """
 
 
 # Выбор конкретного сообщения из dbo.Messages
