@@ -302,21 +302,18 @@ def sending_menu_base(bot, callback_query):
     markup_base.add(itembtn3, itembtn4)
     markup_base.add(itembtn12)
 
-    number_of_valuse = sql_queries.number_of_values_in_messages()
-
-    connection = pypyodbc.connect('Driver={SQL Server};'
-                                  'Server=' + mySQLServer + ';'
-                                  'Database=' + myDatabase + ';')
-    
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = number_of_valuse
+    SQLQuery = sql_queries.number_of_values_in_messages()
     cursor.execute(SQLQuery)
-    count = cursor.fetchall()
-    print(count)
+    number_of_messages = cursor.fetchall()[0][0]
+    print('Общее число сообщений для рассылки в базе данных: {number_of_messages}.')
+    # End SQL
 
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, 
-                              text=text.sending_base, 
+                              text=text.sending_base + str(number_of_messages), 
                               message_id=callback_query.message.message_id, 
                               reply_markup=markup_base)
     except:
