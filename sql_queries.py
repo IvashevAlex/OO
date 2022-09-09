@@ -57,6 +57,13 @@ def number_of_values_in_messages():
     FROM [dbo].[Calendar]
 """
 
+# Получение общего числа не пустых записей в dbo.Calendar
+def number_of_values_in_calendar():
+    return """ SELECT COUNT(*), 
+    SUM(CASE WHEN QuestionNumber IS NOT NULL THEN 1 ELSE 0 END)
+    FROM [dbo].[Calendar]
+    """
+
 
 # Выбор всех сообщений из dbo.Calendar
 """SELECT *

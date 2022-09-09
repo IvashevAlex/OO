@@ -332,9 +332,18 @@ def sending_menu_calendar(bot, callback_query):
     markup_calendar.add(itembtn3, itembtn4)
     markup_calendar.add(itembtn12)
 
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.number_of_values_in_calendar()
+    cursor.execute(SQLQuery)
+    number_of_not_null_records = cursor.fetchall()[0][1]
+    print('Общее число сообщений для рассылки в базе данных: {number_of_not_null_records}.')
+    # End SQL
+
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, 
-                              text=text.sending_calendar, 
+                              text=text.sending_calendar + str(number_of_not_null_records), 
                               message_id=callback_query.message.message_id, 
                               reply_markup=markup_calendar)
     except:
