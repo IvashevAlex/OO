@@ -351,7 +351,31 @@ def sending_menu_calendar(bot, callback_query):
 
 
 def sending_menu_base_create(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Создает в таблице текст новой рассылки', parse_mode='Markdown')
+    markup_calendar_create_message = types.InlineKeyboardMarkup()
+
+    itembtn2 = types.InlineKeyboardButton('Разместить рассылку', callback_data='Разместить рассылку')
+
+    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+
+    markup_calendar_create_message.add(itembtn2)
+    markup_calendar_create_message.add(itembtn12)
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, 
+                              text=text.add_new_message_base, 
+                              message_id=callback_query.message.message_id, 
+                              reply_markup=markup_calendar_create_message)
+    except:
+        pass
+
+def sending_menu_base_add_to_sql(message):
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.add_new_value_in_messages(message.text)
+    cursor.execute(SQLQuery)
+    print('Сообщение добавлено с базу данных.')
+    # End SQL
 
 def sending_menu_base_look(bot, callback_query):
     bot.send_message(callback_query.from_user.id, 'Показывает содержимое рассылки по ее номеру', parse_mode='Markdown')

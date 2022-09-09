@@ -22,9 +22,10 @@ def number_of_values_in_messages():
 
 
 # Добавление новой строки в dbo.Messages (новая запись)
-"""INSERT INTO [dbo].[Messages] (Number, Message)
-   VALUES ((SELECT COUNT(*) FROM [dbo].[Messages]) + 1, """ + str() + """);   
-"""
+def add_new_value_in_messages(new_messages_text):
+    return """INSERT INTO [dbo].[Messages] (Number, Message)
+              VALUES ((SELECT COUNT(*) FROM [dbo].[Messages]) + 1, """ + str(new_messages_text) + """);   
+           """
 
 # Удаление не предусмотрено
 

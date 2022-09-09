@@ -840,6 +840,9 @@ def query_data_handler(bot, data):
     elif data == 'Удалить рассылку':
         sending_menu_calendar_delete(bot, callback_query)
 
+    elif data == 'Разместить рассылку':
+        sending_menu_base_add_to_sql(bot, callback_query)
+
     elif data == 'Результаты':
         res(bot, callback_query)
 
@@ -852,6 +855,8 @@ query_data_handler(bot, 'Назад')
 query_data_handler(bot, 'Обновить таблицы')
 query_data_handler(bot, 'Зарегистрировать пользователя')
 query_data_handler(bot, 'Удалить пользователя')
+sending_menu_base_add_to_sql(bot, 'Разместить рассылку')
+
 query_data_handler(bot, 'Результаты')
 
 query_data_handler(bot, 'Рассылки')
