@@ -71,7 +71,8 @@ def number_of_values_in_calendar():
 # Выбор всех сообщений из dbo.Calendar
 def get_all_info_from_calendar():
     return """SELECT *
-                FROM [dbo].[Calendar]
+              FROM [dbo].[Calendar]
+              WHERE [QuestionNumber] IS NOT NULL
             """
 
 
