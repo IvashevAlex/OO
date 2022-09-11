@@ -9,10 +9,6 @@ print('Today:', today)
 
 def time_checker():
     # Проверка на день недели. По выходным сообщения не рассылаем. 7(Вс) пока стоит для тестирования
-    print(dt.datetime.today().isoweekday())
-    print(dt.datetime.today().isoweekday() in (1,2,3,4,5,7))
-    print(dt.datetime.today().isoweekday() in (1,2,3,4,5))
-    
     if dt.datetime.today().isoweekday() in (1,2,3,4,5,7):
         if time.localtime()[3] == 14:
             if time.localtime()[4] == 16:
@@ -35,17 +31,35 @@ def get_calendar_info():
     return answer
     # End SQL  
 
+def get_day_range_of_groups():
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.get_full_list_of_dates()
+    cursor.execute(SQLQuery)
+    answer = cursor.fetchall()
+    first_day = answer[0]
+    last_day = answer[0][0]
+    print('DAYS: ', first_day, last_day)
+    return (first_day, last_day)
+    # End SQL  
+
+
+
+def weekday_calc(today):
+    pass
+
 # Обращаемся к БД и формируем группы для рассылок
 def get_sending_groups(today):
     pass
-
 
 while True:
     if time_checker() == True:
         print('Time')
         calendar_list = get_calendar_info()
+        dates = get_day_range_of_groups()
 
-        for i in range(calendar_list):
+        for i in range(len(calendar_list)):
             # Ответ формата (8, 13), где 
             # 8 - число рабочих дней прошедших с первого дня учебы текущего набора
             # 13 - номер рассылки, которую положено отправить в этот день

@@ -40,9 +40,10 @@ def add_new_value_in_messages(new_messages_text):
 
 
 # Выбор всех сообщений из dbo.Settable
-"""SELECT *
-   FROM [dbo].[Settable]
-"""
+def get_full_list_of_dates():
+    return """SELECT *
+    FROM [dbo].[Settable]
+    """
 
 
 # Создать новый набор с сегодняшнего дня
