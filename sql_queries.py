@@ -8,17 +8,19 @@ def number_of_values_in_messages():
 
 
 # Выбор конкретного сообщения из dbo.Messages
-"""SELECT [Message]
-   FROM [dbo].[Messages]
-   WHERE [Number] = """ + str() + """;
-"""
+def select_message_by_number(number):
+    return """SELECT [Message]
+              FROM [dbo].[Messages]
+              WHERE [Number] = """ + str(number) + """;
+           """
 
 
 # Указание нового текста сообщения по номеру (изменить запись)
-""" UPDATE [dbo].[Messages]
-    SET [Message] = '""" + str() + """'
-    WHERE [Number] = """ + str() + """;
-"""
+def select_message_for_change(new_message_body, message_number):
+    return """ UPDATE [dbo].[Messages]
+                SET [Message] = '""" + str(new_message_body) + """'
+                WHERE [Number] = """ + str(message_number) + """;
+            """
 
 
 # Добавление новой строки в dbo.Messages (новая запись)
@@ -67,9 +69,10 @@ def number_of_values_in_calendar():
 
 
 # Выбор всех сообщений из dbo.Calendar
-"""SELECT *
-   FROM [dbo].[Calendar]
-"""
+def get_all_info_from_calendar():
+    return """SELECT *
+                FROM [dbo].[Calendar]
+            """
 
 
 # Указать значение по номеру записи
@@ -84,3 +87,5 @@ def number_of_values_in_calendar():
     SET [QuestionNumber] = NULL
     WHERE [DayAfterStart] = """ + str() + """;
 """
+
+# 

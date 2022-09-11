@@ -309,7 +309,6 @@ def sending_menu_base(bot, callback_query):
     SQLQuery = sql_queries.number_of_values_in_messages()
     cursor.execute(SQLQuery)
     number_of_messages = cursor.fetchall()[0][0]
-    print('Общее число сообщений для рассылки в базе данных: {number_of_messages}.')
     # End SQL
 
     try:
@@ -339,7 +338,6 @@ def sending_menu_calendar(bot, callback_query):
     SQLQuery = sql_queries.number_of_values_in_calendar()
     cursor.execute(SQLQuery)
     number_of_not_null_records = cursor.fetchall()[0][1]
-    print('Общее число сообщений для рассылки в базе данных: {number_of_not_null_records}.')
     # End SQL
 
     try:
@@ -370,20 +368,31 @@ def sending_menu_base_create(bot, callback_query):
         pass
 
 def sending_menu_base_add_to_sql(callback):
-    print('Нажата кнопка Разместить рассылку')
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.add_new_value_in_messages(callback)
+    SQLQuery = sql_queries.add_new_value_in_messages('Temp message')
     cursor.execute(SQLQuery)
     print('Сообщение добавлено с базу данных.')
     # End SQL
 
 def sending_menu_base_look(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Показывает содержимое рассылки по ее номеру', parse_mode='Markdown')
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.select_message_by_number(1)
+    cursor.execute(SQLQuery)
+    print('Сообщение добавлено с базу данных.')
+    # End SQL    
 
 def sending_menu_base_change(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Изменяет содержимое рассылки', parse_mode='Markdown')
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.select_message_for_change(1)
+    cursor.execute(SQLQuery)
+    print('Сообщение добавлено с базу данных.')
+    # End SQL  
 
 def sending_menu_calendar_create(bot, callback_query):
     bot.send_message(callback_query.from_user.id, 'Сообщает новую рассылку', parse_mode='Markdown')
