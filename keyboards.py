@@ -369,11 +369,12 @@ def sending_menu_base_create(bot, callback_query):
     except:
         pass
 
-def sending_menu_base_add_to_sql(bot, callback_query):
+def sending_menu_base_add_to_sql(callback):
+    print('Нажата кнопка Разместить рассылку')
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.add_new_value_in_messages()
+    SQLQuery = sql_queries.add_new_value_in_messages(callback)
     cursor.execute(SQLQuery)
     print('Сообщение добавлено с базу данных.')
     # End SQL

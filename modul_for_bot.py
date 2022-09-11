@@ -841,7 +841,8 @@ def query_data_handler(bot, data):
         sending_menu_calendar_delete(bot, callback_query)
 
     elif data == 'Разместить рассылку':
-        sending_menu_base_add_to_sql(bot, callback_query)
+        callback = callback_query.message.text
+        sending_menu_base_add_to_sql(callback)
 
     elif data == 'Результаты':
         res(bot, callback_query)
