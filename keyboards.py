@@ -73,6 +73,7 @@ def test_menu(bot, message):
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
     modul_for_bot.callback_check[message.from_user.id] = 'admin'
     markup = types.InlineKeyboardMarkup()
+    
     itembtn1 = types.InlineKeyboardButton('Обновить таблицы', callback_data='Обновить таблицы')
     itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
     itembtn3 = types.InlineKeyboardButton('Удалить пользователя', callback_data='Удалить пользователя')
@@ -368,11 +369,11 @@ def sending_menu_base_create(bot, callback_query):
     except:
         pass
 
-def sending_menu_base_add_to_sql(message):
+def sending_menu_base_add_to_sql(bot, callback_query):
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.add_new_value_in_messages(message.text)
+    SQLQuery = sql_queries.add_new_value_in_messages()
     cursor.execute(SQLQuery)
     print('Сообщение добавлено с базу данных.')
     # End SQL

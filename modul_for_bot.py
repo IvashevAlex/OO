@@ -814,7 +814,7 @@ def query_data_handler(bot, data):
         bot.answer_callback_query(callback_query.id)
     
     elif data == 'Рассылки':
-            sending_menu(bot, callback_query)
+        sending_menu(bot, callback_query)
 
     elif data == 'База сообщений':
         sending_menu_base(bot, callback_query)
