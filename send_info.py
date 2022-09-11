@@ -31,6 +31,13 @@ def get_calendar_info():
     return answer
     # End SQL  
 
+def make_list_of_date_ranges(answer):
+    list_of_date_ranges = list()
+    for _ in range(len(answer)):
+        print('ANS:', answer(_))
+        list_of_date_ranges.append(answer(_))
+    list_of_date_ranges.append(today)
+
 def get_day_range_of_groups():
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
@@ -38,12 +45,9 @@ def get_day_range_of_groups():
     SQLQuery = sql_queries.get_full_list_of_dates()
     cursor.execute(SQLQuery)
     answer = cursor.fetchall()
-    first_day = answer[0]
-    last_day = answer[0][0]
-    print('DAYS: ', first_day, last_day)
-    return (first_day, last_day)
+    first_and_last_day_list = make_list_of_date_ranges(answer)
+    return first_and_last_day_list
     # End SQL  
-
 
 
 def weekday_calc(today):
@@ -58,6 +62,7 @@ while True:
         print('Time')
         calendar_list = get_calendar_info()
         dates = get_day_range_of_groups()
+        print('DATES:', dates)
 
         for i in range(len(calendar_list)):
             # Ответ формата (8, 13), где 
