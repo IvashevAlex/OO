@@ -90,10 +90,14 @@ def answer0(message):
         check_answer_prk(bot, message)
         return
 
+    elif callback_check.get(message.from_user.id) == 'add_message':
+        continue_(bot, message)
+
     elif callback_check.get(message.from_user.id) == None:
         if echo(message) == True:
             messages = bot.send_message(message.from_user.id, text.not_selected)
             save_message_id['message_id'][message.from_user.id] = messages.message_id
+
 
     continue_(bot, message)
 
