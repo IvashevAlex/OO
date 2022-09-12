@@ -92,6 +92,7 @@ def answer0(message):
 
     elif callback_check.get(message.from_user.id) == 'add_message':
         continue_(bot, message)
+        
 
     elif callback_check.get(message.from_user.id) == None:
         if echo(message) == True:

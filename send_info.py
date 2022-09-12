@@ -51,6 +51,15 @@ def get_day_range_of_groups():
     # End SQL  
 
 
+def make_lists_of_dates(dates):
+    answer = list()
+    for _ in range(len(dates) - 1):
+        answer.append((dates[_], dates[_ + 1]))
+    print('make_lists_of_dates: ', answer)
+    return answer
+
+# Рассчет прошедших дней со дня начала обучения за вычетом выходных
+# Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
 def weekday_calc(today):
     pass
 
@@ -63,6 +72,9 @@ while True:
         print('Time')
         calendar_list = get_calendar_info()
         dates = get_day_range_of_groups()
+        
+        lists_of_dates = make_lists_of_dates(dates)
+
         print('DATES:', dates)
 
         for i in range(len(calendar_list)):
