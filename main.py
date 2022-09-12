@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.10'
+ver = '1.0.1.11'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -71,17 +71,10 @@ def error_send(callback_query):
     if echo(callback_query) == True:
         send_error(bot, callback_query)
 
-# Обработка нажатия кнопки "Разместить рассылку"
-@bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Разместить рассылку')
-def add_new_message(callback_query):
-    save_message(bot, callback_query)
-
 # Обработка любых текстовых сообщений, исключая вышеперечисленные.
 # В среднем, считаем, что это ответы на вопросы, заданные пользователю.
 @bot.message_handler(content_types=['text'])
 def answer0(message):
-
-    print(message.message_id)
 
     if callback_check.get(message.from_user.id) == 'tests':
         continue_(bot, message)

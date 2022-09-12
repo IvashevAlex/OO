@@ -350,6 +350,8 @@ def sending_menu_calendar(bot, callback_query):
 
 
 def sending_menu_base_create(bot, callback_query):
+    modul_for_bot.callback_check[callback_query.from_user.id] = 'add_message'
+
     markup_calendar_create_message = types.InlineKeyboardMarkup()
 
     itembtn2 = types.InlineKeyboardButton('Разместить рассылку', callback_data='Разместить рассылку')

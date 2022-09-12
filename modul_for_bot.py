@@ -735,13 +735,6 @@ def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить �
     callback_check[callback_query.from_user.id] = '1'  # Присваиваем ИД переменную, чтобы дальше фильтровать
     callback_check['text'][callback_query.from_user.id] = callback_query.message.text.split('Пиши')[0]
 
-def save_message(bot, callback_query):
-    print(callback_check[callback_query.from_user.id])
-    save_check[callback_query.from_user.id] = callback_check[callback_query.from_user.id]
-    callback_check[callback_query.from_user.id] = '5'  # Присваиваем ИД переменную, чтобы дальше фильтровать
-    print(callback_query.message.text.split('Пиши')[0])
-    callback_check['text'][callback_query.from_user.id] = callback_query.message.text.split('Пиши')[0]
-
 def query_data_handler(bot, data):
   @bot.callback_query_handler(func=lambda callback_query: callback_query.data == data)  # <--- кнопка отмены
   def func_handler(callback_query: CallbackQuery):
@@ -852,7 +845,7 @@ def query_data_handler(bot, data):
         bot.answer_callback_query(callback_query.id)
         bot.edit_message_text('Введи текст новой рассылки.', chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id, reply_markup=markup)
-        # sending_menu_base_add_to_sql(bot, callback_query)
+        sending_menu_base_add_to_sql(bot, callback_query)
 
     elif data == 'Результаты':
         res(bot, callback_query)
