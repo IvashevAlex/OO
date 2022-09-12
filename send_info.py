@@ -34,9 +34,10 @@ def get_calendar_info():
 def make_list_of_date_ranges(answer):
     list_of_date_ranges = list()
     for _ in range(len(answer)):
-        print('ANS:', answer(_))
-        list_of_date_ranges.append(answer(_))
-    list_of_date_ranges.append(today)
+        print('ANS:', answer[_])
+        list_of_date_ranges.append(answer[_][0])
+    list_of_date_ranges.append(str(today))
+    return list_of_date_ranges
 
 def get_day_range_of_groups():
     # Start SQL
