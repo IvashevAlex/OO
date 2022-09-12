@@ -369,11 +369,11 @@ def sending_menu_base_create(bot, callback_query):
     except:
         pass
 
-def sending_menu_base_add_to_sql(callback):
+def sending_menu_base_add_to_sql(bot, message):
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.add_new_value_in_messages('Temp message')
+    SQLQuery = sql_queries.add_new_value_in_messages(message)
     cursor.execute(SQLQuery)
     print('Сообщение добавлено с базу данных.')
     # End SQL
