@@ -14,11 +14,10 @@ import text
 import sql_queries
 
 def question(bot, message):
+    print('IN question')
     print(message.chat.id)
-
     modul_for_bot.sql_user(bot, message)
 
-    # bot.send_message(message.chat.id, 'Диадок \nEDI \nЭкстерн \nУЦ \nУстановка')
     markup = types.ReplyKeyboardMarkup(row_width=4, resize_keyboard=True, one_time_keyboard=True)
     itembtn1 = types.KeyboardButton('Диaдoк')
     itembtn2 = types.KeyboardButton('Pитейл')
@@ -43,6 +42,7 @@ def question(bot, message):
 
 
 def test_menu(bot, message):
+    print('IN test_menu')
     try:
         del modul_for_bot.practicks_data[message.from_user.id]
     except:
@@ -71,6 +71,7 @@ def test_menu(bot, message):
 
 
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
+    print('IN Admin_menu')
     modul_for_bot.callback_check[message.from_user.id] = 'admin'
     markup = types.InlineKeyboardMarkup()
     
@@ -88,6 +89,7 @@ def Admin_menu(message, bot): #Описание функций для меню �
     bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
 
 def Inst_menu(name, bot):
+    print('IN Inst_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def in_menu(message):
         try:
@@ -99,6 +101,7 @@ def Inst_menu(name, bot):
         test_INST(bot, message)  # <--- тут будет отправка и меню с выбором
 
 def WIC_menu(name, bot):
+    print('IN WIC_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def wic_menu(message):
         try:
@@ -111,6 +114,7 @@ def WIC_menu(name, bot):
         prk_wic(bot, message)  # <--- тут будет отправка и меню с выбором
 
 def Other_srvice_menu(name, bot):
+    print('IN Other_service_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def in_menu(message):
         try:
@@ -123,6 +127,7 @@ def Other_srvice_menu(name, bot):
 
 
 def test_INST(bot, message):
+    print('IN test_INST')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -151,6 +156,7 @@ def test_INST(bot, message):
 
 # ------------  Клавиатура кейсов для каждого отдела -----------------#
 def prk_wic(bot, message):
+    print('IN prk_wic')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -172,6 +178,7 @@ def prk_wic(bot, message):
 
 
 def other_service_prk(bot, message):
+    print('IN other_service_prk')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -194,10 +201,12 @@ def other_service_prk(bot, message):
 
 
 def back_to_menu(bot, message):
+    print('IN back_to_menu')
     test_menu(bot, message)
 
 
 def tests(bot):
+    print('IN tests')
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Тесты')
     def tests_hm(callback_query: CallbackQuery):
 
@@ -231,6 +240,7 @@ def tests(bot):
 
 
 def praktics(bot):
+    print('IN praktics')
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Кейсы')
     def tests_h(callback_query: CallbackQuery):
         bot.answer_callback_query(callback_query.id)
@@ -271,7 +281,7 @@ def praktics(bot):
 
 # Меню рассылки
 def sending_menu(bot, callback_query):
-    
+    print('IN sending_menu')
     markup_send = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
@@ -291,6 +301,7 @@ def sending_menu(bot, callback_query):
 
 # Меню рассылки - База сообщений (dbo.Messages)
 def sending_menu_base(bot, callback_query):
+    print('IN sending_menu_base')
     markup_base = types.InlineKeyboardMarkup()
 
     itembtn2 = types.InlineKeyboardButton('Создать сообщение', callback_data='Создать сообщение')
@@ -320,6 +331,7 @@ def sending_menu_base(bot, callback_query):
         pass
 
 def sending_menu_calendar(bot, callback_query):
+    print('IN sending_menu_calendar')
     markup_calendar = types.InlineKeyboardMarkup()
 
     itembtn2 = types.InlineKeyboardButton('Создать рассылку', callback_data='Создать рассылку')
@@ -350,6 +362,7 @@ def sending_menu_calendar(bot, callback_query):
 
 
 def sending_menu_base_create(bot, callback_query):
+    print('IN sending_menu_base_create')
     modul_for_bot.callback_check[callback_query.from_user.id] = 'add_message'
 
     markup_calendar_create_message = types.InlineKeyboardMarkup()
@@ -371,7 +384,8 @@ def sending_menu_base_create(bot, callback_query):
     
     bot.register_next_step_handler(callback_query.message, sql_queries.add_new_value_in_messages(callback_query.message))
 
-def sending_menu_base_add_to_sql(bot, message):
+def sending_menu_base_add_to_sql(message):
+    print('IN sending_menu_base_add_to_sql')
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
@@ -381,6 +395,7 @@ def sending_menu_base_add_to_sql(bot, message):
     # End SQL
 
 def sending_menu_base_look(bot, callback_query):
+    print('IN sending_menu_base_look')
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
@@ -390,6 +405,7 @@ def sending_menu_base_look(bot, callback_query):
     # End SQL    
 
 def sending_menu_base_change(bot, callback_query):
+    print('IN sending_menu_base_change')
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
