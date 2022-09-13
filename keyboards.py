@@ -388,9 +388,12 @@ def sending_menu_base_add_to_sql(message):
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.add_new_value_in_messages(message)
+    print('TEXT: ', message.text)
+    SQLQuery = sql_queries.add_new_value_in_messages(message.text)
+    print(SQLQuery)
     cursor.execute(SQLQuery)
-    print('Сообщение добавлено с базу данных.')
+    connection.commit()
+    connection.close()
     # End SQL
 
 def sending_menu_base_look(bot, callback_query):

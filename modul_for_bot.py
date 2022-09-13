@@ -848,8 +848,8 @@ def query_data_handler(bot, data):
 
     elif data == 'Разместить рассылку':
         print('IF Разместить рассылку')
-        mesg = bot.edit_message_text('Введи текст новой рассылки.', chat_id=callback_query.from_user.id,
-                            message_id=callback_query.message.message_id, reply_markup=markup)
+        mesg = bot.edit_message_text('Введи тект новой', chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
         bot.register_next_step_handler(mesg, sending_menu_base_add_to_sql)
         
 

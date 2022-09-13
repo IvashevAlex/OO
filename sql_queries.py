@@ -25,8 +25,9 @@ def select_message_for_change(new_message_body, message_number):
 
 # Добавление новой строки в dbo.Messages (новая запись)
 def add_new_value_in_messages(new_messages_text):
+    print('IN add_new_value_in_messages')
     return """INSERT INTO [dbo].[Messages] (Number, Message)
-              VALUES ((SELECT COUNT(*) FROM [dbo].[Messages]) + 1, """ + str(new_messages_text) + """);   
+              VALUES ((SELECT COUNT(*) FROM [dbo].[Messages]) + 1, '""" + str(new_messages_text) + """');
            """
 
 # Удаление не предусмотрено
