@@ -368,6 +368,8 @@ def sending_menu_base_create(bot, callback_query):
                               reply_markup=markup_calendar_create_message)
     except:
         pass
+    
+    bot.register_next_step_handler(callback_query.message, sql_queries.add_new_value_in_messages(callback_query.message))
 
 def sending_menu_base_add_to_sql(bot, message):
     # Start SQL
@@ -384,7 +386,7 @@ def sending_menu_base_look(bot, callback_query):
     cursor = connection.cursor()
     SQLQuery = sql_queries.select_message_by_number(1)
     cursor.execute(SQLQuery)
-    print('Сообщение добавлено с базу данных.')
+    print('Сообщение номер **:')
     # End SQL    
 
 def sending_menu_base_change(bot, callback_query):
@@ -393,7 +395,7 @@ def sending_menu_base_change(bot, callback_query):
     cursor = connection.cursor()
     SQLQuery = sql_queries.select_message_for_change(1)
     cursor.execute(SQLQuery)
-    print('Сообщение добавлено с базу данных.')
+    print('Введите новый текст для сообщения **:')
     # End SQL  
 
 def sending_menu_calendar_create(bot, callback_query):

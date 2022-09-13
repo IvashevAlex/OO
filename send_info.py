@@ -86,7 +86,7 @@ def make_dict_of_groups(lists_of_dates):
     dict_of_groups = {}
     for _ in range(len(lists_of_dates)):
         list_of_groups = make_dict_of_groups_sql(lists_of_dates[_][0], lists_of_dates[_][1])
-        dict_of_groups[str(lists_of_dates[_])] = list_of_groups
+        dict_of_groups[lists_of_dates[_]] = list_of_groups
     print('make_dict_of_groups:', dict_of_groups)
 
     return dict_of_groups

@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.11'
+ver = '1.0.1.12'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -70,6 +70,12 @@ def res0(message):
 def error_send(callback_query):
     if echo(callback_query) == True:
         send_error(bot, callback_query)
+
+
+# Пробная функция для обработки отправки сообщений с текстом рассылки
+# @bot.register_next_step_handler_by_chat_id()
+# def name():
+#     pass
 
 # Обработка любых текстовых сообщений, исключая вышеперечисленные.
 # В среднем, считаем, что это ответы на вопросы, заданные пользователю.
