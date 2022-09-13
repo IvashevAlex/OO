@@ -363,7 +363,7 @@ def sending_menu_calendar(bot, callback_query):
 
 def sending_menu_base_create(bot, callback_query):
     print('IN sending_menu_base_create')
-    modul_for_bot.callback_check[callback_query.from_user.id] = 'add_message'
+    # modul_for_bot.callback_check[callback_query.from_user.id] = 'add_message'
 
     markup_calendar_create_message = types.InlineKeyboardMarkup()
 

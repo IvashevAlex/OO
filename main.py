@@ -107,9 +107,9 @@ def answer0(message):
         check_answer_prk(bot, message)
         return
 
-    elif callback_check.get(message.from_user.id) == 'add_message':
-        print('IF add_message')
-        continue_(bot, message)
+    # elif callback_check.get(message.from_user.id) == 'add_message':
+    #     print('IF add_message')
+    #     continue_(bot, message)
         
 
     elif callback_check.get(message.from_user.id) == None:

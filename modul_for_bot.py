@@ -741,6 +741,7 @@ def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить �
     callback_check['text'][callback_query.from_user.id] = callback_query.message.text.split('Пиши')[0]
 
 def query_data_handler(bot, data):
+  print('IN query_data_handler')
   @bot.callback_query_handler(func=lambda callback_query: callback_query.data == data)  # <--- кнопка отмены
   def func_handler(callback_query: CallbackQuery):
 
@@ -855,6 +856,7 @@ def query_data_handler(bot, data):
     elif data == 'Результаты':
         res(bot, callback_query)
 
+    print('IN print(IN query_data_handler) END')
 
 add_modules()
 query_data_handler(bot, 'Отмена')
@@ -878,3 +880,4 @@ query_data_handler(bot, 'Число рассылок')
 query_data_handler(bot, 'Создать рассылку')
 query_data_handler(bot, 'Просмотреть рассылку')
 query_data_handler(bot, 'Удалить рассылку')
+query_data_handler(bot, 'Разместить рассылку')
