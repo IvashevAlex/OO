@@ -93,7 +93,7 @@ def get_all_info_from_calendar():
 # ----------------------------- dbo.WhiteList ------------------------------- 
 
 # Запрос списка id пользователей зарегистрированных в указанный диапазон
-def get_list_of_users():
+def get_list_of_users(lists_one, lists_two):
     return """SELECT [UserChat]
               FROM [dbo].[WhiteList]
-              WHERE AddUserDate BETWEEN '2021-02-01' AND '2021-03-02'"""
+              WHERE AddUserDate BETWEEN '""" + str(lists_one) + """' AND '""" + str(lists_two) + """'"""

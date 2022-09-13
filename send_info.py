@@ -21,6 +21,7 @@ def time_checker():
         return False
 
 
+
 # Обращаемся к БД и получаем словарь формата {число дней:номер рассылки}
 def get_calendar_info():
     # Start SQL
@@ -37,10 +38,9 @@ def get_calendar_info():
 def make_list_of_date_ranges(answer):
     list_of_date_ranges = list()
     for _ in range(len(answer)):
-        print('ANS:', answer[_])
         list_of_date_ranges.append(answer[_][0])
     list_of_date_ranges.append(str(today))
-    print('list_of_date_ranges:', list_of_date_ranges)
+    print('make_list_of_date_ranges:', list_of_date_ranges)
     return list_of_date_ranges
 
 
@@ -52,7 +52,7 @@ def get_day_range_of_groups():
     cursor.execute(SQLQuery)
     answer = cursor.fetchall()
     first_and_last_day_list = make_list_of_date_ranges(answer)
-    print('first_and_last_day_list:', first_and_last_day_list)
+    print('get_day_range_of_groups:', first_and_last_day_list)
     return first_and_last_day_list
     # End SQL  
 
@@ -61,7 +61,7 @@ def make_lists_of_dates(dates):
     answer = list()
     for _ in range(len(dates) - 1):
         answer.append((dates[_], dates[_ + 1]))
-    print('make_lists_of_dates: ', answer)
+    print('make_lists_of_dates:', answer)
     return answer
 
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
@@ -70,14 +70,14 @@ def weekday_calc(today):
     pass
 
 
-def make_dict_of_groups_sql():
+def make_dict_of_groups_sql(one, two):
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.get_list_of_users()
+    SQLQuery = sql_queries.get_list_of_users(one, two)
     cursor.execute(SQLQuery)
     answer = cursor.fetchall()
-    return 'first_and_last_day_list'
+    return answer
     # End SQL  
 
 
@@ -85,7 +85,7 @@ def make_dict_of_groups_sql():
 def make_dict_of_groups(lists_of_dates):
     dict_of_groups = {}
     for _ in range(len(lists_of_dates)):
-        list_of_groups = make_dict_of_groups_sql(lists_of_dates[_])
+        list_of_groups = make_dict_of_groups_sql(lists_of_dates[_][0], lists_of_dates[_][1])
         dict_of_groups[str(lists_of_dates[_])] = list_of_groups
     print('make_dict_of_groups:', dict_of_groups)
 
