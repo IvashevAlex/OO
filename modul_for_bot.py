@@ -841,11 +841,11 @@ def query_data_handler(bot, data):
         sending_menu_calendar_delete(bot, callback_query)
 
     elif data == 'Разместить рассылку':
-        print(bot.answer_callback_query(callback_query.id))
-        bot.answer_callback_query(callback_query.id)
-        bot.edit_message_text('Введи текст новой рассылки.', chat_id=callback_query.from_user.id,
+        print('IF Разместить рассылку')
+        mesg = bot.edit_message_text('Введи текст новой рассылки.', chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id, reply_markup=markup)
-        sending_menu_base_add_to_sql(bot, callback_query)
+        bot.register_next_step_handler(mesg, sending_menu_base_add_to_sql)
+        
 
     elif data == 'Результаты':
         res(bot, callback_query)
