@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.12'
+ver = '1.0.1.13'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -92,6 +92,7 @@ def error_send(callback_query):
 def answer0(message):
     print('IN answer0')
     if callback_check.get(message.from_user.id) == 'tests':
+        print('IF tests')
         continue_(bot, message)
         messages = bot.send_message(message.from_user.id, text.waiting_check)
         save_message_id['message_id'][message.from_user.id] = messages.message_id
@@ -99,6 +100,7 @@ def answer0(message):
         return
 
     elif callback_check.get(message.from_user.id) == 'practicks':
+        print('IF practics')
         continue_(bot, message)
         messages = bot.send_message(message.from_user.id, text.waiting_check)
         save_message_id['message_id'][message.from_user.id] = messages.message_id
@@ -106,10 +108,12 @@ def answer0(message):
         return
 
     elif callback_check.get(message.from_user.id) == 'add_message':
+        print('IF add_message')
         continue_(bot, message)
         
 
     elif callback_check.get(message.from_user.id) == None:
+        print('IF None')
         if echo(message) == True:
             messages = bot.send_message(message.from_user.id, text.not_selected)
             save_message_id['message_id'][message.from_user.id] = messages.message_id

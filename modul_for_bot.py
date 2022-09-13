@@ -534,9 +534,10 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
 
 
 def continue_(bot, message):  # <--- функция обработки простых текстовых сообщений
-    print("Ввод пользователя - ", message.text)
+    print('IN continue_')
 
     if callback_check.get(message.chat.id) in ('tests', 'practicks', 'admin'):  # Если пользователь не нажимал "Сообщить об ошибке"
+        print('IF tests,practicks,admin')
         try:
             data_base['BotUsers'][message.chat.id]['UserAnswer'] = str(message.text)
         except:
@@ -546,10 +547,12 @@ def continue_(bot, message):  # <--- функция обработки прос�
 
 
     elif callback_check[message.chat.id] == '1':  # Если пользователь нажал на сообщить об ошибке
+        print('IF 1')
         bot.send_message(message.chat.id, 'Ты еще не выбрал о какой ошибке хочешь сообщить. Если не хочешь сообщать, нажми «Отмена».')
         
 
     elif callback_check[message.chat.id] == '2':  # Если пользователь нажал на сообщить об ошибке и выбрал "о технческой ошибке"
+        print('IF 2')
         text_error = 'Антоха, конс нашел техническую ошибку: '
         bot.send_message(toha_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
         bot.send_message(message.chat.id, text.tech_error_msg)
@@ -557,6 +560,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
     elif callback_check[message.chat.id] == '3':  # Если пользователь нажал на сообщить об ошибке и выбрал "об ошибке в вопросе"
+        print('IF 3')
         if tests_data[message.chat.id] == 'DD':
             product = 'Диадок'
 
@@ -601,6 +605,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
 
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
+    print('IN continue_ END')
 
 def check_answer(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по тестам
     print(callback_query.from_user.id)

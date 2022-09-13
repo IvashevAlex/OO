@@ -381,8 +381,7 @@ def sending_menu_base_create(bot, callback_query):
                               reply_markup=markup_calendar_create_message)
     except:
         pass
-    
-    bot.register_next_step_handler(callback_query.message, sql_queries.add_new_value_in_messages(callback_query.message))
+
 
 def sending_menu_base_add_to_sql(message):
     print('IN sending_menu_base_add_to_sql')
