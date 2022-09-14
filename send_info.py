@@ -13,8 +13,8 @@ def time_checker():
     if dt.datetime.today().isoweekday() in (1,2,3,4,5):
         if time.localtime()[3] != 10:
             if time.localtime()[4] != 10:
-                if time.localtime()[5] < 5:
-                    time.sleep(5)
+                if time.localtime()[5] % 15 == 0:
+                    time.sleep(1)
                     return True
                 else:
                     return False
@@ -90,21 +90,24 @@ def make_dict_of_groups(lists_of_dates):
     return dict_of_groups
 
 # Считает в диапазоне дат число будних дней
-def weekdays_minus_sundays(pre_answer, first_day):
+def weekdays_minus_sundays(pre_answer_int, first_day_format):
     answer = 0
-    first_day_format = dt.datetime.strptime(first_day, '%Y-%m-%d').date()
-    for _ in range(len(pre_answer)):
-        if dt.datetime.today(first_day_format).isoweekday() == (1,2,3,4,5):
+    for _ in range(pre_answer_int):
+        if first_day_format.isoweekday() in (1,2,3,4,5):
             answer += 1
-            first_day += dt.timedelta(days=1)
+            first_day_format += dt.timedelta(days=1)
 
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
 # Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
 def weekday_calc(today, lists_of_dates_pair):
     print('IN weekday_calc')
+    print(lists_of_dates_pair[0])
     first_day = lists_of_dates_pair[0]
-    pre_answer = today - first_day
-    answer = weekdays_minus_sundays(pre_answer, first_day)
+    first_day_format = dt.datetime.strptime(first_day, '%Y-%m-%d').date()
+    pre_answer = today - first_day_format
+    pre_answer_int = int(pre_answer.days)
+    print('pre_answer', pre_answer, type(pre_answer))
+    answer = weekdays_minus_sundays(pre_answer_int, first_day_format)
     return answer
 
 while True:
@@ -115,8 +118,9 @@ while True:
         lists_of_dates = make_lists_of_dates(dates)
         dict_of_groups = make_dict_of_groups(lists_of_dates)
 
-        for _ in range(len(calendar_list)):
-            send_day_number = weekday_calc(today, calendar_list[_])
+        for _ in range(len(lists_of_dates)):
+            print('lists_of_dates[_]:', lists_of_dates[_])
+            send_day_number = weekday_calc(today, lists_of_dates[_])
             print(f'send_day_number {_}:', send_day_number)
             # Ответ формата (8, 13), где 
             # 8 - число рабочих дней прошедших с первого дня учебы текущего набора
@@ -131,4 +135,3 @@ while True:
         # Запускаем цикл рассылки
         # Для каждого id из списка
         #     bot.send_message(id, body)
-

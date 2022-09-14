@@ -832,7 +832,6 @@ def query_data_handler(bot, data):
         message = bot.edit_message_text('Введи текст нового сообщения', chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_add_to_sql)
-        # sending_menu_base_create(bot, callback_query)
         
     elif data == 'Просмотреть сообщение':
         sending_menu_base_look(bot, callback_query)
