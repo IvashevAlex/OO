@@ -5,7 +5,7 @@ import pypyodbc
 import sql_queries
 
 today = dt.date.today()
-print('Today:', today)
+
 
 def time_checker():
     # Проверка на день недели. По выходным сообщения не рассылаем. 7(Вс) пока стоит для тестирования
@@ -21,7 +21,6 @@ def time_checker():
         return False
 
 
-
 # Обращаемся к БД и получаем словарь формата {число дней:номер рассылки}
 def get_calendar_info():
     # Start SQL
@@ -34,6 +33,7 @@ def get_calendar_info():
     return answer
     # End SQL  
 
+
 # Подфункция get_day_range_of_groups(). Добавляет последним элементом списка текущую дату
 def make_list_of_date_ranges(answer):
     list_of_date_ranges = list()
@@ -42,6 +42,7 @@ def make_list_of_date_ranges(answer):
     list_of_date_ranges.append(str(today))
     print('make_list_of_date_ranges:', list_of_date_ranges)
     return list_of_date_ranges
+
 
 # Возвращает список из дат регистрации групп. Для последней группы датой окончания набора считается текущий день
 def get_day_range_of_groups():
@@ -55,6 +56,7 @@ def get_day_range_of_groups():
     print('get_day_range_of_groups:', first_and_last_day_list)
     return first_and_last_day_list
     # End SQL  
+
 
 # Возвращает список пар дат в формате (первый день набора, последний день набора). 
 # Для последней группы датой окончания набора считается текущий день
@@ -89,6 +91,7 @@ def make_dict_of_groups(lists_of_dates):
 
     return dict_of_groups
 
+
 # Считает в диапазоне дат число будних дней
 def weekdays_minus_sundays(pre_answer_int, first_day_format):
     answer = 0
@@ -96,6 +99,7 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
         if first_day_format.isoweekday() in (1,2,3,4,5):
             answer += 1
             first_day_format += dt.timedelta(days=1)
+
 
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
 # Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
@@ -110,21 +114,24 @@ def weekday_calc(today, lists_of_dates_pair):
     answer = weekdays_minus_sundays(pre_answer_int, first_day_format)
     return answer
 
+
 while True:
     if time_checker() == True:
-        print('Time')
         calendar_list = get_calendar_info()
-        dates = get_day_range_of_groups()
-        lists_of_dates = make_lists_of_dates(dates)
+        print('calendar_list:', calendar_list)
+        dates_range = get_day_range_of_groups()
+        print('dates_range:', dates_range)
+        lists_of_dates = make_lists_of_dates(dates_range)
+        print('lists_of_dates:', lists_of_dates)
         dict_of_groups = make_dict_of_groups(lists_of_dates)
+        print('dict_of_groups:', dict_of_groups)
 
         for _ in range(len(lists_of_dates)):
+            print('Набор №', _)
             print('lists_of_dates[_]:', lists_of_dates[_])
-            send_day_number = weekday_calc(today, lists_of_dates[_])
-            print(f'send_day_number {_}:', send_day_number)
-            # Ответ формата (8, 13), где 
-            # 8 - число рабочих дней прошедших с первого дня учебы текущего набора
-            # 13 - номер рассылки, которую положено отправить в этот день
+            send_day_number = weekday_calc(today, lists_of_dates[_][0]) # Число будних дней 
+            print('send_day_number:', send_day_number)
+            print('-' * 100)
         
     else:
         pass
