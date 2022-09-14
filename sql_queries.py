@@ -80,9 +80,12 @@ def get_all_info_from_calendar():
 
 # Получить сообщение по его номеру записи
 def get_message_by_number_by_sql(send_day_number):
-    """ SELECT [dbo].[Calendar]
-    WHERE [DayAfterStart] = """ + str(send_day_number) + """;
-    """
+    if send_day_number != None:
+        return """ SELECT [QuestionNumber]
+                    FROM [dbo].[Calendar]
+                    WHERE [DayAfterStart] = """ + str(send_day_number) + """;"""
+    else:
+        return None
 
 
 # Задать значение по номеру записи

@@ -87,7 +87,7 @@ def make_dict_of_groups(lists_of_dates):
     for _ in range(len(lists_of_dates)):
         list_of_groups = make_dict_of_groups_sql(lists_of_dates[_][0], lists_of_dates[_][1])
         dict_of_groups[lists_of_dates[_]] = list_of_groups
-    print('make_dict_of_groups:', dict_of_groups)
+    # print('make_dict_of_groups:', dict_of_groups)
 
     return dict_of_groups
 
@@ -105,7 +105,6 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
             first_day_format += dt.timedelta(days=1)
             
     return answer
-
 
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
 # Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
@@ -127,9 +126,13 @@ def get_message_number_by_day_number(send_day_number):
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
     SQLQuery = sql_queries.get_message_by_number_by_sql(send_day_number)
-    cursor.execute(SQLQuery)
-    answer = cursor.fetchall()
-    return answer
+    print('get_message_number_by_day_number SQLQuery', SQLQuery)
+    if SQLQuery != None:
+        cursor.execute(SQLQuery)
+        answer = cursor.fetchall()[0][0]
+        return answer
+    else:
+        return None
     # End SQL  
 
 
@@ -138,6 +141,7 @@ def get_message_by_day_number(number_of_message_by_date):
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
     SQLQuery = sql_queries.select_message_by_number(number_of_message_by_date)
+    print('get_message_by_day_number SQLQuery', SQLQuery)
     cursor.execute(SQLQuery)
     answer = cursor.fetchall()
     return answer
@@ -154,25 +158,23 @@ while True:
         lists_of_dates = make_lists_of_dates(dates_range)
         print('lists_of_dates:', lists_of_dates)
         dict_of_groups = make_dict_of_groups(lists_of_dates)
-        print('dict_of_groups:', dict_of_groups)
+        # print('dict_of_groups:', dict_of_groups)
 
         for _ in range(len(lists_of_dates)):
             print('Набор №', _ + 1)
             print('lists_of_dates[_]:', lists_of_dates[_])
             send_day_number = weekday_calc(today, lists_of_dates[_]) # Число будних дней 
             print('send_day_number:', send_day_number)
+
             number_of_message_by_date = get_message_number_by_day_number(send_day_number)
             print(number_of_message_by_date)
-            message_by_number = get_message_by_day_number(number_of_message_by_date)
-            print('message_by_number:', message_by_number)
+            if number_of_message_by_date != None:
+                message_by_number = get_message_by_day_number(number_of_message_by_date)
+                print('message_by_number:', message_by_number)
+                # bot.send_message('5484457194', message_by_number)
+            else:
+                pass
             print('-' * 100)
         
     else:
         pass
-
-        # Делаем запрос на число записсей для рассылки
-        # Получаем список id подходящих для рассылки
-        # Получаем тело рассылки
-        # Запускаем цикл рассылки
-        # Для каждого id из списка
-        #     bot.send_message(id, body)
