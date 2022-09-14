@@ -97,8 +97,14 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
     answer = 0
     for _ in range(pre_answer_int):
         if first_day_format.isoweekday() in (1,2,3,4,5):
+            print('first_day_format.isoweekday()', first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
             answer += 1
             first_day_format += dt.timedelta(days=1)
+        else:
+            print('PASS:', first_day_format.isoweekday())
+            first_day_format += dt.timedelta(days=1)
+            
+    return answer
 
 
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
@@ -115,6 +121,30 @@ def weekday_calc(today, lists_of_dates_pair):
     return answer
 
 
+# Получение текста рассылки по ее дню из send_day_number
+def get_message_number_by_day_number(send_day_number):
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.get_message_by_number_by_sql(send_day_number)
+    cursor.execute(SQLQuery)
+    answer = cursor.fetchall()
+    return answer
+    # End SQL  
+
+
+def get_message_by_day_number(number_of_message_by_date):
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.select_message_by_number(number_of_message_by_date)
+    cursor.execute(SQLQuery)
+    answer = cursor.fetchall()
+    return answer
+    # End SQL 
+
+
+# Основной цикл
 while True:
     if time_checker() == True:
         calendar_list = get_calendar_info()
@@ -127,10 +157,14 @@ while True:
         print('dict_of_groups:', dict_of_groups)
 
         for _ in range(len(lists_of_dates)):
-            print('Набор №', _)
+            print('Набор №', _ + 1)
             print('lists_of_dates[_]:', lists_of_dates[_])
-            send_day_number = weekday_calc(today, lists_of_dates[_][0]) # Число будних дней 
+            send_day_number = weekday_calc(today, lists_of_dates[_]) # Число будних дней 
             print('send_day_number:', send_day_number)
+            number_of_message_by_date = get_message_number_by_day_number(send_day_number)
+            print(number_of_message_by_date)
+            message_by_number = get_message_by_day_number(number_of_message_by_date)
+            print('message_by_number:', message_by_number)
             print('-' * 100)
         
     else:

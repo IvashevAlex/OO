@@ -78,7 +78,14 @@ def get_all_info_from_calendar():
             """
 
 
-# Указать значение по номеру записи
+# Получить сообщение по его номеру записи
+def get_message_by_number_by_sql(send_day_number):
+    """ SELECT [dbo].[Calendar]
+    WHERE [DayAfterStart] = """ + str(send_day_number) + """;
+    """
+
+
+# Задать значение по номеру записи
 """ UPDATE [dbo].[Calendar]
     SET [QuestionNumber] = '""" + str() + """'
     WHERE [DayAfterStart] = """ + str() + """;
