@@ -361,26 +361,25 @@ def sending_menu_calendar(bot, callback_query):
         pass
 
 
-def sending_menu_base_create(bot, callback_query):
-    print('IN sending_menu_base_create')
-    # modul_for_bot.callback_check[callback_query.from_user.id] = 'add_message'
+# def sending_menu_base_create(bot, callback_query):
+#     print('IN sending_menu_base_create')
 
-    markup_calendar_create_message = types.InlineKeyboardMarkup()
+#     markup_calendar_create_message = types.InlineKeyboardMarkup()
 
-    itembtn2 = types.InlineKeyboardButton('Разместить рассылку', callback_data='Разместить рассылку')
+#     itembtn2 = types.InlineKeyboardButton('Разместить рассылку', callback_data='Разместить рассылку')
 
-    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+#     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-    markup_calendar_create_message.add(itembtn2)
-    markup_calendar_create_message.add(itembtn12)
+#     markup_calendar_create_message.add(itembtn2)
+#     markup_calendar_create_message.add(itembtn12)
 
-    try:
-        bot.edit_message_text(chat_id=callback_query.from_user.id, 
-                              text=text.add_new_message_base, 
-                              message_id=callback_query.message.message_id, 
-                              reply_markup=markup_calendar_create_message)
-    except:
-        pass
+#     try:
+#         bot.edit_message_text(chat_id=callback_query.from_user.id, 
+#                               text=text.add_new_message_base, 
+#                               message_id=callback_query.message.message_id, 
+#                               reply_markup=markup_calendar_create_message)
+#     except:
+#         pass
 
 
 def sending_menu_base_add_to_sql(message):

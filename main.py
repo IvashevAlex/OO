@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.13'
+ver = '1.0.1.14'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -117,7 +117,6 @@ def answer0(message):
         if echo(message) == True:
             messages = bot.send_message(message.from_user.id, text.not_selected)
             save_message_id['message_id'][message.from_user.id] = messages.message_id
-
 
     continue_(bot, message)
 

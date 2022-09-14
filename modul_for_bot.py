@@ -829,7 +829,10 @@ def query_data_handler(bot, data):
         sending_menu_calendar(bot, callback_query)
         
     elif data == 'Создать сообщение':
-        sending_menu_base_create(bot, callback_query)
+        message = bot.edit_message_text('Введи текст нового сообщения', chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
+        bot.register_next_step_handler(message, sending_menu_base_add_to_sql)
+        # sending_menu_base_create(bot, callback_query)
         
     elif data == 'Просмотреть сообщение':
         sending_menu_base_look(bot, callback_query)
@@ -846,12 +849,9 @@ def query_data_handler(bot, data):
     elif data == 'Удалить рассылку':
         sending_menu_calendar_delete(bot, callback_query)
 
-    elif data == 'Разместить рассылку':
-        print('IF Разместить рассылку')
-        mesg = bot.edit_message_text('Введи тект новой', chat_id=callback_query.from_user.id,
-                            message_id=callback_query.message.message_id)
-        bot.register_next_step_handler(mesg, sending_menu_base_add_to_sql)
-        
+    # elif data == 'Разместить рассылку':
+    #     print('IF Разместить рассылку')
+    #     pass
 
     elif data == 'Результаты':
         res(bot, callback_query)

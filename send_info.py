@@ -34,7 +34,7 @@ def get_calendar_info():
     return answer
     # End SQL  
 
-
+# Подфункция get_day_range_of_groups(). Добавляет последним элементом списка текущую дату
 def make_list_of_date_ranges(answer):
     list_of_date_ranges = list()
     for _ in range(len(answer)):
@@ -43,7 +43,7 @@ def make_list_of_date_ranges(answer):
     print('make_list_of_date_ranges:', list_of_date_ranges)
     return list_of_date_ranges
 
-
+# Возвращает список из дат регистрации групп. Для последней группы датой окончания набора считается текущий день
 def get_day_range_of_groups():
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
@@ -56,7 +56,8 @@ def get_day_range_of_groups():
     return first_and_last_day_list
     # End SQL  
 
-
+# Возвращает список пар дат в формате (первый день набора, последний день набора). 
+# Для последней группы датой окончания набора считается текущий день
 def make_lists_of_dates(dates):
     answer = list()
     for _ in range(len(dates) - 1):
@@ -64,24 +65,21 @@ def make_lists_of_dates(dates):
     print('make_lists_of_dates:', answer)
     return answer
 
-# Рассчет прошедших дней со дня начала обучения за вычетом выходных
-# Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
-def weekday_calc(today):
-    pass
 
-
-def make_dict_of_groups_sql(one, two):
+# Подфункция make_dict_of_groups() запрашивающая из БД WhiteList список id по дате регистрацц 
+def make_dict_of_groups_sql(first_day, last_day):
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.get_list_of_users(one, two)
+    SQLQuery = sql_queries.get_list_of_users(first_day, last_day)
     cursor.execute(SQLQuery)
     answer = cursor.fetchall()
     return answer
     # End SQL  
 
 
-# Обращаемся к БД и формируем группы для рассылок
+# Обращаемся к БД и формируем словарь, где ключи - это списки из make_lists_of_dates, а значения - это
+# id пользователей зарегистрировавшихся в указанный временной интервал, включая крайние даты 
 def make_dict_of_groups(lists_of_dates):
     dict_of_groups = {}
     for _ in range(len(lists_of_dates)):
@@ -91,6 +89,23 @@ def make_dict_of_groups(lists_of_dates):
 
     return dict_of_groups
 
+# Считает в диапазоне дат число будних дней
+def weekdays_minus_sundays(pre_answer, first_day):
+    answer = 0
+    first_day_format = dt.datetime.strptime(first_day, '%Y-%m-%d').date()
+    for _ in range(len(pre_answer)):
+        if dt.datetime.today(first_day_format).isoweekday() == (1,2,3,4,5):
+            answer += 1
+            first_day += dt.timedelta(days=1)
+
+# Рассчет прошедших дней со дня начала обучения за вычетом выходных
+# Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
+def weekday_calc(today, lists_of_dates_pair):
+    print('IN weekday_calc')
+    first_day = lists_of_dates_pair[0]
+    pre_answer = today - first_day
+    answer = weekdays_minus_sundays(pre_answer, first_day)
+    return answer
 
 while True:
     if time_checker() == True:
@@ -100,11 +115,12 @@ while True:
         lists_of_dates = make_lists_of_dates(dates)
         dict_of_groups = make_dict_of_groups(lists_of_dates)
 
-        for i in range(len(calendar_list)):
+        for _ in range(len(calendar_list)):
+            send_day_number = weekday_calc(today, calendar_list[_])
+            print(f'send_day_number {_}:', send_day_number)
             # Ответ формата (8, 13), где 
             # 8 - число рабочих дней прошедших с первого дня учебы текущего набора
             # 13 - номер рассылки, которую положено отправить в этот день
-            calendar_list[i]
         
     else:
         pass
