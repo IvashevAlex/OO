@@ -6,15 +6,13 @@ import sql_queries
 
 today = dt.date.today()
 
-
 def time_checker():
-    # Проверка на день недели. По выходным сообщения не рассылаем. 7(Вс) пока стоит для тестирования
-    # Неравенства так же для тестирования
+    # Проверка на день недели. По выходным сообщения не рассылаем. Отправка в 12:05:05 по локальному времени
     if dt.datetime.today().isoweekday() in (1,2,3,4,5):
-        if time.localtime()[3] != 10:
-            if time.localtime()[4] != 10:
-                if time.localtime()[5] % 15 == 0:
-                    time.sleep(1)
+        if time.localtime()[3] == 12:
+            if time.localtime()[4] == 5:
+                if time.localtime()[5] == 5:
+                    time.sleep(1) # Что-бы случайно не отправить дважды
                     return True
                 else:
                     return False
@@ -63,7 +61,8 @@ def get_day_range_of_groups():
 def make_lists_of_dates(dates):
     answer = list()
     for _ in range(len(dates) - 1):
-        answer.append((dates[_], dates[_ + 1]))
+        dates_minus = str(dt.datetime.strptime(dates[_ + 1], '%Y-%m-%d').date() - dt.timedelta(days=1))
+        answer.append((dates[_], dates_minus))
     print('make_lists_of_dates:', answer)
     return answer
 
@@ -97,11 +96,11 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
     answer = 0
     for _ in range(pre_answer_int):
         if first_day_format.isoweekday() in (1,2,3,4,5):
-            print('first_day_format.isoweekday()', first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
+            print(first_day_format, first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
             answer += 1
             first_day_format += dt.timedelta(days=1)
         else:
-            print('PASS:', first_day_format.isoweekday())
+            print(first_day_format, first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
             first_day_format += dt.timedelta(days=1)
             
     return answer
@@ -115,7 +114,7 @@ def weekday_calc(today, lists_of_dates_pair):
     first_day_format = dt.datetime.strptime(first_day, '%Y-%m-%d').date()
     pre_answer = today - first_day_format
     pre_answer_int = int(pre_answer.days)
-    print('pre_answer', pre_answer, type(pre_answer))
+    print('Всего прошло дней:', pre_answer)
     answer = weekdays_minus_sundays(pre_answer_int, first_day_format)
     return answer
 
@@ -147,6 +146,7 @@ def get_message_by_day_number(number_of_message_by_date):
     return answer
     # End SQL 
 
+print('Программа рассылки запущена!')
 
 # Основной цикл
 while True:
@@ -165,11 +165,13 @@ while True:
 
             # Если для указанног дня есть сообщение
             if number_of_message_by_date != None:
-                message_by_number = get_message_by_day_number(number_of_message_by_date) # Полученик по номеру текста сообщения
-                print('message_by_number:', message_by_number)
+                message_by_number = get_message_by_day_number(number_of_message_by_date) # Получение по номеру текста сообщения
+                print('Текст отправляемого сообщения:', message_by_number)
                 print('-' * 50)
-                print(dict_of_groups.get(lists_of_dates[_]))
-                # bot.send_message('5484457194', message_by_number)
+                for i in range(len(dict_of_groups.get(lists_of_dates[_]))):
+                    users_id = dict_of_groups.get(lists_of_dates[_])[i][0]
+                    print('Отправка', users_id)
+                    bot.send_message(users_id, message_by_number)
             else:
                 pass
             print('-' * 100)
