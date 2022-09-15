@@ -819,7 +819,7 @@ def query_data_handler(bot, data):
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
     
-    elif data == 'Рассылки':
+    elif data == 'Рассылка':
         sending_menu(bot, callback_query)
 
     elif data == 'База сообщений':
@@ -868,7 +868,7 @@ query_data_handler(bot, 'Удалить пользователя')
 
 query_data_handler(bot, 'Результаты')
 
-query_data_handler(bot, 'Рассылки')
+query_data_handler(bot, 'Рассылка')
 query_data_handler(bot, 'База сообщений')
 query_data_handler(bot, 'Календарь рассылок')
 query_data_handler(bot, 'Число сообщений')

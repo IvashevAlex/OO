@@ -61,6 +61,7 @@ def get_day_range_of_groups():
 def make_lists_of_dates(dates):
     answer = list()
     for _ in range(len(dates) - 1):
+        # dates_minus - коррректировака именно на последний день, а не на первый день следующего набора
         dates_minus = str(dt.datetime.strptime(dates[_ + 1], '%Y-%m-%d').date() - dt.timedelta(days=1))
         answer.append((dates[_], dates_minus))
     print('make_lists_of_dates:', answer)
@@ -86,8 +87,6 @@ def make_dict_of_groups(lists_of_dates):
     for _ in range(len(lists_of_dates)):
         list_of_groups = make_dict_of_groups_sql(lists_of_dates[_][0], lists_of_dates[_][1])
         dict_of_groups[lists_of_dates[_]] = list_of_groups
-    # print('make_dict_of_groups:', dict_of_groups)
-
     return dict_of_groups
 
 
@@ -102,7 +101,6 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
         else:
             print(first_day_format, first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
             first_day_format += dt.timedelta(days=1)
-            
     return answer
 
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
@@ -151,7 +149,7 @@ print('Программа рассылки запущена!')
 # Основной цикл
 while True:
     if time_checker() == True:
-        calendar_list = get_calendar_info() # Получение дня и номера рассылки. Возможно, не трбуется
+        # calendar_list = get_calendar_info() # Получение дня и номера рассылки. Возможно, не трбуется?
         dates_range = get_day_range_of_groups() # Получение списка дней начал обучения. Последний элемент - текущая дата
         lists_of_dates = make_lists_of_dates(dates_range) # Получение пар дат (начало-окончание) для каждой группы
         dict_of_groups = make_dict_of_groups(lists_of_dates) # Полученеи словоря {(начало-окончание):(список id пользователей за период)}

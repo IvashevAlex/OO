@@ -78,7 +78,7 @@ def Admin_menu(message, bot): #Описание функций для меню �
     itembtn1 = types.InlineKeyboardButton('Обновить таблицы', callback_data='Обновить таблицы')
     itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
     itembtn3 = types.InlineKeyboardButton('Удалить пользователя', callback_data='Удалить пользователя')
-    itembtn4 = types.InlineKeyboardButton('Рассылки', callback_data='Рассылки')
+    itembtn4 = types.InlineKeyboardButton('Рассылка', callback_data='Рассылка')
 
     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
