@@ -151,27 +151,32 @@ def get_message_by_day_number(number_of_message_by_date):
 # Основной цикл
 while True:
     if time_checker() == True:
-        calendar_list = get_calendar_info()
+        calendar_list = get_calendar_info() # Получение дня и номера рассылки. Возможно, не трбуется
         print('calendar_list:', calendar_list)
-        dates_range = get_day_range_of_groups()
+        dates_range = get_day_range_of_groups() # Получение списка дней начал обучения. Последний элемент - текущая дата
         print('dates_range:', dates_range)
-        lists_of_dates = make_lists_of_dates(dates_range)
+        lists_of_dates = make_lists_of_dates(dates_range) # Получение пар дат (начало-окончание) для каждой группы
         print('lists_of_dates:', lists_of_dates)
-        dict_of_groups = make_dict_of_groups(lists_of_dates)
-        # print('dict_of_groups:', dict_of_groups)
+        dict_of_groups = make_dict_of_groups(lists_of_dates) # Полученеи словоря {(начало-окончание):(список id пользователей за период)}
 
+        # Запускаем цикл для каждой пары даты отдельно
         for _ in range(len(lists_of_dates)):
             print('Набор №', _ + 1)
-            print('lists_of_dates[_]:', lists_of_dates[_])
+            print('Пара дат:', lists_of_dates[_])
             send_day_number = weekday_calc(today, lists_of_dates[_]) # Число будних дней 
             print('send_day_number:', send_day_number)
 
-            number_of_message_by_date = get_message_number_by_day_number(send_day_number)
+            number_of_message_by_date = get_message_number_by_day_number(send_day_number) # Номер сообщения для числа дней
             print(number_of_message_by_date)
+
+            # Если для указанног дня есть сообщение
             if number_of_message_by_date != None:
                 message_by_number = get_message_by_day_number(number_of_message_by_date)
                 print('message_by_number:', message_by_number)
-                # bot.send_message('5484457194', message_by_number)
+
+                # for i in range():
+                #     pass
+                bot.send_message('5484457194', message_by_number)
             else:
                 pass
             print('-' * 100)
