@@ -361,28 +361,7 @@ def sending_menu_calendar(bot, callback_query):
     except:
         pass
 
-
-# def sending_menu_base_create(bot, callback_query):
-#     print('IN sending_menu_base_create')
-
-#     markup_calendar_create_message = types.InlineKeyboardMarkup()
-
-#     itembtn2 = types.InlineKeyboardButton('Разместить рассылку', callback_data='Разместить рассылку')
-
-#     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
-
-#     markup_calendar_create_message.add(itembtn2)
-#     markup_calendar_create_message.add(itembtn12)
-
-#     try:
-#         bot.edit_message_text(chat_id=callback_query.from_user.id, 
-#                               text=text.add_new_message_base, 
-#                               message_id=callback_query.message.message_id, 
-#                               reply_markup=markup_calendar_create_message)
-#     except:
-#         pass
-
-
+# Добавление новой записи в dbo.Messages
 def sending_menu_base_add_to_sql(message):
     print('IN sending_menu_base_add_to_sql')
     # Start SQL
@@ -396,14 +375,18 @@ def sending_menu_base_add_to_sql(message):
     connection.close()
     # End SQL
 
-def sending_menu_base_look(bot, callback_query):
+# Просмотр записи в dbo.Messages по ее номеру
+def sending_menu_base_look(message):
     print('IN sending_menu_base_look')
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.select_message_by_number(1)
+    print('TEXT: ', message.text)
+    SQLQuery = sql_queries.select_message_by_number(message.text)
+    print('SQLQuery:', SQLQuery)
     cursor.execute(SQLQuery)
-    print('Сообщение номер **:')
+    text_of_messages = cursor.fetchall()[0][0]
+    print(f'Сообщение номер {message.text}:', text_of_messages)
     # End SQL    
 
 def sending_menu_base_change(bot, callback_query):

@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.16'
+ver = '1.0.1.17'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -101,11 +101,7 @@ def answer0(message):
         save_message_id['message_id'][message.from_user.id] = messages.message_id
         check_answer_prk(bot, message)
         return
-
-    # elif callback_check.get(message.from_user.id) == 'add_message':
-    #     print('IF add_message')
-    #     continue_(bot, message)
-        
+    
 
     elif callback_check.get(message.from_user.id) == None:
         print('IF None')

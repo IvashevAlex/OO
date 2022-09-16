@@ -829,12 +829,15 @@ def query_data_handler(bot, data):
         sending_menu_calendar(bot, callback_query)
         
     elif data == 'Создать сообщение':
-        message = bot.edit_message_text('Введи текст нового сообщения', chat_id=callback_query.from_user.id,
+        message = bot.edit_message_text('Отправь текст нового сообщения', chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_add_to_sql)
         
     elif data == 'Просмотреть сообщение':
-        sending_menu_base_look(bot, callback_query)
+        message = bot.edit_message_text('Отправь номер сообщения, которое хочешь просмотреть', chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
+        bot.register_next_step_handler(message, sending_menu_base_look)
+        # sending_menu_base_look(bot, callback_query)
         
     elif data == 'Изменить сообщение':
         sending_menu_base_change(bot, callback_query)
