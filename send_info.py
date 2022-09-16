@@ -58,6 +58,10 @@ def get_day_range_of_groups():
 
 # Возвращает список пар дат в формате (первый день набора, последний день набора). 
 # Для последней группы датой окончания набора считается текущий день
+# ? Как будет вести себя функция еслидата сегодняшняя? 
+# ? Пока есть ощущение, что выгядеть это будет как (2022-09-15, 2022-09-14) и приведет к ошибке
+# todo По факту ошибка действительно возникает, но фиксится добавлением в dbo.Settable
+# todo строки для рассылки нулевого дня
 def make_lists_of_dates(dates):
     answer = list()
     for _ in range(len(dates) - 1):
@@ -149,7 +153,7 @@ print('Программа рассылки запущена!')
 # Основной цикл
 while True:
     if time_checker() == True:
-        # calendar_list = get_calendar_info() # Получение дня и номера рассылки. Возможно, не трбуется?
+        print('Начало отправки:', time.localtime()[3], time.localtime()[4], time.localtime()[5])
         dates_range = get_day_range_of_groups() # Получение списка дней начал обучения. Последний элемент - текущая дата
         lists_of_dates = make_lists_of_dates(dates_range) # Получение пар дат (начало-окончание) для каждой группы
         dict_of_groups = make_dict_of_groups(lists_of_dates) # Полученеи словоря {(начало-окончание):(список id пользователей за период)}
@@ -169,10 +173,11 @@ while True:
                 for i in range(len(dict_of_groups.get(lists_of_dates[_]))):
                     users_id = dict_of_groups.get(lists_of_dates[_])[i][0]
                     print('Отправка', users_id)
-                    bot.send_message(users_id, message_by_number)
+                    # bot.send_message(users_id, message_by_number) #! закоментирована сама отправка
             else:
                 pass
             print('-' * 100)
-        
+        print('Конец отправки:', time.localtime()[3], time.localtime()[4], time.localtime()[5])
+        time.sleep(150) # Защита от спамных отправок при сбоях.
     else:
         pass

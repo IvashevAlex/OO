@@ -286,7 +286,7 @@ def sending_menu(bot, callback_query):
 
     itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
     itembtn2 = types.InlineKeyboardButton('Календарь рассылок', callback_data='Календарь рассылок')
-    itembtn3 = types.InlineKeyboardButton('Разделение групп', callback_data='Разделение групп')
+    itembtn3 = types.InlineKeyboardButton('Начать новый набор', callback_data='Начать новый набор')
     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup_send.add(itembtn1, itembtn2)
@@ -330,6 +330,7 @@ def sending_menu_base(bot, callback_query):
     except:
         pass
 
+# Меню рассылки - Календарь рассылок (dbo.Calendar)
 def sending_menu_calendar(bot, callback_query):
     print('IN sending_menu_calendar')
     markup_calendar = types.InlineKeyboardMarkup()
