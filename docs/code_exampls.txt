@@ -1,0 +1,12 @@
+def start(message):
+    msg = bot.send_message(message.chat.id, 'Введите первое значение')
+    bot.register_next_step_handler(msg, start_2)
+
+
+def start_2(message):
+    msg = bot.send_message(message.chat.id, 'Введите второе значение')
+    bot.register_next_step_handler(msg, start_3, message.text)
+
+
+def start_3(message, value):
+    print(message.text, value)

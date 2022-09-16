@@ -389,12 +389,28 @@ def sending_menu_base_look(message):
     print(f'Сообщение номер {message.text}:', text_of_messages)
     # End SQL    
 
-def sending_menu_base_change(bot, callback_query):
+def register_number_for_edit_message(callback_query):
+    msg = bot.edit_message_text('Отправь номер сообщения, которое хочешь перезаписать', 
+                                        chat_id=callback_query.from_user.id,
+                                        message_id=callback_query.message.message_id)
+    bot.register_next_step_handler(msg, register_text_for_edit_message)
+
+def register_text_for_edit_message(callback_query, message):
+   msg = bot.edit_message_text('Отправь текст нового сообщения', 
+                                        chat_id=callback_query.from_user.id,
+                                        message_id=callback_query.message.message_id)
+   bot.register_next_step_handler(msg, edit_text_message, message.text)
+
+def edit_text_message(message, msg):
+    sending_menu_base_change(msg, message)
+
+# Изменить текст сообщения по номеру
+def sending_menu_base_change(number, message):
     print('IN sending_menu_base_change')
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.select_message_for_change(1)
+    SQLQuery = sql_queries.select_message_for_change(number, message)
     cursor.execute(SQLQuery)
     print('Введите новый текст для сообщения **:')
     # End SQL  

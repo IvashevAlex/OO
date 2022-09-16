@@ -840,7 +840,7 @@ def query_data_handler(bot, data):
         # sending_menu_base_look(bot, callback_query)
         
     elif data == 'Изменить сообщение':
-        sending_menu_base_change(bot, callback_query)
+        register_number_for_edit_message(callback_query)
         
     elif data == 'Создать рассылку':
         sending_menu_calendar_create(bot, callback_query)
