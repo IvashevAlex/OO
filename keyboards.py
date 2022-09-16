@@ -306,7 +306,7 @@ def sending_menu_base(bot, callback_query):
 
     itembtn2 = types.InlineKeyboardButton('Создать сообщение', callback_data='Создать сообщение')
     itembtn3 = types.InlineKeyboardButton('Просмотреть сообщение', callback_data='Просмотреть сообщение')
-    itembtn4 = types.InlineKeyboardButton('Удалить сообщение', callback_data='Удалить сообщение')
+    itembtn4 = types.InlineKeyboardButton('Изменить сообщение', callback_data='Изменить сообщение')
 
     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
@@ -385,8 +385,9 @@ def sending_menu_base_look(message):
     SQLQuery = sql_queries.select_message_by_number(message.text)
     print('SQLQuery:', SQLQuery)
     cursor.execute(SQLQuery)
-    text_of_messages = cursor.fetchall()[0][0]
-    print(f'Сообщение номер {message.text}:', text_of_messages)
+    text_of_message = cursor.fetchall()[0][0]
+    print(f'Сообщение номер {message.text}:', text_of_message)
+    bot.send_message(message.from_user.id, text_of_message)
     # End SQL    
 
 def register_number_for_edit_message(callback_query):

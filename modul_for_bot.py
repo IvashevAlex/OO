@@ -837,7 +837,6 @@ def query_data_handler(bot, data):
         message = bot.edit_message_text('Отправь номер сообщения, которое хочешь просмотреть', chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_look)
-        # sending_menu_base_look(bot, callback_query)
         
     elif data == 'Изменить сообщение':
         register_number_for_edit_message(callback_query)
