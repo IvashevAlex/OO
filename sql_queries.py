@@ -13,10 +13,14 @@ def select_message_by_number(number):
               FROM [dbo].[Messages]
               WHERE [Number] = """ + str(number) + """;
            """
-
+# Выбор ВСЕХ сообщений
+def get_all_info_from_messages():
+    return """SELECT * 
+              FROM [dbo].[Messages]
+           """
 
 # Указание нового текста сообщения по номеру (изменить запись)
-def select_message_for_change(new_message_body, message_number):
+def select_message_for_change(message_number, new_message_body):
     return """ UPDATE [dbo].[Messages]
                 SET [Message] = '""" + str(new_message_body) + """'
                 WHERE [Number] = """ + str(message_number) + """;

@@ -305,7 +305,7 @@ def sending_menu_base(bot, callback_query):
     markup_base = types.InlineKeyboardMarkup()
 
     itembtn2 = types.InlineKeyboardButton('Создать сообщение', callback_data='Создать сообщение')
-    itembtn3 = types.InlineKeyboardButton('Просмотреть сообщение', callback_data='Просмотреть сообщение')
+    itembtn3 = types.InlineKeyboardButton('Просмотреть все сообщения', callback_data='Просмотреть все сообщения')
     itembtn4 = types.InlineKeyboardButton('Изменить сообщение', callback_data='Изменить сообщение')
 
     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
@@ -375,46 +375,40 @@ def sending_menu_base_add_to_sql(message):
     connection.close()
     # End SQL
 
-# Просмотр записи в dbo.Messages по ее номеру
-def sending_menu_base_look(message):
-    print('IN sending_menu_base_look')
-    # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    print('TEXT: ', message.text)
-    SQLQuery = sql_queries.select_message_by_number(message.text)
-    print('SQLQuery:', SQLQuery)
-    cursor.execute(SQLQuery)
-    text_of_message = cursor.fetchall()[0][0]
-    print(f'Сообщение номер {message.text}:', text_of_message)
-    bot.send_message(message.from_user.id, text_of_message)
-    # End SQL    
+# # Просмотр записи в dbo.Messages по ее номеру
+# def sending_menu_base_look(message):
+#     print('IN sending_menu_base_look')
+#     # Start SQL
+#     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+#     cursor = connection.cursor()
+#     print('TEXT: ', message.text)
+#     SQLQuery = sql_queries.select_message_by_number(message.text)
+#     print('SQLQuery:', SQLQuery)
+#     cursor.execute(SQLQuery)
+#     text_of_message = cursor.fetchall()[0][0]
+#     print(f'Сообщение номер {message.text}:', text_of_message)
+#     bot.send_message(message.from_user.id, text_of_message)
+#     # End SQL    
 
-# Получить номер сообщения для изменения
-def register_number_for_edit_message(callback_query):
-    msg = bot.edit_message_text('Отправь номер сообщения, которое хочешь перезаписать', 
-                                        chat_id=callback_query.from_user.id,
-                                        message_id=callback_query.message.message_id)
-    bot.register_next_step_handler(msg, register_text_for_edit_message(msg, callback_query))
-
-def register_text_for_edit_message(message, callback_query):
-   msg = bot.edit_message_text('Отправь текст нового сообщения', 
-                                        chat_id=callback_query.from_user.id,
-                                        message_id=callback_query.message.message_id)
-   bot.register_next_step_handler(msg, edit_text_message, message.text)
-
-def edit_text_message(message, msg):
-    sending_menu_base_change(msg, message)
+# def register_number_for_edit_message(callback_query):
+#     msg = bot.edit_message_text('Отправь номер сообщения, которое хочешь перезаписать', 
+#                                         chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
+#     bot.register_next_step_handler(msg, register_text_for_edit_message(msg, callback_query))
 
 # Изменить текст сообщения по номеру
-def sending_menu_base_change(number, message):
+def sending_menu_base_change(message):
     print('IN sending_menu_base_change')
+    number_text = str(message.text).split('*')
+    print(number_text)
+    print(number_text[0])
+    print(number_text[1])
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
     cursor = connection.cursor()
-    SQLQuery = sql_queries.select_message_for_change(number, message)
+    SQLQuery = sql_queries.select_message_for_change(number_text[0], number_text[1])
     cursor.execute(SQLQuery)
-    print('Введите новый текст для сообщения **:')
+    connection.commit()
+    connection.close()
     # End SQL  
 
 def sending_menu_calendar_create(bot, callback_query):

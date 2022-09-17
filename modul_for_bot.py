@@ -833,13 +833,22 @@ def query_data_handler(bot, data):
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_add_to_sql)
         
-    elif data == 'Просмотреть сообщение':
-        message = bot.edit_message_text('Отправь номер сообщения, которое хочешь просмотреть', chat_id=callback_query.from_user.id,
-                            message_id=callback_query.message.message_id)
-        bot.register_next_step_handler(message, sending_menu_base_look)
+    elif data == 'Просмотреть все сообщения':
+            connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+            cursor = connection.cursor()
+            SQLQuery = sql_queries.get_all_info_from_messages()
+            cursor.execute(SQLQuery)
+            all_messages = cursor.fetchall()
+            for i in range(len(all_messages)):
+                bot.send_message(callback_query.from_user.id, all_messages[i][0])
+                time.sleep(0.01)
+                bot.send_message(callback_query.from_user.id, all_messages[i][1])
+                time.sleep(0.2)
         
     elif data == 'Изменить сообщение':
-        register_number_for_edit_message(callback_query)
+            message = bot.edit_message_text('Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст)', chat_id=callback_query.from_user.id,
+                                message_id=callback_query.message.message_id)
+            bot.register_next_step_handler(message, sending_menu_base_change)
         
     elif data == 'Создать рассылку':
         sending_menu_calendar_create(bot, callback_query)
@@ -875,7 +884,7 @@ query_data_handler(bot, 'База сообщений')
 query_data_handler(bot, 'Календарь рассылок')
 query_data_handler(bot, 'Число сообщений')
 query_data_handler(bot, 'Создать сообщение')
-query_data_handler(bot, 'Просмотреть сообщение')
+query_data_handler(bot, 'Просмотреть все сообщения')
 query_data_handler(bot, 'Изменить сообщение')
 query_data_handler(bot, 'Число рассылок')
 query_data_handler(bot, 'Создать рассылку')
