@@ -390,13 +390,14 @@ def sending_menu_base_look(message):
     bot.send_message(message.from_user.id, text_of_message)
     # End SQL    
 
+# Получить номер сообщения для изменения
 def register_number_for_edit_message(callback_query):
     msg = bot.edit_message_text('Отправь номер сообщения, которое хочешь перезаписать', 
                                         chat_id=callback_query.from_user.id,
                                         message_id=callback_query.message.message_id)
-    bot.register_next_step_handler(msg, register_text_for_edit_message)
+    bot.register_next_step_handler(msg, register_text_for_edit_message(msg, callback_query))
 
-def register_text_for_edit_message(callback_query, message):
+def register_text_for_edit_message(message, callback_query):
    msg = bot.edit_message_text('Отправь текст нового сообщения', 
                                         chat_id=callback_query.from_user.id,
                                         message_id=callback_query.message.message_id)
