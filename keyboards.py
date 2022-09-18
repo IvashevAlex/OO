@@ -426,6 +426,26 @@ def sending_menu_calendar_delete(message):
     connection.close()
     # End SQL
 
+# ----------------------------МЕНЮ АДМИНА-РАССЫЛКИ-НАЧАТЬ НОВЫЙ НАБОР--------------------------
+
+def sending_menu_start_new_wave(bot, callback_query):
+    print('IN sending_menu_calendar')
+    markup_new_wave = types.InlineKeyboardMarkup()
+
+    itembtn2 = types.InlineKeyboardButton('Начать новый набор!', callback_data='Начать новый набор!')
+    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+
+    markup_new_wave.add(itembtn2)
+    markup_new_wave.add(itembtn12)
+
+    try:
+        bot.send_message(callback_query.from_user.id, 
+                'Нажми кнопку, для создания разделителя между старым и новым набором.\n\
+                Старый набор будет ограничен вчерашней датой. Новый набор начнется с сегодняшней.\n\
+                На данный момент перенос юзера из одного набора в другой можно сделать только  вручную.', 
+                reply_markup=markup_new_wave)
+    except:
+        pass
 
 Other_srvice_menu("Внутренние сервисы", bot)
 WIC_menu("WIС", bot)

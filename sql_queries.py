@@ -1,3 +1,7 @@
+import datetime as dt
+
+today = dt.date.today()
+
 # ----------------------------- dbo.Messages -------------------------------
 
 # Получение общего числа записей в dbo.Messages
@@ -52,9 +56,10 @@ def get_full_list_of_dates():
 
 
 # Создать новый набор с сегодняшнего дня
-"""INSERT INTO [dbo].[Settable] (Data)
-   VALUES ('""" + str() + """');   
-"""
+def create_new_wave():
+    return """INSERT INTO [dbo].[Settable] (Data)
+              VALUES ('""" + str(today) + """');   
+            """
 
 # Удаление не предусмотрено 
 # Редактирование через скрипт для SSMS непостредственно на сервере

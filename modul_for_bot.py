@@ -829,9 +829,13 @@ def query_data_handler(bot, data):
 
     elif data == 'Календарь рассылок':
         sending_menu_calendar(bot, callback_query)
+
+    elif data == 'Начать новый набор':
+        sending_menu_start_new_wave(bot, callback_query)
         
     elif data == 'Создать сообщение':
-        message = bot.edit_message_text('Отправь текст нового сообщения', chat_id=callback_query.from_user.id,
+        message = bot.edit_message_text('Отправь текст нового сообщения', 
+                            chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_add_to_sql)
         
@@ -842,15 +846,14 @@ def query_data_handler(bot, data):
             cursor.execute(SQLQuery)
             all_messages = cursor.fetchall()
             for i in range(len(all_messages)):
-                bot.send_message(callback_query.from_user.id, all_messages[i][0])
-                time.sleep(0.01)
-                bot.send_message(callback_query.from_user.id, all_messages[i][1])
-                time.sleep(0.2)
+                bot.send_message(callback_query.from_user.id, 
+                                'Рассылка №' + str(all_messages[i][0]) + ':\n' + str(all_messages[i][1]))
+                time.sleep(0.1)
         
     elif data == 'Изменить сообщение':
-            message = bot.edit_message_text('Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст)', chat_id=callback_query.from_user.id,
+        message = bot.edit_message_text('Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст)', chat_id=callback_query.from_user.id,
                                 message_id=callback_query.message.message_id)
-            bot.register_next_step_handler(message, sending_menu_base_change)
+        bot.register_next_step_handler(message, sending_menu_base_change)
         
     elif data == 'Задать день и номер рассылки':
         message = bot.edit_message_text('Отправь день и новый номер рассылки, разделив их звездочкой. Пример: 5*11)', chat_id=callback_query.from_user.id,
@@ -865,7 +868,8 @@ def query_data_handler(bot, data):
         all_messages = cursor.fetchall()
         for i in range(len(all_messages)):
             bot.send_message(callback_query.from_user.id, 
-                             'День рассылки:', all_messages[i][0] + '\nНомер рассыоки:' + all_messages[i][1])
+                             'День рассылки: '+ str(all_messages[i][0]) + 
+                             '\nНомер рассылки: ' + str(all_messages[i][1]))
             time.sleep(0.1)
 
         
@@ -874,6 +878,17 @@ def query_data_handler(bot, data):
                     chat_id=callback_query.from_user.id,
                     message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_calendar_delete)
+
+    # По хорошему нужно сделать проверку последней даты для предотвращения повторного нажатия
+    elif data == 'Начать новый набор!':
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.create_new_wave()
+        cursor.execute(SQLQuery) 
+        add_data = cursor.fetchall()[0][0]
+        connection.commit()
+        connection.close()
+        bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ', add_data)
 
 # -----------------------------Конец новый части меню------------------------------------------
 
@@ -896,6 +911,7 @@ query_data_handler(bot, 'Результаты')
 query_data_handler(bot, 'Рассылка')
 query_data_handler(bot, 'База сообщений')
 query_data_handler(bot, 'Календарь рассылок')
+query_data_handler(bot, 'Начать новый набор')
 query_data_handler(bot, 'Число сообщений')
 query_data_handler(bot, 'Создать сообщение')
 query_data_handler(bot, 'Просмотреть все сообщения')
@@ -904,4 +920,5 @@ query_data_handler(bot, 'Число рассылок')
 query_data_handler(bot, 'Задать день и номер рассылки')
 query_data_handler(bot, 'Просмотреть расписание')
 query_data_handler(bot, 'Очистить день от рассылки')
+query_data_handler(bot, 'Начать новый набор!')
 query_data_handler(bot, 'Разместить рассылку')
