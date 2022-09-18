@@ -870,11 +870,12 @@ def query_data_handler(bot, data):
         SQLQuery = sql_queries.get_all_info_from_calendar()
         cursor.execute(SQLQuery)
         all_messages = cursor.fetchall()
+        group_calendar = str()
         for i in range(len(all_messages)):
-            bot.send_message(callback_query.from_user.id, 
-                             'День рассылки: '+ str(all_messages[i][0]) + 
-                             '\nНомер рассылки: ' + str(all_messages[i][1]))
-            time.sleep(0.1)
+            group_calendar = group_calendar + 'День '+ str(all_messages[i][0]) + '- Номер рассылки: ' + str(all_messages[i][1]) + '\n'
+        bot.send_message(callback_query.from_user.id, group_calendar)
+
+
 
         
     elif data == 'Очистить день от рассылки':
