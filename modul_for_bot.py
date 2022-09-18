@@ -818,7 +818,9 @@ def query_data_handler(bot, data):
     elif data == 'Удалить пользователя':
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
-    
+
+# ---------------------------Новая часть меню--------------------------------------------
+
     elif data == 'Рассылка':
         sending_menu(bot, callback_query)
 
@@ -859,14 +861,12 @@ def query_data_handler(bot, data):
     elif data == 'Удалить рассылку':
         sending_menu_calendar_delete(bot, callback_query)
 
-    # elif data == 'Разместить рассылку':
-    #     print('IF Разместить рассылку')
-    #     pass
+# -----------------------------Конец новый части меню------------------------------------------
 
     elif data == 'Результаты':
         res(bot, callback_query)
 
-    print('IN print(IN query_data_handler) END')
+    print('IN query_data_handler END')
 
 add_modules()
 query_data_handler(bot, 'Отмена')

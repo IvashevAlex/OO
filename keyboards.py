@@ -276,8 +276,7 @@ def praktics(bot):
 
 
 
-# ---------------------------------------------------------------------------------------------------
-
+# ------------------------------------ МЕНЮ АДМИНА-РАССЫЛКА----------------------------------------------
 
 # Меню рассылки
 def sending_menu(bot, callback_query):
@@ -299,7 +298,9 @@ def sending_menu(bot, callback_query):
     except:
         pass
 
-# Меню рассылки - База сообщений (dbo.Messages)
+# ---------------------------------МЕНЮ АДМИНА-РАССЫЛКИ-БАЗА СООБЩЕНИЙ--------------------------------
+
+# Меню Рассылки - База сообщений (dbo.Messages)
 def sending_menu_base(bot, callback_query):
     print('IN sending_menu_base')
     markup_base = types.InlineKeyboardMarkup()
@@ -329,6 +330,41 @@ def sending_menu_base(bot, callback_query):
                               reply_markup=markup_base)
     except:
         pass
+
+
+# Добавление новой записи в dbo.Messages
+def sending_menu_base_add_to_sql(message):
+    print('IN sending_menu_base_add_to_sql')
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    print('TEXT: ', message.text)
+    SQLQuery = sql_queries.add_new_value_in_messages(message.text)
+    print(SQLQuery)
+    cursor.execute(SQLQuery)
+    connection.commit()
+    connection.close()
+    # End SQL
+
+
+# Изменить текст записи в dbo.Messages
+def sending_menu_base_change(message):
+    print('IN sending_menu_base_change')
+    number_text = str(message.text).split('*')
+    print(number_text)
+    print(number_text[0])
+    print(number_text[1])
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.select_message_for_change(number_text[0], number_text[1])
+    cursor.execute(SQLQuery)
+    connection.commit()
+    connection.close()
+    # End SQL 
+
+
+# ---------------------------------МЕНЮ АДМИНА-РАССЫЛКИ-КАЛЕНДАРЬ РАССЫЛОК--------------------------------
 
 # Меню рассылки - Календарь рассылок (dbo.Calendar)
 def sending_menu_calendar(bot, callback_query):
@@ -361,55 +397,6 @@ def sending_menu_calendar(bot, callback_query):
     except:
         pass
 
-# Добавление новой записи в dbo.Messages
-def sending_menu_base_add_to_sql(message):
-    print('IN sending_menu_base_add_to_sql')
-    # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    print('TEXT: ', message.text)
-    SQLQuery = sql_queries.add_new_value_in_messages(message.text)
-    print(SQLQuery)
-    cursor.execute(SQLQuery)
-    connection.commit()
-    connection.close()
-    # End SQL
-
-# # Просмотр записи в dbo.Messages по ее номеру
-# def sending_menu_base_look(message):
-#     print('IN sending_menu_base_look')
-#     # Start SQL
-#     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-#     cursor = connection.cursor()
-#     print('TEXT: ', message.text)
-#     SQLQuery = sql_queries.select_message_by_number(message.text)
-#     print('SQLQuery:', SQLQuery)
-#     cursor.execute(SQLQuery)
-#     text_of_message = cursor.fetchall()[0][0]
-#     print(f'Сообщение номер {message.text}:', text_of_message)
-#     bot.send_message(message.from_user.id, text_of_message)
-#     # End SQL    
-
-# def register_number_for_edit_message(callback_query):
-#     msg = bot.edit_message_text('Отправь номер сообщения, которое хочешь перезаписать', 
-#                                         chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id)
-#     bot.register_next_step_handler(msg, register_text_for_edit_message(msg, callback_query))
-
-# Изменить текст сообщения по номеру
-def sending_menu_base_change(message):
-    print('IN sending_menu_base_change')
-    number_text = str(message.text).split('*')
-    print(number_text)
-    print(number_text[0])
-    print(number_text[1])
-    # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    SQLQuery = sql_queries.select_message_for_change(number_text[0], number_text[1])
-    cursor.execute(SQLQuery)
-    connection.commit()
-    connection.close()
-    # End SQL  
 
 def sending_menu_calendar_create(bot, callback_query):
     bot.send_message(callback_query.from_user.id, 'Сообщает новую рассылку', parse_mode='Markdown')

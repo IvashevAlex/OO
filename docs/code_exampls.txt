@@ -1,3 +1,4 @@
+Последовательное фиксирование нескольких сообщений для их обработки
 def start(message):
     msg = bot.send_message(message.chat.id, 'Введите первое значение')
     bot.register_next_step_handler(msg, start_2)
