@@ -852,14 +852,28 @@ def query_data_handler(bot, data):
                                 message_id=callback_query.message.message_id)
             bot.register_next_step_handler(message, sending_menu_base_change)
         
-    elif data == 'Создать рассылку':
-        sending_menu_calendar_create(bot, callback_query)
+    elif data == 'Задать день и номер рассылки':
+        message = bot.edit_message_text('Отправь день и новый номер рассылки, разделив их звездочкой. Пример: 5*11)', chat_id=callback_query.from_user.id,
+                                message_id=callback_query.message.message_id)
+        bot.register_next_step_handler(message, edit_sending_menu_calendar)
         
-    elif data == 'Просмотреть рассылку':
-        sending_menu_calendar_look(bot, callback_query)
+    elif data == 'Просмотреть расписание':
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.get_all_info_from_calendar()
+        cursor.execute(SQLQuery)
+        all_messages = cursor.fetchall()
+        for i in range(len(all_messages)):
+            bot.send_message(callback_query.from_user.id, 
+                             'День рассылки:', all_messages[i][0] + '\nНомер рассыоки:' + all_messages[i][1])
+            time.sleep(0.1)
+
         
-    elif data == 'Удалить рассылку':
-        sending_menu_calendar_delete(bot, callback_query)
+    elif data == 'Очистить день от рассылки':
+        message = bot.edit_message_text('Отправь номер дня в который нужно убрать рассылку.', 
+                    chat_id=callback_query.from_user.id,
+                    message_id=callback_query.message.message_id)
+        bot.register_next_step_handler(message, sending_menu_calendar_delete)
 
 # -----------------------------Конец новый части меню------------------------------------------
 
@@ -887,7 +901,7 @@ query_data_handler(bot, 'Создать сообщение')
 query_data_handler(bot, 'Просмотреть все сообщения')
 query_data_handler(bot, 'Изменить сообщение')
 query_data_handler(bot, 'Число рассылок')
-query_data_handler(bot, 'Создать рассылку')
-query_data_handler(bot, 'Просмотреть рассылку')
-query_data_handler(bot, 'Удалить рассылку')
+query_data_handler(bot, 'Задать день и номер рассылки')
+query_data_handler(bot, 'Просмотреть расписание')
+query_data_handler(bot, 'Очистить день от рассылки')
 query_data_handler(bot, 'Разместить рассылку')

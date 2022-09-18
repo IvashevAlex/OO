@@ -93,17 +93,19 @@ def get_message_by_number_by_sql(send_day_number):
 
 
 # Задать значение по номеру записи
-""" UPDATE [dbo].[Calendar]
-    SET [QuestionNumber] = '""" + str() + """'
-    WHERE [DayAfterStart] = """ + str() + """;
-"""
+def select_calendar_for_change(day_number, message_number):
+    return """ UPDATE [dbo].[Calendar]
+               SET [QuestionNumber] = """ + str(message_number) + """
+               WHERE [DayAfterStart] = """ + str(day_number) + """;
+           """
 
 
 # Очистить значение по номеру записи
-""" UPDATE [dbo].[Calendar]
-    SET [QuestionNumber] = NULL
-    WHERE [DayAfterStart] = """ + str() + """;
-"""
+def clear_value_in_callendar(number):
+    return """ UPDATE [dbo].[Calendar]
+               SET [QuestionNumber] = NULL
+               WHERE [DayAfterStart] = """ + str(number) + """;
+           """
 
 # ----------------------------- dbo.WhiteList ------------------------------- 
 

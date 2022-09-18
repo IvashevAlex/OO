@@ -371,9 +371,9 @@ def sending_menu_calendar(bot, callback_query):
     print('IN sending_menu_calendar')
     markup_calendar = types.InlineKeyboardMarkup()
 
-    itembtn2 = types.InlineKeyboardButton('Создать рассылку', callback_data='Создать рассылку')
-    itembtn3 = types.InlineKeyboardButton('Просмотреть рассылку', callback_data='Просмотреть рассылку')
-    itembtn4 = types.InlineKeyboardButton('Удалить рассылку', callback_data='Удалить рассылку')
+    itembtn2 = types.InlineKeyboardButton('Задать день и номер рассылки', callback_data='Задать день и номер рассылки')
+    itembtn3 = types.InlineKeyboardButton('Просмотреть расписание', callback_data='Просмотреть расписание')
+    itembtn4 = types.InlineKeyboardButton('Очистить день от рассылки', callback_data='Очистить день от рассылки')
 
     itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
@@ -397,15 +397,34 @@ def sending_menu_calendar(bot, callback_query):
     except:
         pass
 
+# Изменяет в календаре номер рассылки для указанного дня
+def edit_sending_menu_calendar(message):
+    print('IN edit_sending_menu_calendar')
+    number_text = str(message.text).split('*')
+    print(number_text)
+    print(number_text[0])
+    print(number_text[1])
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.select_calendar_for_change(number_text[0], number_text[1])
+    cursor.execute(SQLQuery)
+    connection.commit()
+    connection.close()
 
-def sending_menu_calendar_create(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Сообщает новую рассылку', parse_mode='Markdown')
+# def sending_menu_calendar_look(bot, callback_query):
+#     pass
 
-def sending_menu_calendar_look(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Показывает рассылки по дате', parse_mode='Markdown')
-
-def sending_menu_calendar_delete(bot, callback_query):
-    bot.send_message(callback_query.from_user.id, 'Удаляет рассылку по номеру', parse_mode='Markdown')
+def sending_menu_calendar_delete(message):
+    print('IN sending_menu_calendar_delete')
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.clear_value_in_callendar(message.text)
+    cursor.execute(SQLQuery)
+    connection.commit()
+    connection.close()
+    # End SQL
 
 
 Other_srvice_menu("Внутренние сервисы", bot)
