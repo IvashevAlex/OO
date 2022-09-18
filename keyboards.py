@@ -294,7 +294,8 @@ def sending_menu(bot, callback_query):
 
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, text=text.send_actions, 
-                              message_id=callback_query.message.message_id, reply_markup=markup_send)
+                              message_id=callback_query.message.message_id, reply_markup=markup_send,
+                              parse_mode='Markdown')
     except:
         pass
 
@@ -446,9 +447,9 @@ def sending_menu_start_new_wave(bot, callback_query):
 
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id,
-                text='Нажми кнопку, для создания разделителя между старым и новым набором.\n"\
+                text="Нажми кнопку, для создания разделителя между старым и новым набором.\n"\
                 "Старый набор будет ограничен вчерашней датой. Новый набор начнется с сегодняшней.\n"\
-                "На данный момент перенос юзера из одного набора в другой можно сделать только  вручную.',
+                "На данный момент перенос юзера из одного набора в другой можно сделать только  вручную.",
                 message_id=callback_query.message.message_id, 
                 reply_markup=markup_new_wave)
     except:

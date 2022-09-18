@@ -854,12 +854,17 @@ def query_data_handler(bot, data):
                 time.sleep(0.1)
         
     elif data == 'Изменить сообщение':
-        message = bot.edit_message_text('Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст)', chat_id=callback_query.from_user.id,
-                                message_id=callback_query.message.message_id)
+        message = bot.edit_message_text("Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст.\n"\
+                            "Обрати внимание, что символ * - это разделитель и его нельяз использовать в тексте рассылки.\n"\
+                            "При необходимоести указать символ ' необходимо указать его давжды WIC''a." ,
+                            chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_change)
         
     elif data == 'Задать день и номер рассылки':
-        message = bot.edit_message_text('Отправь день и новый номер рассылки, разделив их звездочкой. Пример: 5*11)', chat_id=callback_query.from_user.id,
+        message = bot.edit_message_text("Отправь день и новый номер рассылки, разделив их звездочкой. Пример: 5*11 \n"\
+                                "Обрати внимание, что символ * - это разделитель и его нужно указать один раз.", 
+                                chat_id=callback_query.from_user.id,
                                 message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, edit_sending_menu_calendar)
 
@@ -871,7 +876,7 @@ def query_data_handler(bot, data):
         all_messages = cursor.fetchall()
         group_calendar = str()
         for i in range(len(all_messages)):
-            group_calendar = group_calendar + 'День '+ str(all_messages[i][0]) + '- Номер рассылки: ' + str(all_messages[i][1]) + '\n'
+            group_calendar = group_calendar + 'День '+ str(all_messages[i][0]) + ' - Номер рассылки: ' + str(all_messages[i][1]) + '\n'
         bot.send_message(callback_query.from_user.id, group_calendar)
 
 
@@ -893,6 +898,7 @@ def query_data_handler(bot, data):
 
 
     elif data == 'Вернуться в Рассылки':
+        print('КНОПКА ВОЗВРАТА В РАССЫЛКИ НАЖАТА')
         sending_menu(bot, callback_query)
 
 # -----------------------------Конец новый части меню------------------------------------------
