@@ -57,7 +57,7 @@ def get_full_list_of_dates():
 
 # Создать новый набор с сегодняшнего дня
 def create_new_wave():
-    return """INSERT INTO [dbo].[Settable] (Data)
+    return """INSERT INTO [dbo].[Settable] (StartDate)
               VALUES ('""" + str(today) + """');   
             """
 

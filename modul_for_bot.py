@@ -10,6 +10,9 @@ from keyboards import *
 from keyboards_modules.modules import *
 
 import text
+import datetime as dt
+
+today = dt.date.today()
 
 test_mode = test_mode_check.test_mode()
 
@@ -834,7 +837,7 @@ def query_data_handler(bot, data):
         sending_menu_start_new_wave(bot, callback_query)
         
     elif data == 'Создать сообщение':
-        message = bot.edit_message_text('Отправь текст нового сообщения', 
+        message = bot.edit_message_text('Отправь текст нового сообщения.', 
                             chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_add_to_sql)
@@ -859,7 +862,8 @@ def query_data_handler(bot, data):
         message = bot.edit_message_text('Отправь день и новый номер рассылки, разделив их звездочкой. Пример: 5*11)', chat_id=callback_query.from_user.id,
                                 message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, edit_sending_menu_calendar)
-        
+
+        # todo Изменить вариант отправки
     elif data == 'Просмотреть расписание':
         connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
         cursor = connection.cursor()
@@ -885,10 +889,13 @@ def query_data_handler(bot, data):
         cursor = connection.cursor()
         SQLQuery = sql_queries.create_new_wave()
         cursor.execute(SQLQuery) 
-        add_data = cursor.fetchall()[0][0]
         connection.commit()
         connection.close()
-        bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ', add_data)
+        bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(today) + '.')
+
+
+    elif data == 'Вернуться в Рассылки':
+        sending_menu(bot, callback_query)
 
 # -----------------------------Конец новый части меню------------------------------------------
 
