@@ -863,7 +863,6 @@ def query_data_handler(bot, data):
                                 message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, edit_sending_menu_calendar)
 
-        # todo Изменить вариант отправки
     elif data == 'Просмотреть расписание':
         connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
         cursor = connection.cursor()
@@ -876,8 +875,6 @@ def query_data_handler(bot, data):
         bot.send_message(callback_query.from_user.id, group_calendar)
 
 
-
-        
     elif data == 'Очистить день от рассылки':
         message = bot.edit_message_text('Отправь номер дня в который нужно убрать рассылку.', 
                     chat_id=callback_query.from_user.id,
