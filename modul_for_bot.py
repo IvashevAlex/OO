@@ -863,7 +863,8 @@ def query_data_handler(bot, data):
         
     elif data == 'Задать день и номер рассылки':
         message = bot.edit_message_text("Отправь день и новый номер рассылки, разделив их звездочкой. Пример: 5*11 \n"\
-                                "Обрати внимание, что символ * - это разделитель и его нужно указать один раз.", 
+                                "Обрати внимание, что символ * - это разделитель и его нужно указать один раз.\n"\
+                                "Ты можешь указать любой номер рассылки, но не делай так. Пиши только те, что уже добавил.", 
                                 chat_id=callback_query.from_user.id,
                                 message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, edit_sending_menu_calendar)
