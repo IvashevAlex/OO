@@ -73,7 +73,7 @@ def test_menu(bot, message):
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
     print('IN Admin_menu')
     modul_for_bot.callback_check[message.from_user.id] = 'admin'
-    markup_admin = types.InlineKeyboardMarkup()
+    markup = types.InlineKeyboardMarkup()
     
     itembtn1 = types.InlineKeyboardButton('Обновить таблицы', callback_data='Обновить таблицы')
     itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
@@ -82,17 +82,11 @@ def Admin_menu(message, bot): #Описание функций для меню �
 
     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-    markup_admin.add(itembtn1)
-    markup_admin.add(itembtn2, itembtn3)
-    markup_admin.add(itembtn4)
-    markup_admin.add(itembtn9)
-
-    try:
-        bot.edit_message_text(chat_id=message.from_user.id, text=text.admin_mes, 
-                              message_id=message.message_id, reply_markup=markup_admin,
-                              parse_mode='Markdown')
-    except:
-        pass
+    markup.add(itembtn1)
+    markup.add(itembtn2, itembtn3)
+    markup.add(itembtn4)
+    markup.add(itembtn9)
+    bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
 
 def Inst_menu(name, bot):
     print('IN Inst_menu')
@@ -292,11 +286,11 @@ def sending_menu(bot, callback_query):
     itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
     itembtn2 = types.InlineKeyboardButton('Календарь рассылок', callback_data='Календарь рассылок')
     itembtn3 = types.InlineKeyboardButton('Начать новый набор', callback_data='Начать новый набор')
-    itembtn12 = types.InlineKeyboardButton('Вернуться в Меню админа', callback_data='Вернуться в Меню админа')
+    # itembtn12 = types.InlineKeyboardButton('Вернуться в Меню админа', callback_data='Вернуться в Меню админа')
 
     markup_send.add(itembtn1, itembtn2)
     markup_send.add(itembtn3)
-    markup_send.add(itembtn12)
+    # markup_send.add(itembtn12)
 
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, text=text.send_actions, 
