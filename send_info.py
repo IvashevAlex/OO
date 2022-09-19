@@ -16,6 +16,11 @@ def time_checker():
                     return True
                 else:
                     return False
+            else:
+                return False
+        else:
+            return False
+    else:
         return False
 
 
@@ -136,7 +141,7 @@ def get_message_number_by_day_number(send_day_number):
         return None
     # End SQL  
 
-
+# Получить текст сообщения по его номеру
 def get_message_by_day_number(number_of_message_by_date):
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
