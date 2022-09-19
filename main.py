@@ -28,7 +28,7 @@ def help(message):
 @bot.message_handler(commands=["admin"])
 def admin_menu(message):
     print('IN admin_menu')
-    if message.chat.id in (233770916, 391368365, 1325029854):
+    if message.chat.id in (233770916, 391368365, 1325029854, 411204685):
         Admin_menu(message, bot)
     else:
         bot.send_message(message.from_user.id, text.no_admin_access)

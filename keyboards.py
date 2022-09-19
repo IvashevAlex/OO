@@ -40,7 +40,7 @@ def question(bot, message):
     markup.row(itemhelp)
     bot.send_message(message.chat.id, text.hello_mes, reply_markup=markup)
 
-
+# Клавиатура выбора типа обучения
 def test_menu(bot, message):
     print('IN test_menu')
     try:
@@ -49,8 +49,7 @@ def test_menu(bot, message):
         pass
 
     try:
-        bot.edit_message_reply_markup(
-            message.from_user.id, message.message_id - 1)
+        bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
     except Exception as Abc:
         pass
 
@@ -69,7 +68,7 @@ def test_menu(bot, message):
     except Exception as E:
         pass
 
-
+# Меню админа, вызываемое по команде "/admin"
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
     print('IN Admin_menu')
     modul_for_bot.callback_check[message.from_user.id] = 'admin'
@@ -87,6 +86,7 @@ def Admin_menu(message, bot): #Описание функций для меню �
     markup.add(itembtn4)
     markup.add(itembtn9)
     bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
+
 
 def Inst_menu(name, bot):
     print('IN Inst_menu')
@@ -113,6 +113,7 @@ def WIC_menu(name, bot):
         modul_for_bot.tests_data[message.chat.id] = 'WIC'
         prk_wic(bot, message)  # <--- тут будет отправка и меню с выбором
 
+
 def Other_srvice_menu(name, bot):
     print('IN Other_service_menu')
     @bot.message_handler(func=lambda message: message.text == name)
@@ -125,7 +126,7 @@ def Other_srvice_menu(name, bot):
         modul_for_bot.tests_data[message.chat.id] = 'OTHER'
         other_service_prk(bot, message)  # <--- тут будет отправка и меню с выбором
 
-
+# Установка - Тесты - Клавиатура
 def test_INST(bot, message):
     print('IN test_INST')
     modul_for_bot.sql_user(bot, message)
@@ -416,6 +417,7 @@ def edit_sending_menu_calendar(message):
     connection.commit()
     connection.close()
 
+# Задает указанному дню рассылки значение NULL
 def sending_menu_calendar_delete(message):
     print('IN sending_menu_calendar_delete')
     # Start SQL
@@ -433,6 +435,7 @@ def sending_menu_calendar_delete(message):
 
 # ----------------------------МЕНЮ АДМИНА-РАССЫЛКИ-НАЧАТЬ НОВЫЙ НАБОР--------------------------
 
+# Функция добавляет новую дату в dbo.Settable, дату начала нового набора
 def sending_menu_start_new_wave(bot, callback_query):
     print('IN sending_menu_calendar')
     markup_new_wave = types.InlineKeyboardMarkup()

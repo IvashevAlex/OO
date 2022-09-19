@@ -856,7 +856,7 @@ def query_data_handler(bot, data):
     elif data == 'Изменить сообщение':
         message = bot.edit_message_text("Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст.\n"\
                             "Обрати внимание, что символ * - это разделитель и его нельяз использовать в тексте рассылки.\n"\
-                            "При необходимоести указать символ ' необходимо указать его давжды WIC''a." ,
+                            "При необходимоести указать символ ' необходимо указать его дважды - WIC''a." ,
                             chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_change)
