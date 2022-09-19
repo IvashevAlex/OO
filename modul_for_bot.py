@@ -18,10 +18,10 @@ test_mode = test_mode_check.test_mode()
 
 if test_mode == False:
     alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе
-    toha_id = 1325029854 #ID для обработки технической ошибки
+    fafa_id = 1325029854 #ID для обработки технической ошибки
 else:
     alex_id = 1325029854 #ID для обработки сообщений об ошибке в вопросе
-    toha_id = 1325029854 #ID для обработки технической ошибки
+    fafa_id = 1325029854 #ID для обработки технической ошибки
 
 data_base = {'BotUsers': {},
              'UserQuestions': {},
@@ -556,8 +556,8 @@ def continue_(bot, message):  # <--- функция обработки прос�
 
     elif callback_check[message.chat.id] == '2':  # Если пользователь нажал на сообщить об ошибке и выбрал "о технческой ошибке"
         print('IF 2')
-        text_error = 'Антоха, конс нашел техническую ошибку: '
-        bot.send_message(toha_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
+        text_error = 'Сообщение о технической ошибке: '
+        bot.send_message(fafa_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
         bot.send_message(message.chat.id, text.tech_error_msg)
 
         callback_check[message.from_user.id] = save_check[message.from_user.id]
