@@ -897,12 +897,19 @@ def query_data_handler(bot, data):
         connection.close()
         bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(today) + '.')
 
+    elif data == 'Вернуться в Меню админа':
+        Admin_menu(bot, callback_query)
 
     elif data == 'Вернуться в Рассылки':
-        print('КНОПКА ВОЗВРАТА В РАССЫЛКИ НАЖАТА')
         sending_menu(bot, callback_query)
+    
+    elif data == 'Вернуться в База сообщений':
+        sending_menu_base(bot, callback_query)
+    
+    elif data == 'Вернуться в Календарь рассылок':
+        sending_menu_calendar(bot, callback_query)
 
-# -----------------------------Конец новый части меню------------------------------------------
+# -----------------------------Конец новой части меню------------------------------------------
 
     elif data == 'Результаты':
         res(bot, callback_query)
@@ -918,8 +925,6 @@ query_data_handler(bot, 'Обновить таблицы')
 query_data_handler(bot, 'Зарегистрировать пользователя')
 query_data_handler(bot, 'Удалить пользователя')
 
-query_data_handler(bot, 'Результаты')
-
 query_data_handler(bot, 'Рассылка')
 query_data_handler(bot, 'База сообщений')
 query_data_handler(bot, 'Календарь рассылок')
@@ -933,4 +938,9 @@ query_data_handler(bot, 'Задать день и номер рассылки')
 query_data_handler(bot, 'Просмотреть расписание')
 query_data_handler(bot, 'Очистить день от рассылки')
 query_data_handler(bot, 'Начать новый набор!')
-query_data_handler(bot, 'Разместить рассылку')
+query_data_handler(bot, 'Вернуться в Меню админа')
+query_data_handler(bot, 'Вернуться в Рассылки')
+query_data_handler(bot, 'Вернуться в База сообщений')
+query_data_handler(bot, 'Вернуться в Календарь рассылок')
+
+query_data_handler(bot, 'Результаты')

@@ -73,7 +73,7 @@ def test_menu(bot, message):
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
     print('IN Admin_menu')
     modul_for_bot.callback_check[message.from_user.id] = 'admin'
-    markup = types.InlineKeyboardMarkup()
+    markup_admin = types.InlineKeyboardMarkup()
     
     itembtn1 = types.InlineKeyboardButton('Обновить таблицы', callback_data='Обновить таблицы')
     itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
@@ -82,11 +82,17 @@ def Admin_menu(message, bot): #Описание функций для меню �
 
     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-    markup.add(itembtn1)
-    markup.add(itembtn2, itembtn3)
-    markup.add(itembtn4)
-    markup.add(itembtn9)
-    bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
+    markup_admin.add(itembtn1)
+    markup_admin.add(itembtn2, itembtn3)
+    markup_admin.add(itembtn4)
+    markup_admin.add(itembtn9)
+
+    try:
+        bot.edit_message_text(chat_id=message.from_user.id, text=text.admin_mes, 
+                              message_id=message.message_id, reply_markup=markup_admin,
+                              parse_mode='Markdown')
+    except:
+        pass
 
 def Inst_menu(name, bot):
     print('IN Inst_menu')
@@ -286,7 +292,7 @@ def sending_menu(bot, callback_query):
     itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
     itembtn2 = types.InlineKeyboardButton('Календарь рассылок', callback_data='Календарь рассылок')
     itembtn3 = types.InlineKeyboardButton('Начать новый набор', callback_data='Начать новый набор')
-    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+    itembtn12 = types.InlineKeyboardButton('Вернуться в Меню админа', callback_data='Вернуться в Меню админа')
 
     markup_send.add(itembtn1, itembtn2)
     markup_send.add(itembtn3)
@@ -310,7 +316,7 @@ def sending_menu_base(bot, callback_query):
     itembtn3 = types.InlineKeyboardButton('Просмотреть все сообщения', callback_data='Просмотреть все сообщения')
     itembtn4 = types.InlineKeyboardButton('Изменить сообщение', callback_data='Изменить сообщение')
 
-    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+    itembtn12 = types.InlineKeyboardButton('Вернуться в Рассылки', callback_data='Вернуться в Рассылки')
 
     markup_base.add(itembtn2)
     markup_base.add(itembtn3, itembtn4)
@@ -364,10 +370,7 @@ def sending_menu_base_change(message):
     connection.close()
     # End SQL 
     try:
-        bot.edit_message_text(chat_id=message.from_user.id, 
-                              text='Сообщение изменено!', 
-                              message_id=message.message_id)
-        time.sleep(2)
+        bot.send_message(chat_id=message.from_user.id,  text='Сообщение изменено!', message_id=message.message_id)
     except:
         pass
 
@@ -382,7 +385,7 @@ def sending_menu_calendar(bot, callback_query):
     itembtn3 = types.InlineKeyboardButton('Просмотреть расписание', callback_data='Просмотреть расписание')
     itembtn4 = types.InlineKeyboardButton('Очистить день от рассылки', callback_data='Очистить день от рассылки')
 
-    itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+    itembtn12 = types.InlineKeyboardButton('Вернуться в Рассылки', callback_data='Вернуться в Рассылки')
 
     markup_calendar.add(itembtn2)
     markup_calendar.add(itembtn3, itembtn4)
@@ -419,9 +422,6 @@ def edit_sending_menu_calendar(message):
     connection.commit()
     connection.close()
 
-# def sending_menu_calendar_look(bot, callback_query):
-#     pass
-
 def sending_menu_calendar_delete(message):
     print('IN sending_menu_calendar_delete')
     # Start SQL
@@ -432,6 +432,10 @@ def sending_menu_calendar_delete(message):
     connection.commit()
     connection.close()
     # End SQL
+    try:
+        bot.send_message(chat_id=message.from_user.id,  text='День очищен от рассылки!', message_id=message.message_id)
+    except:
+        pass
 
 # ----------------------------МЕНЮ АДМИНА-РАССЫЛКИ-НАЧАТЬ НОВЫЙ НАБОР--------------------------
 
