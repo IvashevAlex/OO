@@ -99,6 +99,7 @@ def make_dict_of_groups(lists_of_dates):
     return dict_of_groups
 
 
+# ! Исправить подсчет дней так, что бы нулевой день отсутствовал.
 # Считает в диапазоне дат число будних дней
 def weekdays_minus_sundays(pre_answer_int, first_day_format):
     answer = 0
@@ -112,6 +113,7 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
             first_day_format += dt.timedelta(days=1)
     return answer
 
+# ! Когда число прошедших дней привысит число дней в календаре будут сыпаться обшибки
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
 # Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
 def weekday_calc(today, lists_of_dates_pair):
@@ -125,7 +127,7 @@ def weekday_calc(today, lists_of_dates_pair):
     answer = weekdays_minus_sundays(pre_answer_int, first_day_format)
     return answer
 
-
+# ! Когда число прошедших дней привысит число дней в календаре будут сыпаться обшибки
 # Получение текста рассылки по ее дню из send_day_number
 def get_message_number_by_day_number(send_day_number):
     # Start SQL
@@ -141,6 +143,7 @@ def get_message_number_by_day_number(send_day_number):
         return None
     # End SQL  
 
+# ! Когда число прошедших дней привысит число дней в календаре будут сыпаться обшибки
 # Получить текст сообщения по его номеру
 def get_message_by_day_number(number_of_message_by_date):
     # Start SQL
@@ -178,7 +181,10 @@ while True:
                 for i in range(len(dict_of_groups.get(lists_of_dates[_]))):
                     users_id = dict_of_groups.get(lists_of_dates[_])[i][0]
                     print('Отправка', users_id)
-                    # bot.send_message(users_id, message_by_number) #! закоментирована сама отправка
+                    try:
+                        bot.send_message(users_id, message_by_number)
+                    except:
+                        print('Ошибка отправки ', users_id)
             else:
                 pass
             print('-' * 100)
