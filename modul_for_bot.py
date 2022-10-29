@@ -895,7 +895,7 @@ def query_data_handler(bot, data):
         cursor.execute(SQLQuery) 
         connection.commit()
         connection.close()
-        bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(today) + '.')
+        bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(dt.date.today()) + '.')
 
     # ? Вызов как с другими функциями не получается, поскольку Admin_menu принимает не callback_query, message
     # ? Пока опция заблокрирована

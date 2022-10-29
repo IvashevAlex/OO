@@ -4,7 +4,7 @@ from WhiteList import *
 import pypyodbc
 import sql_queries
 
-today = dt.date.today()
+# today = dt.date.today() - положение в данном месте не позволяет оновлять переменную , т.к. она объявляетс только один раз
 
 def time_checker():
     # Проверка на день недели. По выходным сообщения не рассылаем. Отправка в 12:05:05 по локальному времени
@@ -42,7 +42,7 @@ def make_list_of_date_ranges(answer):
     list_of_date_ranges = list()
     for _ in range(len(answer)):
         list_of_date_ranges.append(answer[_][0])
-    list_of_date_ranges.append(str(today))
+    list_of_date_ranges.append(str(dt.date.today()))
     print('make_list_of_date_ranges:', list_of_date_ranges)
     return list_of_date_ranges
 
@@ -99,7 +99,6 @@ def make_dict_of_groups(lists_of_dates):
     return dict_of_groups
 
 
-# ! Исправить подсчет дней так, что бы нулевой день отсутствовал.
 # Считает в диапазоне дат число будних дней
 def weekdays_minus_sundays(pre_answer_int, first_day_format):
     answer = 0
@@ -113,7 +112,6 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
             first_day_format += dt.timedelta(days=1)
     return answer
 
-# ! Когда число прошедших дней привысит число дней в календаре будут сыпаться обшибки
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
 # Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
 def weekday_calc(today, lists_of_dates_pair):
@@ -121,13 +119,13 @@ def weekday_calc(today, lists_of_dates_pair):
     print(lists_of_dates_pair[0])
     first_day = lists_of_dates_pair[0]
     first_day_format = dt.datetime.strptime(first_day, '%Y-%m-%d').date()
-    pre_answer = today - first_day_format
+    pre_answer = dt.date.today() - first_day_format
     pre_answer_int = int(pre_answer.days)
     print('Всего прошло дней:', pre_answer)
     answer = weekdays_minus_sundays(pre_answer_int, first_day_format)
     return answer
 
-# ! Когда число прошедших дней привысит число дней в календаре будут сыпаться обшибки
+
 # Получение текста рассылки по ее дню из send_day_number
 def get_message_number_by_day_number(send_day_number):
     # Start SQL
@@ -143,7 +141,6 @@ def get_message_number_by_day_number(send_day_number):
         return None
     # End SQL  
 
-# ! Когда число прошедших дней привысит число дней в календаре будут сыпаться обшибки
 # Получить текст сообщения по его номеру
 def get_message_by_day_number(number_of_message_by_date):
     # Start SQL
@@ -170,6 +167,7 @@ while True:
         for _ in range(len(lists_of_dates)):
             print('Набор №', _ + 1)
             print('Пара дат:', lists_of_dates[_])
+            today = dt.date.today()
             send_day_number = weekday_calc(today, lists_of_dates[_]) # Число будних дней 
             number_of_message_by_date = get_message_number_by_day_number(send_day_number) # Номер сообщения для числа дней
 
@@ -183,12 +181,17 @@ while True:
                     print('Отправка', users_id)
                     try:
                         bot.send_message(users_id, message_by_number)
-                    except:
-                        print('Ошибка отправки ', users_id)
+                    except Exception as e:
+                        # Фиксируем причину возникновения ошибки
+                        print('----------')
+                        print(e.args)
+                        print('Ошибка отправки', users_id)
+                        print('----------')
             else:
                 pass
             print('-' * 100)
         print('Конец отправки:', time.localtime()[3], time.localtime()[4], time.localtime()[5])
+        print(' ')
         time.sleep(150) # Защита от спамных отправок при сбоях.
     else:
         pass

@@ -52,13 +52,14 @@ def add_new_value_in_messages(new_messages_text):
 def get_full_list_of_dates():
     return """SELECT *
     FROM [dbo].[Settable]
+    ORDER BY [StartDate] ASC
     """
 
 
 # Создать новый набор с сегодняшнего дня
 def create_new_wave():
     return """INSERT INTO [dbo].[Settable] (StartDate)
-              VALUES ('""" + str(today) + """');   
+              VALUES ('""" + str(dt.date.today()) + """'); 
             """
 
 # Удаление не предусмотрено 

@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.2.1'
+ver = '1.0.2.2'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -57,8 +57,8 @@ def back_menu(message):
         back_to_menu(bot, message)
 
 
-# Обработка текстового сообщения "Помощь"
-@bot.message_handler(func=lambda message: message.text == "Помощь")
+# Обработка текстового сообщения "Пoмощь". Первая буква "o" в слове латинская
+@bot.message_handler(func=lambda message: message.text == "Пoмощь")
 def help_text(message):
     print('IN help_text')
     if echo(message) == True:
