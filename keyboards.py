@@ -13,6 +13,7 @@ from keyboards_modules.uc_menu import *
 import text
 import sql_queries
 
+# Функция отрисовки кнопок в начальном меню
 def question(bot, message):
     print('IN question')
     print(message.chat.id)
@@ -39,6 +40,8 @@ def question(bot, message):
     markup.row(itembtn6, itembtn7, itembtn8)
     markup.row(itemhelp)
     bot.send_message(message.chat.id, text.hello_mes, reply_markup=markup)
+
+    print('OUT question')
 
 # Клавиатура выбора типа обучения
 def test_menu(bot, message):

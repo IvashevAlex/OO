@@ -61,12 +61,8 @@ def get_day_range_of_groups():
     # End SQL  
 
 
-# Возвращает список пар дат в формате (первый день набора, последний день набора). 
+# Возвращает список пар дат в формате {первый день набора, последний день набора} 
 # Для последней группы датой окончания набора считается текущий день
-# ? Как будет вести себя функция еслидата сегодняшняя? 
-# ? Пока есть ощущение, что выгядеть это будет как (2022-09-15, 2022-09-14) и приведет к ошибке
-# todo По факту ошибка действительно возникает, но фиксится добавлением в dbo.Settable
-# todo строки для рассылки нулевого дня
 def make_lists_of_dates(dates):
     answer = list()
     for _ in range(len(dates) - 1):
@@ -77,7 +73,7 @@ def make_lists_of_dates(dates):
     return answer
 
 
-# Подфункция make_dict_of_groups() запрашивающая из БД WhiteList список id по дате регистрацц 
+# Подфункция make_dict_of_groups(). Запрашивает из БД WhiteList список id по дате регистрацц 
 def make_dict_of_groups_sql(first_day, last_day):
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
@@ -104,16 +100,16 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
     answer = 0
     for _ in range(pre_answer_int):
         if first_day_format.isoweekday() in (1,2,3,4,5):
-            print(first_day_format, first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
+            # print(first_day_format, first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
             answer += 1
             first_day_format += dt.timedelta(days=1)
         else:
-            print(first_day_format, first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
+            # print(first_day_format, first_day_format.isoweekday(), first_day_format.isoweekday() in (1,2,3,4,5))
             first_day_format += dt.timedelta(days=1)
     return answer
 
 # Рассчет прошедших дней со дня начала обучения за вычетом выходных
-# Суббота и воскресенье всегда считаются выходными. Возможно стоит добавить список выходных через БД
+# Суббота и воскресенье всегда считаются выходными. Возможно, стоит добавить список выходных через БД
 def weekday_calc(today, lists_of_dates_pair):
     print('IN weekday_calc')
     print(lists_of_dates_pair[0])
@@ -127,6 +123,7 @@ def weekday_calc(today, lists_of_dates_pair):
 
 
 # Получение текста рассылки по ее дню из send_day_number
+# todo Учесть ситуацию, когда значение дня рассылки отсутствует
 def get_message_number_by_day_number(send_day_number):
     # Start SQL
     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
@@ -161,19 +158,20 @@ while True:
         print('Начало отправки:', time.localtime()[3], time.localtime()[4], time.localtime()[5])
         dates_range = get_day_range_of_groups() # Получение списка дней начал обучения. Последний элемент - текущая дата
         lists_of_dates = make_lists_of_dates(dates_range) # Получение пар дат (начало-окончание) для каждой группы
-        dict_of_groups = make_dict_of_groups(lists_of_dates) # Полученеи словоря {(начало-окончание):(список id пользователей за период)}
+        dict_of_groups = make_dict_of_groups(lists_of_dates) # Полученеи словаря {(начало-окончание):(список id пользователей за период)}
 
         # Запускаем цикл для каждой пары даты отдельно
         for _ in range(len(lists_of_dates)):
             print('Набор №', _ + 1)
             print('Пара дат:', lists_of_dates[_])
             today = dt.date.today()
+            print('Сегодня: ', today)
             send_day_number = weekday_calc(today, lists_of_dates[_]) # Число будних дней 
             number_of_message_by_date = get_message_number_by_day_number(send_day_number) # Номер сообщения для числа дней
 
-            # Если для указанног дня есть сообщение
+            # Если для указанного дня есть сообщение
             if number_of_message_by_date != None:
-                message_by_number = get_message_by_day_number(number_of_message_by_date) # Получение по номеру текста сообщения
+                message_by_number = get_message_by_day_number(number_of_message_by_date) # Получение текста сообщения по номеру дня
                 print('Текст отправляемого сообщения:', message_by_number)
                 print('-' * 50)
                 for i in range(len(dict_of_groups.get(lists_of_dates[_]))):
