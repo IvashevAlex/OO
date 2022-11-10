@@ -850,13 +850,15 @@ def query_data_handler(bot, data):
             all_messages = cursor.fetchall()
             for i in range(len(all_messages)):
                 bot.send_message(callback_query.from_user.id, 
-                                'Рассылка №' + str(all_messages[i][0]) + ':\n' + str(all_messages[i][1]))
+                                'Рассылка №' + str(all_messages[i][0]) + ':\n' + str(all_messages[i][1]), 
+                                parse_mode='Markdown', disable_web_page_preview=True)
                 time.sleep(0.1)
         
     elif data == 'Изменить сообщение':
         message = bot.edit_message_text("Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст.\n"\
                             "Обрати внимание, что символ * - это разделитель и его нельяз использовать в тексте рассылки.\n"\
-                            "При необходимоести указать символ ' необходимо указать его дважды - WIC''a." ,
+                            "При необходимоести указать символ ' необходимо указать его дважды - WIC''a.\n"\
+                            "Гиперссылка указывается как [слово](http://www.example.com/).",
                             chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_change)

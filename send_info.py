@@ -170,23 +170,32 @@ while True:
             number_of_message_by_date = get_message_number_by_day_number(send_day_number) # Номер сообщения для числа дней
 
             # Если для указанного дня есть сообщение
-            if number_of_message_by_date != None:
-                message_by_number = get_message_by_day_number(number_of_message_by_date) # Получение текста сообщения по номеру дня
-                print('Текст отправляемого сообщения:', message_by_number)
-                print('-' * 50)
-                for i in range(len(dict_of_groups.get(lists_of_dates[_]))):
-                    users_id = dict_of_groups.get(lists_of_dates[_])[i][0]
-                    print('Отправка', users_id)
-                    try:
-                        bot.send_message(users_id, message_by_number)
-                    except Exception as e:
-                        # Фиксируем причину возникновения ошибки
-                        print('----------')
-                        print(e.args)
-                        print('Ошибка отправки', users_id)
-                        print('----------')
-            else:
-                pass
+            try:
+                if number_of_message_by_date != None:
+                    message_by_number = get_message_by_day_number(number_of_message_by_date) # Получение текста сообщения по номеру дня
+                    print('Текст отправляемого сообщения:', message_by_number)
+                    print('-' * 50)
+                    for i in range(len(dict_of_groups.get(lists_of_dates[_]))):
+                        users_id = dict_of_groups.get(lists_of_dates[_])[i][0]
+                        print('Отправка', users_id)
+                        try:
+                            bot.send_message(users_id, message_by_number, parse_mode='Markdown', disable_web_page_preview=True)
+                        except Exception as e:
+                            # Фиксируем причину возникновения ошибки
+                            print('----------')
+                            print(e.args)
+                            print('Ошибка отправки', users_id)
+                            print('----------')
+                else:
+                    pass
+            
+            except Exception as ex:
+                print('----------')
+                print(ex.args)
+                print('Слишком старая дата отправки', users_id)
+                print('----------')
+                
+
             print('-' * 100)
         print('Конец отправки:', time.localtime()[3], time.localtime()[4], time.localtime()[5])
         print(' ')

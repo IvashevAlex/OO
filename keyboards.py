@@ -66,8 +66,7 @@ def test_menu(bot, message):
     markup_1.add(itembtn12)
 
     try:
-        bot.send_message(
-            message.from_user.id, text.education_type, reply_markup=markup_1)
+        bot.send_message(message.from_user.id, text.education_type, reply_markup=markup_1)
     except Exception as E:
         pass
 
