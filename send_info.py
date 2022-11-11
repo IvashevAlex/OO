@@ -184,7 +184,14 @@ while True:
                             # Фиксируем причину возникновения ошибки
                             print('----------')
                             print(e.args)
-                            print('Ошибка отправки', users_id)
+                            print('Ошибка отправки: ', users_id)
+                            time.sleep(1)
+                            try:
+                                bot.send_message(users_id, message_by_number, parse_mode='Markdown', disable_web_page_preview=True)
+                                print('Отправлено со второй попытки.')
+                            except:
+                                print('Повторная отправка не удалась.')
+                                pass
                             print('----------')
                 else:
                     pass
