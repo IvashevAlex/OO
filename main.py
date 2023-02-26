@@ -4,7 +4,7 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.2.4'
+ver = '1.0.3.0'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
