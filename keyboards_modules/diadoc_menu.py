@@ -17,14 +17,15 @@ def test_DD(bot, callback_query):
 
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Web', callback_data='Web.Диадок')
-    itembtn2 = types.InlineKeyboardButton('Модуль', callback_data='Модуль.Диадок')
-    itembtn3 = types.InlineKeyboardButton('Роуминг', callback_data='Роуминг.Диадок')
-    itembtn4 = types.InlineKeyboardButton('Коннекторы', callback_data='Коннекторы.Диадок')
+    # itembtn2 = types.InlineKeyboardButton('Модуль', callback_data='Модуль.Диадок')
+    itembtn6 = types.InlineKeyboardButton('Интеграции', callback_data='Интеграции.Диадок')
+    # itembtn4 = types.InlineKeyboardButton('Коннекторы', callback_data='Коннекторы.Диадок')
     itembtn5 = types.InlineKeyboardButton('Геракл', callback_data='Геракл.Диадок')
+    itembtn3 = types.InlineKeyboardButton('Роуминг', callback_data='Роуминг.Диадок')
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
-    markup.add(itembtn1, itembtn2, itembtn3)
-    markup.add(itembtn4, itembtn5)
+    markup.add(itembtn1, itembtn6)
+    markup.add(itembtn3, itembtn5)
     markup.add(itembtn12)
 
     bot.edit_message_text("Выбери тему: ", chat_id=callback_query.from_user.id,
@@ -34,14 +35,16 @@ def prk_diadoc(bot, callback_query):
     modul_for_bot.sql_user(bot, callback_query)
 
     markup = types.InlineKeyboardMarkup()
+    itembtn4 = types.InlineKeyboardButton('Админка и вн. сервисы', callback_data='Админка.Диадок')    
     itembtn5 = types.InlineKeyboardButton('Web', callback_data='Web.Диадок')
-    itembtn6 = types.InlineKeyboardButton('Модуль', callback_data='Модуль.Диадок')
+    itembtn6 = types.InlineKeyboardButton('Интеграции', callback_data='Интеграции.Диадок')
     itembtn7 = types.InlineKeyboardButton('Роуминг', callback_data='Роуминг.Диадок')
     # itembtn8 = types.InlineKeyboardButton('Коннекторы', callback_data='Коннекторы.Дидаок')
 
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
-    markup.add(itembtn5, itembtn6, itembtn7)
+    markup.add(itembtn4, itembtn5)
+    markup.add(itembtn6, itembtn7)
     # markup.add(itembtn8) Коннекторы диадок
     markup.add(itembtn12)
     bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",

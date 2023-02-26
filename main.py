@@ -4,13 +4,14 @@ import text
 import test_mode_check
 
 # Переменные
-ver = '1.0.1.3'
+ver = '1.0.3.0'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
 # Обработка команды /start
 @bot.message_handler(commands=["start"])
 def greeting(message):
+    print('IN greeting')
     if echo(message) == True:
         question(bot, message)
 
@@ -18,6 +19,7 @@ def greeting(message):
 # Обработка команды /help
 @bot.message_handler(commands=["help"])
 def help(message):
+    print('IN help')
     if echo(message) == True:
         bot.send_message(message.chat.id, info, parse_mode='Markdown')
 
@@ -25,35 +27,40 @@ def help(message):
 # Обработка команды /admin
 @bot.message_handler(commands=["admin"])
 def admin_menu(message):
-    if message.chat.id in (233770916, 391368365, 1325029854):
+    print('IN admin_menu')
+    if message.chat.id in (233770916, 391368365, 1325029854, 411204685):
         Admin_menu(message, bot)
     else:
         bot.send_message(message.from_user.id, text.no_admin_access)
 
 # Обработка команды /test_1
 @bot.message_handler(commands=["test_1"])
-def help(message):
+def test(message):
+    print('IN test')
     if echo(message) == True:
         bot.send_message(message.chat.id, text.test_1, parse_mode='Markdown')
 
 # Обработка текстового сообщения "В меню"
 @bot.message_handler(func=lambda message: message.text == "В меню")
 def back(message):
+    print('IN back')
     if echo(message) == True:
         question(bot, message)
 
 
 # Обработка текстового сообщения "Назад"
 @bot.message_handler(func=lambda message: message.text == "Назад")
-def back(message):
+def back_menu(message):
+    print('IN back_menu')
     if echo(message) == True:
         # Запускаем test_menu из modul_for_bot
         back_to_menu(bot, message)
 
 
-# Обработка текстового сообщения "Помощь"
-@bot.message_handler(func=lambda message: message.text == "Помощь")
+# Обработка текстового сообщения "Пoмощь". Первая буква "o" в слове латинская
+@bot.message_handler(func=lambda message: message.text == "Пoмощь")
 def help_text(message):
+    print('IN help_text')
     if echo(message) == True:
         bot.send_message(message.chat.id, info, parse_mode='Markdown')
 
@@ -61,6 +68,7 @@ def help_text(message):
 # Обработка текстового сообщения "Результаты"
 @bot.message_handler(func=lambda message: message.text == "Результаты")
 def res0(message):
+    print('IN res0')
     if echo(message) == True:
         res(bot, message)
 
@@ -68,6 +76,7 @@ def res0(message):
 # Обработка нажатия кнопки "Сообщить об ошибке"
 @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Сообщить об ошибке')
 def error_send(callback_query):
+    print('IN error_send')
     if echo(callback_query) == True:
         send_error(bot, callback_query)
 
@@ -76,10 +85,9 @@ def error_send(callback_query):
 # В среднем, считаем, что это ответы на вопросы, заданные пользователю.
 @bot.message_handler(content_types=['text'])
 def answer0(message):
-
-    print(message.message_id)
-
+    print('IN answer0')
     if callback_check.get(message.from_user.id) == 'tests':
+        print('IF tests')
         continue_(bot, message)
         messages = bot.send_message(message.from_user.id, text.waiting_check)
         save_message_id['message_id'][message.from_user.id] = messages.message_id
@@ -87,13 +95,16 @@ def answer0(message):
         return
 
     elif callback_check.get(message.from_user.id) == 'practicks':
+        print('IF practics')
         continue_(bot, message)
         messages = bot.send_message(message.from_user.id, text.waiting_check)
         save_message_id['message_id'][message.from_user.id] = messages.message_id
         check_answer_prk(bot, message)
         return
+    
 
     elif callback_check.get(message.from_user.id) == None:
+        print('IF None')
         if echo(message) == True:
             messages = bot.send_message(message.from_user.id, text.not_selected)
             save_message_id['message_id'][message.from_user.id] = messages.message_id
@@ -102,7 +113,7 @@ def answer0(message):
 
 
 # Информация по боту 
-print(f'Бот запущен! Текущая версия {ver}')
+print(f'Бот запущен! Текущая версия {ver}.')
 if test_mode == True:
     print('Активирован режим тестирования!')
 else:
@@ -110,22 +121,8 @@ else:
 
 # Запуск основного цикла работы бота
 while True:
-    timer_minute = time.gmtime()[4]
-
-    # Если число минут кратно 5 (10,15), то запускает цикл проверки необходимости рассылки
-    if timer_minute % 3 == 0:
-        print('Пришло время для 3-х минутной рассылки!')
-        bot.send_message(5484457194, 'Пришло время для 3-х минутной рассылки!')
-    if timer_minute % 5 == 0:
-        print('Пришло время для 5-ти минутной рассылки!')
-        bot.send_message(5737229331, 'Пришло время для 5-ти минутной рассылки!')
-    
-        # Здесь необходимо определить форматы времени: человеческий и машинный
-        # time.gmtime(0) - начало эпохи Юникса
-        pass
-
     try:
-        bot.polling(none_stop=True, interval=0, timeout=20)
+        bot.polling(none_stop=False, interval=0, timeout=20)
     except Exception as e:
         print(e.args)
         sleep(0.7)

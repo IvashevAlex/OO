@@ -10,24 +10,22 @@ from keyboards import *
 from keyboards_modules.modules import *
 
 import text
+import datetime as dt
+
+today = dt.date.today()
 
 test_mode = test_mode_check.test_mode()
 
 if test_mode == False:
     alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе
-    toha_id = 1325029854 #ID для обработки технической ошибки
+    fafa_id = 1325029854 #ID для обработки технической ошибки
 else:
     alex_id = 1325029854 #ID для обработки сообщений об ошибке в вопросе
-    toha_id = 1325029854 #ID для обработки технической ошибки
+    fafa_id = 1325029854 #ID для обработки технической ошибки
 
 data_base = {'BotUsers': {},
              'UserQuestions': {},
              }
-
-# todo данный код не используется здесь. Его можно удалить
-# myDatabase = "UsersDB"
-# mySQLServer = "K1606047" # сервер продакшена
-# mySQLServer = "ASUS\SQLEXPRESS" # сервер тестирования
 
 sheet = 0
 count = 0
@@ -539,9 +537,10 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
 
 
 def continue_(bot, message):  # <--- функция обработки простых текстовых сообщений
-    print("Ввод пользователя - ", message.text)
+    print('IN continue_')
 
     if callback_check.get(message.chat.id) in ('tests', 'practicks', 'admin'):  # Если пользователь не нажимал "Сообщить об ошибке"
+        print('IF tests,practicks,admin')
         try:
             data_base['BotUsers'][message.chat.id]['UserAnswer'] = str(message.text)
         except:
@@ -551,17 +550,20 @@ def continue_(bot, message):  # <--- функция обработки прос�
 
 
     elif callback_check[message.chat.id] == '1':  # Если пользователь нажал на сообщить об ошибке
+        print('IF 1')
         bot.send_message(message.chat.id, 'Ты еще не выбрал о какой ошибке хочешь сообщить. Если не хочешь сообщать, нажми «Отмена».')
         
 
     elif callback_check[message.chat.id] == '2':  # Если пользователь нажал на сообщить об ошибке и выбрал "о технческой ошибке"
-        text_error = 'Антоха, конс нашел техническую ошибку: '
-        bot.send_message(toha_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
+        print('IF 2')
+        text_error = 'Сообщение о технической ошибке: '
+        bot.send_message(fafa_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
         bot.send_message(message.chat.id, text.tech_error_msg)
 
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
     elif callback_check[message.chat.id] == '3':  # Если пользователь нажал на сообщить об ошибке и выбрал "об ошибке в вопросе"
+        print('IF 3')
         if tests_data[message.chat.id] == 'DD':
             product = 'Диадок'
 
@@ -606,6 +608,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
 
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
+    print('IN continue_ END')
 
 def check_answer(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по тестам
     print(callback_query.from_user.id)
@@ -741,6 +744,7 @@ def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить �
     callback_check['text'][callback_query.from_user.id] = callback_query.message.text.split('Пиши')[0]
 
 def query_data_handler(bot, data):
+  print('IN query_data_handler')
   @bot.callback_query_handler(func=lambda callback_query: callback_query.data == data)  # <--- кнопка отмены
   def func_handler(callback_query: CallbackQuery):
 
@@ -811,16 +815,110 @@ def query_data_handler(bot, data):
       print('Таблицы были обновлены!')
 
     elif data == 'Зарегистрировать пользователя':
-      add_user(callback_query, data_base)
-      bot.answer_callback_query(callback_query.id)
+        add_user(callback_query, data_base)
+        bot.answer_callback_query(callback_query.id)
 
     elif data == 'Удалить пользователя':
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
 
-    elif data == 'Результаты':
-      res(bot, callback_query)
+# ---------------------------Новая часть меню--------------------------------------------
 
+    elif data == 'Рассылка':
+        sending_menu(bot, callback_query)
+
+    elif data == 'База сообщений':
+        sending_menu_base(bot, callback_query)
+
+    elif data == 'Календарь рассылок':
+        sending_menu_calendar(bot, callback_query)
+
+    elif data == 'Начать новый набор':
+        sending_menu_start_new_wave(bot, callback_query)
+        
+    elif data == 'Создать сообщение':
+        message = bot.edit_message_text('Отправь текст нового сообщения.', 
+                            chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
+        bot.register_next_step_handler(message, sending_menu_base_add_to_sql)
+        
+    elif data == 'Просмотреть все сообщения':
+            connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+            cursor = connection.cursor()
+            SQLQuery = sql_queries.get_all_info_from_messages()
+            cursor.execute(SQLQuery)
+            all_messages = cursor.fetchall()
+            for i in range(len(all_messages)):
+                bot.send_message(callback_query.from_user.id, 
+                                'Рассылка №' + str(all_messages[i][0]) + ':\n' + str(all_messages[i][1]), 
+                                parse_mode='Markdown', disable_web_page_preview=True)
+                time.sleep(0.1)
+        
+    elif data == 'Изменить сообщение':
+        message = bot.edit_message_text("Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст.\n"\
+                            "Обрати внимание, что символ * - это разделитель и его нельяз использовать в тексте рассылки.\n"\
+                            "При необходимоести указать символ ' необходимо указать его дважды - WIC''a.\n"\
+                            "Гиперссылка указывается как [слово](http://www.example.com/).",
+                            chat_id=callback_query.from_user.id,
+                            message_id=callback_query.message.message_id)
+        bot.register_next_step_handler(message, sending_menu_base_change)
+        
+    elif data == 'Задать день и номер рассылки':
+        message = bot.edit_message_text("Отправь день и новый номер рассылки, разделив их звездочкой. Пример: 5*11 \n"\
+                                "Обрати внимание, что символ * - это разделитель и его нужно указать один раз.\n"\
+                                "Ты можешь указать любой номер рассылки, но не делай так. Пиши только те, что уже добавил.", 
+                                chat_id=callback_query.from_user.id,
+                                message_id=callback_query.message.message_id)
+        bot.register_next_step_handler(message, edit_sending_menu_calendar)
+
+    elif data == 'Просмотреть расписание':
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.get_all_info_from_calendar()
+        cursor.execute(SQLQuery)
+        all_messages = cursor.fetchall()
+        group_calendar = str()
+        for i in range(len(all_messages)):
+            group_calendar = group_calendar + 'День '+ str(all_messages[i][0]) + ' - Номер рассылки: ' + str(all_messages[i][1]) + '\n'
+        bot.send_message(callback_query.from_user.id, group_calendar)
+
+
+    elif data == 'Очистить день от рассылки':
+        message = bot.edit_message_text('Отправь номер дня в который нужно убрать рассылку.', 
+                    chat_id=callback_query.from_user.id,
+                    message_id=callback_query.message.message_id)
+        bot.register_next_step_handler(message, sending_menu_calendar_delete)
+
+    # По хорошему нужно сделать проверку последней даты для предотвращения повторного нажатия
+    elif data == 'Начать новый набор!':
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.create_new_wave()
+        cursor.execute(SQLQuery) 
+        connection.commit()
+        connection.close()
+        bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(dt.date.today()) + '.')
+
+    # ? Вызов как с другими функциями не получается, поскольку Admin_menu принимает не callback_query, message
+    # ? Пока опция заблокрирована
+    elif data == 'Вернуться в Меню админа':
+        Admin_menu(bot, callback_query)
+
+    elif data == 'Вернуться в Рассылки':
+        sending_menu(bot, callback_query)
+    
+    elif data == 'Вернуться в База сообщений':
+        sending_menu_base(bot, callback_query)
+    
+    elif data == 'Вернуться в Календарь рассылок':
+        sending_menu_calendar(bot, callback_query)
+
+# -----------------------------Конец новой части меню------------------------------------------
+
+    elif data == 'Результаты':
+        res(bot, callback_query)
+
+    print('IN query_data_handler END')
 
 add_modules()
 query_data_handler(bot, 'Отмена')
@@ -830,4 +928,23 @@ query_data_handler(bot, 'Назад')
 query_data_handler(bot, 'Обновить таблицы')
 query_data_handler(bot, 'Зарегистрировать пользователя')
 query_data_handler(bot, 'Удалить пользователя')
+
+query_data_handler(bot, 'Рассылка')
+query_data_handler(bot, 'База сообщений')
+query_data_handler(bot, 'Календарь рассылок')
+query_data_handler(bot, 'Начать новый набор')
+query_data_handler(bot, 'Число сообщений')
+query_data_handler(bot, 'Создать сообщение')
+query_data_handler(bot, 'Просмотреть все сообщения')
+query_data_handler(bot, 'Изменить сообщение')
+query_data_handler(bot, 'Число рассылок')
+query_data_handler(bot, 'Задать день и номер рассылки')
+query_data_handler(bot, 'Просмотреть расписание')
+query_data_handler(bot, 'Очистить день от рассылки')
+query_data_handler(bot, 'Начать новый набор!')
+query_data_handler(bot, 'Вернуться в Меню админа')
+query_data_handler(bot, 'Вернуться в Рассылки')
+query_data_handler(bot, 'Вернуться в База сообщений')
+query_data_handler(bot, 'Вернуться в Календарь рассылок')
+
 query_data_handler(bot, 'Результаты')

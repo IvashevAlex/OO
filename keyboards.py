@@ -11,13 +11,14 @@ from keyboards_modules.ofd_menu import *
 from keyboards_modules.uc_menu import *
 
 import text
+import sql_queries
 
+# Функция отрисовки кнопок в начальном меню
 def question(bot, message):
+    print('IN question')
     print(message.chat.id)
-
     modul_for_bot.sql_user(bot, message)
 
-    # bot.send_message(message.chat.id, 'Диадок \nEDI \nЭкстерн \nУЦ \nУстановка')
     markup = types.ReplyKeyboardMarkup(row_width=4, resize_keyboard=True, one_time_keyboard=True)
     itembtn1 = types.KeyboardButton('Диaдoк')
     itembtn2 = types.KeyboardButton('Pитейл')
@@ -40,16 +41,18 @@ def question(bot, message):
     markup.row(itemhelp)
     bot.send_message(message.chat.id, text.hello_mes, reply_markup=markup)
 
+    print('OUT question')
 
+# Клавиатура выбора типа обучения
 def test_menu(bot, message):
+    print('IN test_menu')
     try:
         del modul_for_bot.practicks_data[message.from_user.id]
     except:
         pass
 
     try:
-        bot.edit_message_reply_markup(
-            message.from_user.id, message.message_id - 1)
+        bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
     except Exception as Abc:
         pass
 
@@ -63,27 +66,32 @@ def test_menu(bot, message):
     markup_1.add(itembtn12)
 
     try:
-        bot.send_message(
-            message.from_user.id, text.education_type, reply_markup=markup_1)
+        bot.send_message(message.from_user.id, text.education_type, reply_markup=markup_1)
     except Exception as E:
         pass
 
-
+# Меню админа, вызываемое по команде "/admin"
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
+    print('IN Admin_menu')
     modul_for_bot.callback_check[message.from_user.id] = 'admin'
     markup = types.InlineKeyboardMarkup()
+    
     itembtn1 = types.InlineKeyboardButton('Обновить таблицы', callback_data='Обновить таблицы')
     itembtn2 = types.InlineKeyboardButton('Зарегистрировать пользователя', callback_data='Зарегистрировать пользователя')
     itembtn3 = types.InlineKeyboardButton('Удалить пользователя', callback_data='Удалить пользователя')
+    itembtn4 = types.InlineKeyboardButton('Рассылка', callback_data='Рассылка')
 
     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup.add(itembtn1)
     markup.add(itembtn2, itembtn3)
+    markup.add(itembtn4)
     markup.add(itembtn9)
     bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
 
+
 def Inst_menu(name, bot):
+    print('IN Inst_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def in_menu(message):
         try:
@@ -95,6 +103,7 @@ def Inst_menu(name, bot):
         test_INST(bot, message)  # <--- тут будет отправка и меню с выбором
 
 def WIC_menu(name, bot):
+    print('IN WIC_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def wic_menu(message):
         try:
@@ -106,7 +115,9 @@ def WIC_menu(name, bot):
         modul_for_bot.tests_data[message.chat.id] = 'WIC'
         prk_wic(bot, message)  # <--- тут будет отправка и меню с выбором
 
+
 def Other_srvice_menu(name, bot):
+    print('IN Other_service_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def in_menu(message):
         try:
@@ -117,8 +128,9 @@ def Other_srvice_menu(name, bot):
         modul_for_bot.tests_data[message.chat.id] = 'OTHER'
         other_service_prk(bot, message)  # <--- тут будет отправка и меню с выбором
 
-
+# Установка - Тесты - Клавиатура
 def test_INST(bot, message):
+    print('IN test_INST')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -147,6 +159,7 @@ def test_INST(bot, message):
 
 # ------------  Клавиатура кейсов для каждого отдела -----------------#
 def prk_wic(bot, message):
+    print('IN prk_wic')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -168,6 +181,7 @@ def prk_wic(bot, message):
 
 
 def other_service_prk(bot, message):
+    print('IN other_service_prk')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -190,10 +204,12 @@ def other_service_prk(bot, message):
 
 
 def back_to_menu(bot, message):
+    print('IN back_to_menu')
     test_menu(bot, message)
 
 
 def tests(bot):
+    print('IN tests')
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Тесты')
     def tests_hm(callback_query: CallbackQuery):
 
@@ -227,6 +243,7 @@ def tests(bot):
 
 
 def praktics(bot):
+    print('IN praktics')
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Кейсы')
     def tests_h(callback_query: CallbackQuery):
         bot.answer_callback_query(callback_query.id)
@@ -260,6 +277,186 @@ def praktics(bot):
         elif modul_for_bot.tests_data[callback_query.from_user.id] == 'ELB':
             prk_elb(bot, callback_query)
 
+
+
+# ------------------------------------ МЕНЮ АДМИНА-РАССЫЛКА----------------------------------------------
+
+# Меню рассылки
+def sending_menu(bot, callback_query):
+    print('IN sending_menu')
+    markup_send = types.InlineKeyboardMarkup()
+
+    itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
+    itembtn2 = types.InlineKeyboardButton('Календарь рассылок', callback_data='Календарь рассылок')
+    itembtn3 = types.InlineKeyboardButton('Начать новый набор', callback_data='Начать новый набор')
+    # itembtn12 = types.InlineKeyboardButton('Вернуться в Меню админа', callback_data='Вернуться в Меню админа')
+
+    markup_send.add(itembtn1, itembtn2)
+    markup_send.add(itembtn3)
+    # markup_send.add(itembtn12)
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, text=text.send_actions, 
+                              message_id=callback_query.message.message_id, reply_markup=markup_send,
+                              parse_mode='Markdown')
+    except:
+        pass
+
+# ---------------------------------МЕНЮ АДМИНА-РАССЫЛКИ-БАЗА СООБЩЕНИЙ--------------------------------
+
+# Меню Рассылки - База сообщений (dbo.Messages)
+def sending_menu_base(bot, callback_query):
+    print('IN sending_menu_base')
+    markup_base = types.InlineKeyboardMarkup()
+
+    itembtn2 = types.InlineKeyboardButton('Создать сообщение', callback_data='Создать сообщение')
+    itembtn3 = types.InlineKeyboardButton('Просмотреть все сообщения', callback_data='Просмотреть все сообщения')
+    itembtn4 = types.InlineKeyboardButton('Изменить сообщение', callback_data='Изменить сообщение')
+
+    itembtn12 = types.InlineKeyboardButton('Вернуться в Рассылки', callback_data='Вернуться в Рассылки')
+
+    markup_base.add(itembtn2)
+    markup_base.add(itembtn3, itembtn4)
+    markup_base.add(itembtn12)
+
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.number_of_values_in_messages()
+    cursor.execute(SQLQuery)
+    number_of_messages = cursor.fetchall()[0][0]
+    # End SQL
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, 
+                              text=text.sending_base + str(number_of_messages), 
+                              message_id=callback_query.message.message_id, 
+                              reply_markup=markup_base)
+    except:
+        pass
+
+
+# Добавление новой записи в dbo.Messages
+def sending_menu_base_add_to_sql(message):
+    print('IN sending_menu_base_add_to_sql')
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    print('TEXT: ', message.text)
+    SQLQuery = sql_queries.add_new_value_in_messages(message.text)
+    print(SQLQuery)
+    cursor.execute(SQLQuery)
+    connection.commit()
+    connection.close()
+    # End SQL
+
+
+# Изменить текст записи в dbo.Messages
+def sending_menu_base_change(message):
+    print('IN sending_menu_base_change')
+    number_text = str(message.text).split('*')
+    print(number_text)
+    print(number_text[0])
+    print(number_text[1])
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.select_message_for_change(number_text[0], number_text[1])
+    cursor.execute(SQLQuery)
+    connection.commit()
+    connection.close()
+    # End SQL 
+    try:
+        bot.send_message(chat_id=message.from_user.id,  text='Сообщение изменено!', message_id=message.message_id)
+    except:
+        pass
+
+# ---------------------------------МЕНЮ АДМИНА-РАССЫЛКИ-КАЛЕНДАРЬ РАССЫЛОК--------------------------------
+
+# Меню рассылки - Календарь рассылок (dbo.Calendar)
+def sending_menu_calendar(bot, callback_query):
+    print('IN sending_menu_calendar')
+    markup_calendar = types.InlineKeyboardMarkup()
+
+    itembtn2 = types.InlineKeyboardButton('Задать день и номер рассылки', callback_data='Задать день и номер рассылки')
+    itembtn3 = types.InlineKeyboardButton('Просмотреть расписание', callback_data='Просмотреть расписание')
+    itembtn4 = types.InlineKeyboardButton('Очистить день от рассылки', callback_data='Очистить день от рассылки')
+
+    itembtn12 = types.InlineKeyboardButton('Вернуться в Рассылки', callback_data='Вернуться в Рассылки')
+
+    markup_calendar.add(itembtn2)
+    markup_calendar.add(itembtn3, itembtn4)
+    markup_calendar.add(itembtn12)
+
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.number_of_values_in_calendar()
+    cursor.execute(SQLQuery)
+    number_of_not_null_records = cursor.fetchall()[0][1]
+    # End SQL
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, 
+                              text=text.sending_calendar + str(number_of_not_null_records), 
+                              message_id=callback_query.message.message_id, 
+                              reply_markup=markup_calendar)
+    except:
+        pass
+
+# Изменяет в календаре номер рассылки для указанного дня
+def edit_sending_menu_calendar(message):
+    print('IN edit_sending_menu_calendar')
+    number_text = str(message.text).split('*')
+    print(number_text)
+    print(number_text[0])
+    print(number_text[1])
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.select_calendar_for_change(number_text[0], number_text[1])
+    cursor.execute(SQLQuery)
+    connection.commit()
+    connection.close()
+
+# Задает указанному дню рассылки значение NULL
+def sending_menu_calendar_delete(message):
+    print('IN sending_menu_calendar_delete')
+    # Start SQL
+    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = sql_queries.clear_value_in_callendar(message.text)
+    cursor.execute(SQLQuery)
+    connection.commit()
+    connection.close()
+    # End SQL
+    try:
+        bot.send_message(chat_id=message.from_user.id,  text='День очищен от рассылки!', message_id=message.message_id)
+    except:
+        pass
+
+# ----------------------------МЕНЮ АДМИНА-РАССЫЛКИ-НАЧАТЬ НОВЫЙ НАБОР--------------------------
+
+# Функция добавляет новую дату в dbo.Settable, дату начала нового набора
+def sending_menu_start_new_wave(bot, callback_query):
+    print('IN sending_menu_calendar')
+    markup_new_wave = types.InlineKeyboardMarkup()
+
+    itembtn2 = types.InlineKeyboardButton('Начать новый набор!', callback_data='Начать новый набор!')
+    itembtn12 = types.InlineKeyboardButton('Вернуться в Рассылки', callback_data='Вернуться в Рассылки')
+
+    markup_new_wave.add(itembtn2)
+    markup_new_wave.add(itembtn12)
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id,
+                text="Нажми кнопку, для создания разделителя между старым и новым набором.\n"\
+                "Старый набор будет ограничен вчерашней датой. Новый набор начнется с сегодняшней.\n"\
+                "На данный момент перенос юзера из одного набора в другой можно сделать только  вручную.",
+                message_id=callback_query.message.message_id, 
+                reply_markup=markup_new_wave)
+    except:
+        pass
 
 Other_srvice_menu("Внутренние сервисы", bot)
 WIC_menu("WIС", bot)
