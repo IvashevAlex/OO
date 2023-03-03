@@ -1,15 +1,12 @@
 import modul_for_bot
 from WhiteList import bot
 
+
 def add_modules():
     # #--- Кнопки ФМС -----#
 
     modul_for_bot.quest("ФМС", 0, bot)
     modul_for_bot.quest("Отель", 2, bot)
-    modul_for_bot.quest("Фокус", 4, bot)
-    modul_for_bot.quest("Фокус API", 6, bot)
-    modul_for_bot.quest("Компас", 8, bot)
-
 
     #------ Кнопки WIC ------#
     modul_for_bot.quest('WIC.Поиск_знаний', 0, bot)
@@ -31,6 +28,7 @@ def add_modules():
     modul_for_bot.quest('Клиент-Сервис', 2, bot)
 
     #-----------Кнопки Диадок --------#
+    #! Нужно менять
     modul_for_bot.quest("Web.Диадок", 0, bot)
     modul_for_bot.quest("Модуль.Диадок", 2, bot)
     modul_for_bot.quest("Роуминг.Диадок", 4, bot)
@@ -87,7 +85,6 @@ def add_modules():
     modul_for_bot.quest("Закупки", 6, bot)
     modul_for_bot.quest("Реестро", 8, bot)
     modul_for_bot.quest("Контур.Торги", 9, bot)
-    modul_for_bot.quest("Декларант", 10, bot)
     modul_for_bot.quest("Школа", 12, bot)
 
     #----- Кнопки Маркета -----#
@@ -97,3 +94,12 @@ def add_modules():
     modul_for_bot.quest("Меркурий в Маркете", 6, bot)
     modul_for_bot.quest("Маркировка в Маркете", 8, bot)
     modul_for_bot.quest("РАР", 10, bot)
+
+    #----- Кнопки Фокус -----#
+    modul_for_bot.quest("Фокус", 0, bot)
+    modul_for_bot.quest("API Фокус", 2, bot)
+    modul_for_bot.quest("Компас", 4, bot)
+    modul_for_bot.quest("Декларант технический", 6, bot)
+    modul_for_bot.quest("Декларант методология", 8, bot)
+
+    
