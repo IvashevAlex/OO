@@ -31,7 +31,9 @@ sheet = 0
 count = 0
 rand = 0
 
+# Переменная для хранения словаря {id пользователя: номер страницы}
 a = {}
+
 save_check = {'wic_search':{}
               }
 tests_data = {}
@@ -55,7 +57,8 @@ db_data = {} #<---- База данных с вопросами по всем п
 db_data = get_db_excel.get_question()  # <-- тут мы для храним файл ексель для каждого отдела
 
 # ------------ Функция обработки нажатия кнопок ---------- #
-
+# Списки кнопок для тестов находятся в файле modules.py, а для кейсов к ним прибавляется единица
+# Разделы у которых нет стандартного разделения тесты/кейсы обрабабатываются подругому
 def quest(theme, number_of_page, bot):
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == theme)
     def name_def(callback_query):
@@ -822,10 +825,15 @@ def query_data_handler(bot, data):
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
 
+# --------------------Обработка вложенных меню Диадок------------------------------------
+    elif data == 'Админка.Диадок':
+        print('Вход в раздел Диадок-Админка')
+        prk_diadoc_admin(bot, callback_query)
+
 # ---------------------------Новая часть меню--------------------------------------------
 
     elif data == 'Рассылка':
-        sending_menu(bot, callback_query)
+        prk_diadoc_admin(bot, callback_query)
 
     elif data == 'База сообщений':
         sending_menu_base(bot, callback_query)

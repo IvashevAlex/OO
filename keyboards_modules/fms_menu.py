@@ -18,13 +18,9 @@ def test_fms(bot, callback_query):  # <--- формируем меню с тес
     markup = types.InlineKeyboardMarkup()
     itembtn3 = types.InlineKeyboardButton('ФМС', callback_data='ФМС')
     itembtn4 = types.InlineKeyboardButton('Отель', callback_data='Отель')
-    itembtn5 = types.InlineKeyboardButton('Фокус', callback_data='Фокус')
-    itembtn6 = types.InlineKeyboardButton('Фокус API', callback_data='Фокус API')
-    itembtn7 = types.InlineKeyboardButton('Компас', callback_data='Компас')
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
-    markup.add(itembtn3, itembtn4, itembtn5)
-    markup.add(itembtn6, itembtn7)
+    markup.add(itembtn3, itembtn4)
     markup.add(itembtn12)
     bot.edit_message_text("Выбери тему: ", chat_id=callback_query.from_user.id,
                           message_id=callback_query.message.message_id, reply_markup=markup)
@@ -34,13 +30,9 @@ def prk_fms(bot, callback_query):
     markup = types.InlineKeyboardMarkup()
     itembtn3 = types.InlineKeyboardButton('ФМС', callback_data='ФМС')
     itembtn4 = types.InlineKeyboardButton('Отель', callback_data='Отель')
-    itembtn5 = types.InlineKeyboardButton('Фокус', callback_data='Фокус')
-    itembtn6 = types.InlineKeyboardButton('Фокус API', callback_data='Фокус API')
-    itembtn7 = types.InlineKeyboardButton('Компас', callback_data='Компас')
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
-    markup.add(itembtn3, itembtn4, itembtn5)
-    markup.add(itembtn6, itembtn7)
+    markup.add(itembtn3, itembtn4)
     markup.add(itembtn12)
 
     bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",

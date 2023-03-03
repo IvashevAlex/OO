@@ -51,4 +51,30 @@ def prk_diadoc(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
+def prk_diadoc_admin(bot, callback_query):
+    modul_for_bot.sql_user(bot, callback_query)
+
+    markup = types.InlineKeyboardMarkup()
+    itembtn4 = types.InlineKeyboardButton('Аминка Диадока', callback_data='Аминка Диадока')    
+    itembtn5 = types.InlineKeyboardButton('Админка Портала', callback_data='Админка Портала')
+    itembtn6 = types.InlineKeyboardButton('Билли', callback_data='Билли.Диадок')
+
+    itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
+
+    markup.add(itembtn4, itembtn5)
+    markup.add(itembtn6)
+    # markup.add(itembtn8) Коннекторы диадок
+    markup.add(itembtn12)
+    bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
+                          message_id=callback_query.message.message_id, reply_markup=markup)    
+
+def prk_diadoc_web(bot, callback_query):
+    pass
+
+def prk_diadoc_interation(bot, callback_query):
+    pass
+
+def prk_diadoc_roaming(bot, callback_query):
+    pass
+
 DD_menu("Диaдoк", bot)

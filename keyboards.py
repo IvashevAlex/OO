@@ -9,6 +9,7 @@ from keyboards_modules.elba_menu import *
 from keyboards_modules.market_menu import *
 from keyboards_modules.ofd_menu import *
 from keyboards_modules.uc_menu import *
+# from keyboards_modules.focus_menu import *
 
 import text
 import sql_queries
@@ -32,13 +33,14 @@ def question(bot, message):
     itembtn6 = types.KeyboardButton('ФMС')
     itembtn7 = types.KeyboardButton('Бухгaлтерия')
     itembtn8 = types.KeyboardButton('Эльбa')
+    itembtn8 = types.KeyboardButton('Фокус')
     itemhelp = types.KeyboardButton('Пoмощь')
 
     markup.row(itembtn14, itembtn13, itembtn15)
     markup.row(itembtn1, itembtn2, itembtn3)
     markup.row(itembtn12, itembtn4, itembtn5)
     markup.row(itembtn6, itembtn7, itembtn8)
-    markup.row(itemhelp)
+    markup.row(itembtn8, itemhelp)
     bot.send_message(message.chat.id, text.hello_mes, reply_markup=markup)
 
     print('OUT question')
@@ -90,6 +92,7 @@ def Admin_menu(message, bot): #Описание функций для меню �
     bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
 
 
+# Отдельное меню для продукта Установка. Тут только тесты
 def Inst_menu(name, bot):
     print('IN Inst_menu')
     @bot.message_handler(func=lambda message: message.text == name)
@@ -102,6 +105,8 @@ def Inst_menu(name, bot):
         modul_for_bot.sql_user(bot, message)
         test_INST(bot, message)  # <--- тут будет отправка и меню с выбором
 
+
+# Отдельное меню ВИК. Тут только кейсы
 def WIC_menu(name, bot):
     print('IN WIC_menu')
     @bot.message_handler(func=lambda message: message.text == name)
@@ -116,6 +121,7 @@ def WIC_menu(name, bot):
         prk_wic(bot, message)  # <--- тут будет отправка и меню с выбором
 
 
+# Отдельное меню для Внутренних сервисов. Тут только кейсы
 def Other_srvice_menu(name, bot):
     print('IN Other_service_menu')
     @bot.message_handler(func=lambda message: message.text == name)
@@ -127,6 +133,7 @@ def Other_srvice_menu(name, bot):
         modul_for_bot.practicks_data[message.from_user.id] = 'PR'
         modul_for_bot.tests_data[message.chat.id] = 'OTHER'
         other_service_prk(bot, message)  # <--- тут будет отправка и меню с выбором
+
 
 # Установка - Тесты - Клавиатура
 def test_INST(bot, message):
@@ -158,6 +165,8 @@ def test_INST(bot, message):
     bot.send_message(message.chat.id, "Выбери тему: ", reply_markup=markup)
 
 # ------------  Клавиатура кейсов для каждого отдела -----------------#
+
+# Отдельная клавиатура для кейсов по ВИК
 def prk_wic(bot, message):
     print('IN prk_wic')
     modul_for_bot.sql_user(bot, message)
@@ -180,6 +189,7 @@ def prk_wic(bot, message):
     bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
 
 
+# Отдельная клавиатура для кейсов по Внутренним сервисам
 def other_service_prk(bot, message):
     print('IN other_service_prk')
     modul_for_bot.sql_user(bot, message)
@@ -203,11 +213,13 @@ def other_service_prk(bot, message):
     bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
 
 
+# Возвращает к меню выбора тест/кейс для продуктов без индивидуальной схемы кнопок
 def back_to_menu(bot, message):
     print('IN back_to_menu')
     test_menu(bot, message)
 
 
+# Запускает функцию меню тестов продукта, ранее записанного в modul_for_bot.tests_data[callback_query.from_user.id]
 def tests(bot):
     print('IN tests')
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Тесты')
@@ -241,7 +253,7 @@ def tests(bot):
         elif modul_for_bot.tests_data[callback_query.from_user.id] == 'ELB':
             test_elb(bot, callback_query)
 
-
+# Запускает функцию меню кейсов продукта, ранее записанного в modul_for_bot.tests_data[callback_query.from_user.id]
 def praktics(bot):
     print('IN praktics')
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Кейсы')

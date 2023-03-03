@@ -22,14 +22,13 @@ def test_uc(bot, callback_query):  # <--- формируем меню с тес�
     itembtn4 = types.InlineKeyboardButton('Закупки', callback_data='Закупки')
     itembtn5 = types.InlineKeyboardButton('Реестро', callback_data='Реестро')
     itembtn6 = types.InlineKeyboardButton('Контур.Торги', callback_data='Контур.Торги')
-    itembtn7 = types.InlineKeyboardButton('Декларант', callback_data='Декларант')
     itembtn8 = types.InlineKeyboardButton('Школа', callback_data='Школа')
 
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
     markup.add(itembtn1, itembtn2, itembtn3)
     markup.add(itembtn4, itembtn5, itembtn6)
-    markup.add(itembtn7, itembtn8)
+    markup.add(itembtn8)
     markup.add(itembtn12)
     bot.edit_message_text("Выбери тему: ", chat_id=callback_query.from_user.id,
                           message_id=callback_query.message.message_id, reply_markup=markup)
@@ -41,13 +40,12 @@ def prk_uc(bot, callback_query):
     itembtn2 = types.InlineKeyboardButton('ЭТП', callback_data='ЭТП')
     itembtn3 = types.InlineKeyboardButton('ИС', callback_data='ИС')
     itembtn4 = types.InlineKeyboardButton('Закупки', callback_data='Закупки')
-    itembtn5 = types.InlineKeyboardButton('Декларант', callback_data='Декларант')
     itembtn6 = types.InlineKeyboardButton('Школа', callback_data='Школа')
 
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
     markup.add(itembtn1, itembtn2, itembtn3)
-    markup.add(itembtn4, itembtn5, itembtn6)
+    markup.add(itembtn4, itembtn6)
     markup.add(itembtn12)
     bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
                           message_id=callback_query.message.message_id, reply_markup=markup)
