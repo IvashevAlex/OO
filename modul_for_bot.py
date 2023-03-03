@@ -825,10 +825,15 @@ def query_data_handler(bot, data):
         rm_user(callback_query, data_base)
         bot.answer_callback_query(callback_query.id)
 
+# --------------------Обработка вложенных меню Диадок------------------------------------
+    elif data == 'Админка.Диадок':
+        print('Вход в раздел Диадок-Админка')
+        prk_diadoc_admin(bot, callback_query)
+
 # ---------------------------Новая часть меню--------------------------------------------
 
     elif data == 'Рассылка':
-        sending_menu(bot, callback_query)
+        prk_diadoc_admin(bot, callback_query)
 
     elif data == 'База сообщений':
         sending_menu_base(bot, callback_query)
