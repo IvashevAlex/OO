@@ -937,6 +937,11 @@ query_data_handler(bot, 'Обновить таблицы')
 query_data_handler(bot, 'Зарегистрировать пользователя')
 query_data_handler(bot, 'Удалить пользователя')
 
+query_data_handler(bot, 'Админка.Диадок.Кейсы')
+query_data_handler(bot, 'Web.Диадок.Кейсы')
+query_data_handler(bot, 'Интеграции.Диадок.Кейсы')
+query_data_handler(bot, 'Роуминг.Диадок.Кейсы')
+
 query_data_handler(bot, 'Рассылка')
 query_data_handler(bot, 'База сообщений')
 query_data_handler(bot, 'Календарь рассылок')
