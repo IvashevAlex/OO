@@ -9,7 +9,7 @@ from keyboards_modules.elba_menu import *
 from keyboards_modules.market_menu import *
 from keyboards_modules.ofd_menu import *
 from keyboards_modules.uc_menu import *
-# from keyboards_modules.focus_menu import *
+from keyboards_modules.focus_menu import *
 
 import text
 import sql_queries
@@ -33,14 +33,14 @@ def question(bot, message):
     itembtn6 = types.KeyboardButton('ФMС')
     itembtn7 = types.KeyboardButton('Бухгaлтерия')
     itembtn8 = types.KeyboardButton('Эльбa')
-    itembtn8 = types.KeyboardButton('Фокус')
+    itembtn9 = types.KeyboardButton('Фокус')
     itemhelp = types.KeyboardButton('Пoмощь')
 
     markup.row(itembtn14, itembtn13, itembtn15)
     markup.row(itembtn1, itembtn2, itembtn3)
     markup.row(itembtn12, itembtn4, itembtn5)
     markup.row(itembtn6, itembtn7, itembtn8)
-    markup.row(itembtn8, itemhelp)
+    markup.row(itembtn9, itemhelp)
     bot.send_message(message.chat.id, text.hello_mes, reply_markup=markup)
 
     print('OUT question')
@@ -252,6 +252,9 @@ def tests(bot):
 
         elif modul_for_bot.tests_data[callback_query.from_user.id] == 'ELB':
             test_elb(bot, callback_query)
+        
+        elif modul_for_bot.tests_data[callback_query.from_user.id] == 'KF':
+            test_focus(bot, callback_query)
 
 # Запускает функцию меню кейсов продукта, ранее записанного в modul_for_bot.tests_data[callback_query.from_user.id]
 def praktics(bot):
@@ -289,7 +292,8 @@ def praktics(bot):
         elif modul_for_bot.tests_data[callback_query.from_user.id] == 'ELB':
             prk_elb(bot, callback_query)
 
-
+        elif modul_for_bot.tests_data[callback_query.from_user.id] == 'KF':
+            prk_focus(bot, callback_query)
 
 # ------------------------------------ МЕНЮ АДМИНА-РАССЫЛКА----------------------------------------------
 

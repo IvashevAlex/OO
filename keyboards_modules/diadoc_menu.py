@@ -55,6 +55,7 @@ def prk_diadoc(bot, callback_query):
 
 # Админка.Диадок.Кейсы
 def prk_diadoc_admin(bot, callback_query):
+    print('IN prk_diadoc_admin')
     modul_for_bot.sql_user(bot, callback_query)
 
     markup = types.InlineKeyboardMarkup()

@@ -32,17 +32,21 @@ def add_modules():
     modul_for_bot.quest("Интеграции", 1, bot)
     modul_for_bot.quest("Геракл", 2, bot)
     modul_for_bot.quest("Роуминг", 3, bot)
+
     modul_for_bot.quest("Админка.Диадок.Кейсы.Аминка Диадока", 4, bot)
     modul_for_bot.quest("Админка.Диадок.Кейсы.Админка Портала", 5, bot)
     modul_for_bot.quest("Админка.Диадок.Кейсы.Билли", 6, bot)
+
     modul_for_bot.quest("WEB.Диадок.Кейсы.Пользователи", 7, bot)
     modul_for_bot.quest("WEB.Диадок.Кейсы.Контрагенты", 8, bot)
     modul_for_bot.quest("WEB.Диадок.Кейсы.Документы", 9, bot)
     modul_for_bot.quest("WEB.Диадок.Кейсы.Настройки и реквизиты", 10, bot)
     modul_for_bot.quest("WEB.Диадок.Кейсы.Маршруты", 11, bot)
+
     modul_for_bot.quest("Интеграции.Диадок.Кейсы.Документы", 12, bot)
     modul_for_bot.quest("Интеграции.Диадок.Кейсы.Настройки и контрагенты", 13, bot)
     modul_for_bot.quest("Интеграции.Диадок.Кейсы.Ошибки", 14, bot)
+    
     modul_for_bot.quest("Роуминг.Диадок.Кейсы.Заявки", 15, bot)
     modul_for_bot.quest("Роуминг.Диадок.Кейсы.Мониторинг роуминга", 16, bot)
 

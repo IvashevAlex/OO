@@ -2,7 +2,7 @@ import telebot
 
 # По умолчанию тестовый режим выключен. При тестировании указывается параметр True
 def test_mode():
-    return False
+    return True
 
 # Возвращает бота с нужным токеном в зависимости от режима
 def get_token(mode):

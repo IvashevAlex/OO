@@ -1,13 +1,14 @@
 import random
-import requests
+# import requests
 import time
-import openpyxl
+# import openpyxl
 import pypyodbc
 import re
 import test_mode_check
 import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
+from keyboards_modules.diadoc_menu import *
 
 import text
 import datetime as dt
@@ -62,6 +63,7 @@ db_data = get_db_excel.get_question()  # <-- тут мы для храним ф�
 def quest(theme, number_of_page, bot):
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == theme)
     def name_def(callback_query):
+        print('IN quest')
         if echo(callback_query) != True:
             bot.send_message(callback_query.from_user.id, text.no_rights)
             return
@@ -94,6 +96,8 @@ def quest(theme, number_of_page, bot):
                 a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
             elif tests_data[callback_query.from_user.id] == 'DD':
                 a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
+            elif tests_data[callback_query.from_user.id] == 'KF':
+                a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1            
             elif tests_data[callback_query.from_user.id] == 'WIC':
                 if callback_query.data == 'WIC.Поиск_знаний': #Проверяем нажата ли кнопка поиск знаний раздела ВИК
                     save_check['wic_search'][callback_query.from_user.id] = True #Если нажата то активируем переменную, для формирования определенного сообщения в кейсах
@@ -106,6 +110,7 @@ def quest(theme, number_of_page, bot):
 
 
 def sql_user(bot, callback_query):
+    print('IN sql_user')
     userid = str(callback_query.from_user.id)
     print('ID = ', userid, type(userid))
 
@@ -153,6 +158,7 @@ def sql_user(bot, callback_query):
 
 # ------ Проверяем по какому продукту сейчас проходит тестирование ------------#
 def check_product(callback_query):
+    print('IN check_product')
     if tests_data[callback_query.from_user.id] == 'DD':
         db = db_data['DD']
     elif tests_data[callback_query.from_user.id] == 'EDI':
@@ -177,6 +183,8 @@ def check_product(callback_query):
         db = db_data['WIC']
     elif tests_data[callback_query.from_user.id] == 'OTHER':
         db = db_data['OTHER']
+    elif tests_data[callback_query.from_user.id] == 'KF':
+        db = db_data['KF']
     else:
         db = db_data['all']
 
@@ -184,6 +192,7 @@ def check_product(callback_query):
 
 
 def get_max_row(sheet):  # <--- Функция для получения максимального числа вопросов
+    print('IN get_max_row')
     number_A = 1  # <--- Это число для ячейки в столбике А
     max_row = 0  # <--- Максимальное число вопросов
 
@@ -196,8 +205,10 @@ def get_max_row(sheet):  # <--- Функция для получения мак�
 
     return max_row
 
-def random_question(id_user, max_row):
 
+# Функция выбора случайного вопроса
+def random_question(id_user, max_row):
+    print('IN random_question')
     if len(rand_question[id_user]) < 1:
         for i in range(0, max_row):
             rand_question[id_user].append(i)
@@ -209,7 +220,7 @@ def random_question(id_user, max_row):
 
 
 def answers(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по тестам
-    
+    print('IN answers')
     db = check_product(callback_query)  # db = db_data['FMS']['Название листа'] внутри будет dict с вопросами и вариантами ответов
 
     # <--- Получаем название вкладки (продукта) в таблице
@@ -339,6 +350,8 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
 
 
 def answers_prk(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по кейсам
+    print('IN answers_prk')
+    
     practicks_data['check_attempt'][callback_query.from_user.id] = '1'
 
     db = check_product(callback_query)
@@ -486,6 +499,8 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
 
 
 def true_ans(callback_query):  # <--- Функция отвечает за запись правильных ответов по тестам, чтобы в дальнейшем сравнить с тем что написал пользователь
+    print('IN true_ans')
+    
     ans[callback_query.from_user.id] = []
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
@@ -511,6 +526,8 @@ def true_ans(callback_query):  # <--- Функция отвечает за за�
 
 
 def true_ans_prk(callback_query):  # <--- Функция отвечает за запись правильных ответов по тестам, чтобы в дальнейшем сравнить с тем что написал пользователь
+    print('IN true_ans_prk')
+    
     ans[callback_query.from_user.id] = []
     ans['lower'][callback_query.from_user.id] = []
 
@@ -594,6 +611,9 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'ELB':
             product = 'Эльба'
         
+        elif tests_data[message.chat.id] == 'KF':
+            product = 'Фокус'       
+        
         elif tests_data[message.chat.id] == 'WIC':
             product = 'WIC'
         
@@ -614,6 +634,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
     print('IN continue_ END')
 
 def check_answer(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по тестам
+    print('IN check_answer')
     print(callback_query.from_user.id)
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], \
@@ -657,7 +678,8 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
 
 
 def check_answer_prk(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по кейсам
-
+    print('IN check_answer_prk')
+    
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserAnswer'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns'], \
@@ -711,6 +733,7 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
             h += 1
 
 def res(bot, callback_query):  # Функция публикует результат
+    print('IN res')
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns']
@@ -731,7 +754,7 @@ def res(bot, callback_query):  # Функция публикует резуль�
 
 # ------------------------------- Обработка Inline клавиатуры ---------------------------------------#
 def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить об ошибке"
-
+    print('IN send_error')
     error_markup = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('О технической ошибке', callback_data='Техническая ошибка')
@@ -826,14 +849,20 @@ def query_data_handler(bot, data):
         bot.answer_callback_query(callback_query.id)
 
 # --------------------Обработка вложенных меню Диадок------------------------------------
-    elif data == 'Админка.Диадок':
+    elif data == 'Админка.Диадок.Кейсы':
         print('Вход в раздел Диадок-Админка')
         prk_diadoc_admin(bot, callback_query)
+    
+    elif data == 'Админка.Диадок.Кейсы.Аминка Диадока':
+        print('Вход в раздел Диадок-Админка-Админка Диадок')
 
+    # elif data == '':
+    #     print('')
+    #     (bot, callback_query)
 # ---------------------------Новая часть меню--------------------------------------------
 
     elif data == 'Рассылка':
-        prk_diadoc_admin(bot, callback_query)
+        sending_menu(bot, callback_query)
 
     elif data == 'База сообщений':
         sending_menu_base(bot, callback_query)
@@ -941,6 +970,10 @@ query_data_handler(bot, 'Админка.Диадок.Кейсы')
 query_data_handler(bot, 'Web.Диадок.Кейсы')
 query_data_handler(bot, 'Интеграции.Диадок.Кейсы')
 query_data_handler(bot, 'Роуминг.Диадок.Кейсы')
+
+query_data_handler(bot, 'Админка.Диадок.Кейсы.Аминка Диадока')
+query_data_handler(bot, 'Админка.Диадок.Кейсы.Админка Портала')
+query_data_handler(bot, 'Админка.Диадок.Кейсы.Билли')
 
 query_data_handler(bot, 'Рассылка')
 query_data_handler(bot, 'База сообщений')

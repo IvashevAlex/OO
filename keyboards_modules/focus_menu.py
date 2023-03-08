@@ -17,7 +17,7 @@ def test_focus(bot, callback_query):  # <--- формируем меню с те
 
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Фокус', callback_data='Фокус')
-    itembtn2 = types.InlineKeyboardButton('Фокус API', callback_data='Фокус API')
+    itembtn2 = types.InlineKeyboardButton('API Фокус', callback_data='API Фокус')
     itembtn3 = types.InlineKeyboardButton('Компас', callback_data='Компас')
     itembtn4 = types.InlineKeyboardButton('Декларант технический', callback_data='Декларант технический')
     itembtn5 = types.InlineKeyboardButton('Декларант методология', callback_data='Декларант методология')
@@ -30,10 +30,10 @@ def test_focus(bot, callback_query):  # <--- формируем меню с те
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
-def prk_fms(bot, callback_query):
+def prk_focus(bot, callback_query):
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Фокус', callback_data='Фокус')
-    itembtn2 = types.InlineKeyboardButton('Фокус API', callback_data='Фокус API')
+    itembtn2 = types.InlineKeyboardButton('API Фокус', callback_data='API Фокус')
     itembtn3 = types.InlineKeyboardButton('Компас', callback_data='Компас')
     itembtn4 = types.InlineKeyboardButton('Декларант технический', callback_data='Декларант технический')
     itembtn5 = types.InlineKeyboardButton('Декларант методология', callback_data='Декларант методология')
