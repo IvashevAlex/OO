@@ -160,6 +160,7 @@ def sql_user(bot, callback_query):
 def check_product(callback_query):
     print('IN check_product')
     if tests_data[callback_query.from_user.id] == 'DD':
+        print('----- IN DD check_product')
         db = db_data['DD']
     elif tests_data[callback_query.from_user.id] == 'EDI':
         db = db_data['EDI']
@@ -187,7 +188,7 @@ def check_product(callback_query):
         db = db_data['KF']
     else:
         db = db_data['all']
-
+    print('No choice')
     return db
 
 
@@ -618,7 +619,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
             product = 'WIC'
         
         elif tests_data[message.chat.id] == 'OTHER':
-            product = 'Вн.сервисы'
+            product = 'Dн. сервисы'
 
         elif tests_data[message.chat.id] == 'INST':
             product = 'Установка'
@@ -849,17 +850,19 @@ def query_data_handler(bot, data):
         bot.answer_callback_query(callback_query.id)
 
 # --------------------Обработка вложенных меню Диадок------------------------------------
-    elif data == 'Админка.Диадок.Кейсы':
-        print('Вход в раздел Диадок-Админка')
+    elif data == 'DD.Case.Admin':
         prk_diadoc_admin(bot, callback_query)
     
-    elif data == 'Админка.Диадок.Кейсы.Аминка Диадока':
-        print('Вход в раздел Диадок-Админка-Админка Диадок')
+    elif data == 'DD.Case.Web':
+        prk_diadoc_web(bot, callback_query)
 
-    # elif data == '':
-    #     print('')
-    #     (bot, callback_query)
-# ---------------------------Новая часть меню--------------------------------------------
+    elif data == 'DD.Case.Integrtion':
+        prk_diadoc_integration(bot, callback_query)
+
+    elif data == 'DD.Case.Roaming':
+        prk_diadoc_roaming(bot, callback_query)
+
+# --------------------------- Новая часть меню админа -------------------------------------------
 
     elif data == 'Рассылка':
         sending_menu(bot, callback_query)
@@ -967,13 +970,30 @@ query_data_handler(bot, 'Зарегистрировать пользовател
 query_data_handler(bot, 'Удалить пользователя')
 
 query_data_handler(bot, 'Админка.Диадок.Кейсы')
-query_data_handler(bot, 'Web.Диадок.Кейсы')
-query_data_handler(bot, 'Интеграции.Диадок.Кейсы')
-query_data_handler(bot, 'Роуминг.Диадок.Кейсы')
+query_data_handler(bot, "Диадок.Тесты.Web")
+query_data_handler(bot, "Диадок.Тесты.Интеграция")
+query_data_handler(bot, "Диадок.Тесты.Геракл")
+query_data_handler(bot, "Диадок.Тесты.Роуминг")
 
-query_data_handler(bot, 'Админка.Диадок.Кейсы.Аминка Диадока')
-query_data_handler(bot, 'Админка.Диадок.Кейсы.Админка Портала')
-query_data_handler(bot, 'Админка.Диадок.Кейсы.Билли')
+query_data_handler(bot, "DD.Case.Admin")
+query_data_handler(bot, "DD.Case.Web")
+query_data_handler(bot, "DD.Case.Integrtion")
+query_data_handler(bot, "DD.Case.Roaming")
+
+
+query_data_handler(bot, "DD.Case.Admin.Админка Диадока")
+query_data_handler(bot, "DD.Case.Admin.Админка Портала")
+query_data_handler(bot, "DD.Case.Admin.Билли")
+query_data_handler(bot, "DD.Case.Web.Пользователи")
+query_data_handler(bot, "DD.Case.Web.Контрагенты")
+query_data_handler(bot, "DD.Case.Web.Документы")
+query_data_handler(bot, "DD.Case.Web.Настройки и реквизиты")
+query_data_handler(bot, "DD.Case.Web.Маршруты")
+query_data_handler(bot, "DD.Case.Integrtion.Документы")
+query_data_handler(bot, "DD.Case.Integrtion.Настройки и контрагенты")
+query_data_handler(bot, "DD.Case.Integrtion.Ошибки")
+query_data_handler(bot, "DD.Case.Roaming.Заявки")
+query_data_handler(bot, "DD.Case.Roaming.Мониторинг роуминга")
 
 query_data_handler(bot, 'Рассылка')
 query_data_handler(bot, 'База сообщений')

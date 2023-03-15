@@ -28,27 +28,27 @@ def add_modules():
     modul_for_bot.quest('Клиент-Сервис', 2, bot)
 
     #-----------Кнопки Диадок --------#
-    modul_for_bot.quest("Web.Диадок", 0, bot)
-    modul_for_bot.quest("Интеграции", 1, bot)
-    modul_for_bot.quest("Геракл", 2, bot)
-    modul_for_bot.quest("Роуминг", 3, bot)
+    modul_for_bot.quest("Диадок.Тесты.Web", 0, bot)
+    modul_for_bot.quest("Диадок.Тесты.Интеграция", 1, bot)
+    modul_for_bot.quest("Диадок.Тесты.Геракл", 2, bot)
+    modul_for_bot.quest("Диадок.Тесты.Роуминг", 3, bot)
 
-    modul_for_bot.quest("Админка.Диадок.Кейсы.Аминка Диадока", 4, bot)
-    modul_for_bot.quest("Админка.Диадок.Кейсы.Админка Портала", 5, bot)
-    modul_for_bot.quest("Админка.Диадок.Кейсы.Билли", 6, bot)
+    modul_for_bot.quest("DD.Case.Admin.Админка Диадока", 4, bot)
+    modul_for_bot.quest("DD.Case.Admin.Админка Портала", 5, bot)
+    modul_for_bot.quest("DD.Case.Admin.Билли", 6, bot)
 
-    modul_for_bot.quest("WEB.Диадок.Кейсы.Пользователи", 7, bot)
-    modul_for_bot.quest("WEB.Диадок.Кейсы.Контрагенты", 8, bot)
-    modul_for_bot.quest("WEB.Диадок.Кейсы.Документы", 9, bot)
-    modul_for_bot.quest("WEB.Диадок.Кейсы.Настройки и реквизиты", 10, bot)
-    modul_for_bot.quest("WEB.Диадок.Кейсы.Маршруты", 11, bot)
+    modul_for_bot.quest("DD.Case.Web.Пользователи", 7, bot)
+    modul_for_bot.quest("DD.Case.Web.Контрагенты", 8, bot)
+    modul_for_bot.quest("DD.Case.Web.Документы", 9, bot)
+    modul_for_bot.quest("DD.Case.Web.Настройки и реквизиты", 10, bot)
+    modul_for_bot.quest("DD.Case.Web.Маршруты", 11, bot)
 
-    modul_for_bot.quest("Интеграции.Диадок.Кейсы.Документы", 12, bot)
-    modul_for_bot.quest("Интеграции.Диадок.Кейсы.Настройки и контрагенты", 13, bot)
-    modul_for_bot.quest("Интеграции.Диадок.Кейсы.Ошибки", 14, bot)
+    modul_for_bot.quest("DD.Case.Integrtion.Документы", 12, bot)
+    modul_for_bot.quest("DD.Case.Integrtion.Настройки и контрагенты", 13, bot)
+    modul_for_bot.quest("DD.Case.Integrtion.Ошибки", 14, bot)
     
-    modul_for_bot.quest("Роуминг.Диадок.Кейсы.Заявки", 15, bot)
-    modul_for_bot.quest("Роуминг.Диадок.Кейсы.Мониторинг роуминга", 16, bot)
+    modul_for_bot.quest("DD.Case.Roaming.Заявки", 15, bot)
+    modul_for_bot.quest("DD.Case.Roaming.Мониторинг роуминга", 16, bot)
 
     #---- Кнопки КЭ ------#
     modul_for_bot.quest('Интерфейс', 0, bot)
