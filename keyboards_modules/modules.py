@@ -28,27 +28,28 @@ def add_modules():
     modul_for_bot.quest('Клиент-Сервис', 2, bot)
 
     #-----------Кнопки Диадок --------#
-    modul_for_bot.quest("Диадок.Тесты.Web", 0, bot)
-    modul_for_bot.quest("Диадок.Тесты.Интеграция", 1, bot)
-    modul_for_bot.quest("Диадок.Тесты.Геракл", 2, bot)
-    modul_for_bot.quest("Диадок.Тесты.Роуминг", 3, bot)
+    modul_for_bot.quest("DD.Tests.Web.Общее", 0, bot)
+    modul_for_bot.quest("DD.Tests.Web.Документы", 1, bot)
+    modul_for_bot.quest("DD.Tests.Web.Настройки", 2, bot)
+    modul_for_bot.quest("DD.Tests.Web.Маршруты", 3, bot)
+    modul_for_bot.quest("DD.Tests.Геракл", 8, bot)
 
-    modul_for_bot.quest("DD.Case.Admin.Админка Диадока", 4, bot)
-    modul_for_bot.quest("DD.Case.Admin.Админка Портала", 5, bot)
-    modul_for_bot.quest("DD.Case.Admin.Билли", 6, bot)
-
-    modul_for_bot.quest("DD.Case.Web.Пользователи", 7, bot)
-    modul_for_bot.quest("DD.Case.Web.Контрагенты", 8, bot)
-    modul_for_bot.quest("DD.Case.Web.Документы", 9, bot)
-    modul_for_bot.quest("DD.Case.Web.Настройки и реквизиты", 10, bot)
-    modul_for_bot.quest("DD.Case.Web.Маршруты", 11, bot)
-
-    modul_for_bot.quest("DD.Case.Integrtion.Документы", 12, bot)
-    modul_for_bot.quest("DD.Case.Integrtion.Настройки и контрагенты", 13, bot)
-    modul_for_bot.quest("DD.Case.Integrtion.Ошибки", 14, bot)
+    modul_for_bot.quest("DD.Tests.Int.Общие", 4, bot)
+    modul_for_bot.quest("DD.Tests.Int.Документы", 5, bot)
+    modul_for_bot.quest("DD.Tests.Int.Настройки", 6, bot)
+    modul_for_bot.quest("DD.Tests.Int.Ошибки", 7, bot)
     
-    modul_for_bot.quest("DD.Case.Roaming.Заявки", 15, bot)
-    modul_for_bot.quest("DD.Case.Roaming.Мониторинг роуминга", 16, bot)
+    modul_for_bot.quest("DD.Tests.Roam.Общие", 9, bot)
+    modul_for_bot.quest("DD.Tests.Roam.Мониторинг", 10, bot)
+
+    modul_for_bot.quest("DD.Case.Admin.АдминкаДД", 11, bot)
+    modul_for_bot.quest("DD.Case.Admin.АдминкаПР", 12, bot)
+    modul_for_bot.quest("DD.Case.Admin.Билли", 13, bot)
+
+    modul_for_bot.quest("DD.Case.Web.Пользователи", 14, bot)
+    modul_for_bot.quest("DD.Case.Web.Контрагенты", 15, bot)
+
+    modul_for_bot.quest("DD.Case.Roam", 16, bot)
 
     #---- Кнопки КЭ ------#
     modul_for_bot.quest('Интерфейс', 0, bot)

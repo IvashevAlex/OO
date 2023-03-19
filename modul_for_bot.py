@@ -850,17 +850,20 @@ def query_data_handler(bot, data):
         bot.answer_callback_query(callback_query.id)
 
 # --------------------Обработка вложенных меню Диадок------------------------------------
+    elif data == 'Диадок.Тесты.Web':
+        test_diadoc_web(bot, callback_query)
+    
+    elif data == 'Диадок.Тесты.Интеграция':
+        test_diadoc_Integrtion(bot, callback_query)
+
+    elif data == 'DD.Tests.Roam':
+        test_diadoc_Roaming(bot, callback_query)
+
     elif data == 'DD.Case.Admin':
         prk_diadoc_admin(bot, callback_query)
     
     elif data == 'DD.Case.Web':
         prk_diadoc_web(bot, callback_query)
-
-    elif data == 'DD.Case.Integrtion':
-        prk_diadoc_integration(bot, callback_query)
-
-    elif data == 'DD.Case.Roaming':
-        prk_diadoc_roaming(bot, callback_query)
 
 # --------------------------- Новая часть меню админа -------------------------------------------
 
@@ -969,31 +972,23 @@ query_data_handler(bot, 'Обновить таблицы')
 query_data_handler(bot, 'Зарегистрировать пользователя')
 query_data_handler(bot, 'Удалить пользователя')
 
-query_data_handler(bot, 'Админка.Диадок.Кейсы')
 query_data_handler(bot, "Диадок.Тесты.Web")
 query_data_handler(bot, "Диадок.Тесты.Интеграция")
-query_data_handler(bot, "Диадок.Тесты.Геракл")
+query_data_handler(bot, "DD.Tests.Геракл")
 query_data_handler(bot, "Диадок.Тесты.Роуминг")
 
 query_data_handler(bot, "DD.Case.Admin")
 query_data_handler(bot, "DD.Case.Web")
-query_data_handler(bot, "DD.Case.Integrtion")
-query_data_handler(bot, "DD.Case.Roaming")
-
 
 query_data_handler(bot, "DD.Case.Admin.Админка Диадока")
 query_data_handler(bot, "DD.Case.Admin.Админка Портала")
 query_data_handler(bot, "DD.Case.Admin.Билли")
+
 query_data_handler(bot, "DD.Case.Web.Пользователи")
 query_data_handler(bot, "DD.Case.Web.Контрагенты")
 query_data_handler(bot, "DD.Case.Web.Документы")
 query_data_handler(bot, "DD.Case.Web.Настройки и реквизиты")
 query_data_handler(bot, "DD.Case.Web.Маршруты")
-query_data_handler(bot, "DD.Case.Integrtion.Документы")
-query_data_handler(bot, "DD.Case.Integrtion.Настройки и контрагенты")
-query_data_handler(bot, "DD.Case.Integrtion.Ошибки")
-query_data_handler(bot, "DD.Case.Roaming.Заявки")
-query_data_handler(bot, "DD.Case.Roaming.Мониторинг роуминга")
 
 query_data_handler(bot, 'Рассылка')
 query_data_handler(bot, 'База сообщений')
