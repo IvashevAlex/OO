@@ -17,7 +17,7 @@ def get_question():
         'ОФД': 'OFD',
         'Установка': 'INST',
         'WIC': 'WIC',
-        'Dн. сервисы' : 'OTHER',
+        'Вн. сервисы' : 'OTHER',
         'Фокус' : 'KF'
     }
 

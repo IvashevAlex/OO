@@ -49,7 +49,7 @@ def add_modules():
     modul_for_bot.quest("DD.Case.Web.Пользователи", 14, bot)
     modul_for_bot.quest("DD.Case.Web.Контрагенты", 15, bot)
 
-    modul_for_bot.quest("DD.Case.Roam", 16, bot)
+    modul_for_bot.quest("DD.Case.Web.Заявки", 16, bot)
 
     #---- Кнопки КЭ ------#
     modul_for_bot.quest('Интерфейс', 0, bot)

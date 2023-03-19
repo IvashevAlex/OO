@@ -619,7 +619,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
             product = 'WIC'
         
         elif tests_data[message.chat.id] == 'OTHER':
-            product = 'Dн. сервисы'
+            product = 'Вн. сервисы'
 
         elif tests_data[message.chat.id] == 'INST':
             product = 'Установка'
@@ -854,16 +854,19 @@ def query_data_handler(bot, data):
         test_diadoc_web(bot, callback_query)
     
     elif data == 'Диадок.Тесты.Интеграция':
-        test_diadoc_Integrtion(bot, callback_query)
+        test_diadoc_integrtion(bot, callback_query)
 
-    elif data == 'DD.Tests.Roam':
-        test_diadoc_Roaming(bot, callback_query)
+    elif data == 'Диадок.Тесты.Роуминг':
+        test_diadoc_roaming(bot, callback_query)
 
     elif data == 'DD.Case.Admin':
         prk_diadoc_admin(bot, callback_query)
     
     elif data == 'DD.Case.Web':
         prk_diadoc_web(bot, callback_query)
+    
+    elif data == 'DD.Case.Roam':
+        prk_diadoc_roam(bot, callback_query)   
 
 # --------------------------- Новая часть меню админа -------------------------------------------
 
@@ -974,7 +977,7 @@ query_data_handler(bot, 'Удалить пользователя')
 
 query_data_handler(bot, "Диадок.Тесты.Web")
 query_data_handler(bot, "Диадок.Тесты.Интеграция")
-query_data_handler(bot, "DD.Tests.Геракл")
+# query_data_handler(bot, "DD.Tests.Геракл")
 query_data_handler(bot, "Диадок.Тесты.Роуминг")
 
 query_data_handler(bot, "DD.Case.Admin")

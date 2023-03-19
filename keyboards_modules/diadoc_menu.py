@@ -55,7 +55,7 @@ def test_diadoc_web(bot, callback_query):
         print(e.args)
 
 # DD.Test.Integrtion
-def test_diadoc_Integrtion(bot, callback_query):
+def test_diadoc_integrtion(bot, callback_query):
     modul_for_bot.sql_user(bot, callback_query)
     markup_test_int = types.InlineKeyboardMarkup()
 
@@ -77,7 +77,8 @@ def test_diadoc_Integrtion(bot, callback_query):
         print(e.args)
 
 # DD.Test.Roaming
-def test_diadoc_Roaming(bot, callback_query):
+def test_diadoc_roaming(bot, callback_query):
+    print('IN test_diadoc_roaming')
     modul_for_bot.sql_user(bot, callback_query)
     markup_test_roam = types.InlineKeyboardMarkup()
 
@@ -155,8 +156,26 @@ def prk_diadoc_web(bot, callback_query):
     markup.add(itembtn1, itembtn2)
     markup.add(itembtn10)
 
-    bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
-                          message_id=callback_query.message.message_id, reply_markup=markup)   
-  
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
+                            message_id=callback_query.message.message_id, reply_markup=markup)   
+    except Exception as e:
+        print(e.args)    
+
+def prk_diadoc_roam(bot, callback_query):
+    modul_for_bot.sql_user(bot, callback_query)
+
+    markup = types.InlineKeyboardMarkup()
+    itembtn1 = types.InlineKeyboardButton('Заявки', callback_data='DD.Case.Web.Заявки')
+    itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
+    
+    markup.add(itembtn1)
+    markup.add(itembtn10)
+
+    try:
+        bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
+                            message_id=callback_query.message.message_id, reply_markup=markup)   
+    except Exception as e:
+        print(e.args)   
 
 DD_menu("Диaдoк", bot)
