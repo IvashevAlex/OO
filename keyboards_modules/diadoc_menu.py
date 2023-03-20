@@ -83,7 +83,7 @@ def test_diadoc_roaming(bot, callback_query):
     markup_test_roam = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('Общие', callback_data='DD.Tests.Roam.Общие')
-    itembtn2 = types.InlineKeyboardButton('Мониторинг роуминга', callback_data='DD.Tests.Roam.Мониторинг')
+    itembtn2 = types.InlineKeyboardButton('Мониторинг роуминга', callback_data='DD.Tests.Roam.Mon')
 
     itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 

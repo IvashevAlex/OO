@@ -40,7 +40,7 @@ def add_modules():
     modul_for_bot.quest("DD.Tests.Int.Ошибки", 7, bot)
     
     modul_for_bot.quest("DD.Tests.Roam.Общие", 9, bot)
-    modul_for_bot.quest("DD.Tests.Roam.Мониторинг", 10, bot)
+    modul_for_bot.quest("DD.Tests.Roam.Mon", 10, bot)
 
     modul_for_bot.quest("DD.Case.Admin.АдминкаДД", 11, bot)
     modul_for_bot.quest("DD.Case.Admin.АдминкаПР", 12, bot)
