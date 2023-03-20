@@ -95,7 +95,8 @@ def quest(theme, number_of_page, bot):
             elif tests_data[callback_query.from_user.id] == 'MK':
                 a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
             elif tests_data[callback_query.from_user.id] == 'DD':
-                a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
+                pass
+                # a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
             elif tests_data[callback_query.from_user.id] == 'KF':
                 a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1            
             elif tests_data[callback_query.from_user.id] == 'WIC':
