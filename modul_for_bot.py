@@ -983,6 +983,7 @@ query_data_handler(bot, "Диадок.Тесты.Роуминг")
 
 query_data_handler(bot, "DD.Case.Admin")
 query_data_handler(bot, "DD.Case.Web")
+query_data_handler(bot, "DD.Case.Roam")
 
 query_data_handler(bot, "DD.Case.Admin.Админка Диадока")
 query_data_handler(bot, "DD.Case.Admin.Админка Портала")
