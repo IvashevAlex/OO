@@ -2,7 +2,9 @@ import modul_for_bot
 import keyboards
 from telebot import types
 from WhiteList import bot
+import test_mode_check
 
+test_mode = test_mode_check.test_mode()
 
 def DD_menu(name, bot):
     @bot.message_handler(func=lambda message: message.text == name)
@@ -28,9 +30,16 @@ def test_DD(bot, callback_query):
     markup.add(itembtn3, itembtn5)
     markup.add(itembtn12)
 
-    bot.edit_message_text("Выбери тему: ", chat_id=callback_query.from_user.id,
+    try:
+        bot.edit_message_text("Выбери тему: ", chat_id=callback_query.from_user.id,
                           message_id=callback_query.message.message_id, reply_markup=markup)
-
+    except Exception as EX:
+        print(EX.args)
+        if test_mode == True:
+            try:
+                bot.send_message(1325029854, EX.args)
+            except:
+                pass
 
 # DD.Test.Web
 def test_diadoc_web(bot, callback_query):
@@ -51,8 +60,13 @@ def test_diadoc_web(bot, callback_query):
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери подраздел:",
                         message_id=callback_query.message.message_id, reply_markup=markup_test_web)
-    except Exception as e:
-        print(e.args)
+    except Exception as EX:
+        print(EX.args)
+        if test_mode == True:
+            try:
+                bot.send_message(1325029854, EX.args)
+            except:
+                pass
 
 # DD.Test.Integrtion
 def test_diadoc_integrtion(bot, callback_query):
@@ -73,8 +87,13 @@ def test_diadoc_integrtion(bot, callback_query):
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери подраздел:",
                         message_id=callback_query.message.message_id, reply_markup=markup_test_int)
-    except Exception as e:
-        print(e.args)
+    except Exception as EX:
+        print(EX.args)
+        if test_mode == True:
+            try:
+                bot.send_message(1325029854, EX.args)
+            except:
+                pass
 
 # DD.Test.Roaming
 def test_diadoc_roaming(bot, callback_query):
@@ -93,8 +112,13 @@ def test_diadoc_roaming(bot, callback_query):
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери подраздел:",
                         message_id=callback_query.message.message_id, reply_markup=markup_test_roam)
-    except Exception as e:
-        print(e.args)
+    except Exception as EX:
+        print(EX.args)
+        if test_mode == True:
+            try:
+                bot.send_message(1325029854, EX.args)
+            except:
+                pass
 
 # ---------------------------------- КЕЙСЫ --------------------------------------------------
 
@@ -115,9 +139,13 @@ def prk_diadoc(bot, callback_query):
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери подраздел:",
                             message_id=callback_query.message.message_id, reply_markup=markup)
-        print('IN prk_diadoc callback_query.message.message_id:', callback_query.message.message_id)
-    except Exception as e:
-        print(e.args)
+    except Exception as EX:
+        print(EX.args)
+        if test_mode == True:
+            try:
+                bot.send_message(1325029854, EX.args)
+            except:
+                pass
 
 
 # DD.Case.Admin
@@ -139,8 +167,13 @@ def prk_diadoc_admin(bot, callback_query):
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, message_id=callback_query.message.message_id,
                               text="Выбери тему: ", reply_markup=markup_diadoc_adminka)
-    except Exception as e:
-        print(e.args)
+    except Exception as EX:
+        print(EX.args)
+        if test_mode == True:
+            try:
+                bot.send_message(1325029854, EX.args)
+            except:
+                pass
 
 
 # DD.Case.Web
@@ -175,7 +208,12 @@ def prk_diadoc_roam(bot, callback_query):
     try:
         bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери тему: ",
                             message_id=callback_query.message.message_id, reply_markup=markup)   
-    except Exception as e:
-        print(e.args)   
+    except Exception as EX:
+        print(EX.args)
+        if test_mode == True:
+            try:
+                bot.send_message(1325029854, EX.args)
+            except:
+                pass
 
 DD_menu("Диaдoк", bot)
