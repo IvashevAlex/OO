@@ -857,8 +857,8 @@ def query_data_handler(bot, data):
     elif data == 'Диадок.Тесты.Интеграция':
         test_diadoc_integrtion(bot, callback_query)
 
-    elif data == 'Диадок.Тесты.Роуминг':
-        test_diadoc_roaming(bot, callback_query)
+    # elif data == 'Диадок.Тесты.Роуминг':
+    #     test_diadoc_roaming(bot, callback_query)
 
     elif data == 'DD.Case.Admin':
         prk_diadoc_admin(bot, callback_query)
@@ -979,19 +979,20 @@ query_data_handler(bot, 'Удалить пользователя')
 query_data_handler(bot, "Диадок.Тесты.Web")
 query_data_handler(bot, "Диадок.Тесты.Интеграция")
 # query_data_handler(bot, "DD.Tests.Геракл")
-query_data_handler(bot, "Диадок.Тесты.Роуминг")
+# query_data_handler(bot, "Диадок.Тесты.Роуминг")
 
 query_data_handler(bot, "DD.Case.Admin")
 query_data_handler(bot, "DD.Case.Web")
 query_data_handler(bot, "DD.Case.Roam")
 
-query_data_handler(bot, "DD.Case.Admin.Админка Диадока")
-query_data_handler(bot, "DD.Case.Admin.Админка Портала")
+query_data_handler(bot, "DD.Case.Admin.АдминкаДД")
+query_data_handler(bot, "DD.Case.Admin.АдминкаПР")
 query_data_handler(bot, "DD.Case.Admin.Билли")
 
 query_data_handler(bot, "DD.Case.Web.Пользователи")
 query_data_handler(bot, "DD.Case.Web.Контрагенты")
 query_data_handler(bot, "DD.Case.Web.Документы")
+
 query_data_handler(bot, "DD.Case.Web.Настройки и реквизиты")
 query_data_handler(bot, "DD.Case.Web.Маршруты")
 

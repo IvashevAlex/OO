@@ -30,26 +30,29 @@ def add_modules():
     #-----------Кнопки Диадок --------#
     modul_for_bot.quest("DD.Tests.Web.Общее", 0, bot)
     modul_for_bot.quest("DD.Tests.Web.Документы", 1, bot)
-    modul_for_bot.quest("DD.Tests.Web.Настройки", 2, bot)
-    modul_for_bot.quest("DD.Tests.Web.Маршруты", 3, bot)
-    modul_for_bot.quest("DD.Tests.Геракл", 8, bot)
-
-    modul_for_bot.quest("DD.Tests.Int.Общие", 4, bot)
-    modul_for_bot.quest("DD.Tests.Int.Документы", 5, bot)
-    modul_for_bot.quest("DD.Tests.Int.Настройки", 6, bot)
-    modul_for_bot.quest("DD.Tests.Int.Ошибки", 7, bot)
+    modul_for_bot.quest("DD.Tests.Web.Пользователи", 2, bot)
+    modul_for_bot.quest("DD.Tests.Web.Контрагенты", 3, bot)
+    modul_for_bot.quest("DD.Tests.Web.Настройки", 4, bot)
+    modul_for_bot.quest("DD.Tests.Web.Маршруты", 5, bot)
     
-    modul_for_bot.quest("DD.Tests.Roam.Общие", 9, bot)
-    modul_for_bot.quest("DD.Tests.Roam.Mon", 10, bot)
+    modul_for_bot.quest("DD.Tests.Int.Общие", 6, bot)
+    modul_for_bot.quest("DD.Tests.Int.Документы", 7, bot)
+    modul_for_bot.quest("DD.Tests.Int.Настройки", 8, bot)
+    modul_for_bot.quest("DD.Tests.Int.Ошибки", 9, bot)
 
-    modul_for_bot.quest("DD.Case.Admin.АдминкаДД", 11, bot)
-    modul_for_bot.quest("DD.Case.Admin.АдминкаПР", 12, bot)
-    modul_for_bot.quest("DD.Case.Admin.Билли", 13, bot)
+    modul_for_bot.quest("DD.Tests.Геракл", 10, bot)
+    modul_for_bot.quest("DD.Tests.Roam", 11, bot)
 
-    modul_for_bot.quest("DD.Case.Web.Пользователи", 14, bot)
-    modul_for_bot.quest("DD.Case.Web.Контрагенты", 15, bot)
+    modul_for_bot.quest("DD.Case.Admin.АдминкаДД", 12, bot)
+    modul_for_bot.quest("DD.Case.Admin.АдминкаПР", 13, bot)
+    modul_for_bot.quest("DD.Case.Admin.Билли", 14, bot)
 
-    modul_for_bot.quest("DD.Case.Web.Заявки", 16, bot)
+    modul_for_bot.quest("DD.Case.Web.Пользователи", 15, bot)
+    modul_for_bot.quest("DD.Case.Web.Контрагенты", 16, bot)
+    modul_for_bot.quest("DD.Case.Web.Документы", 17, bot)
+
+    modul_for_bot.quest("DD.Case.Roam.Заявки", 18, bot)
+    modul_for_bot.quest("DD.Case.Roam.Мониторинг", 19, bot)
 
     #---- Кнопки КЭ ------#
     modul_for_bot.quest('Интерфейс', 0, bot)

@@ -48,13 +48,15 @@ def test_diadoc_web(bot, callback_query):
 
     itembtn1 = types.InlineKeyboardButton('Общие', callback_data='DD.Tests.Web.Общее')
     itembtn2 = types.InlineKeyboardButton('Документы', callback_data='DD.Tests.Web.Документы')
-    itembtn3 = types.InlineKeyboardButton('Настройки и реквизиты', callback_data='DD.Tests.Web.Настройки')
-    itembtn4 = types.InlineKeyboardButton('Маршруты', callback_data='DD.Tests.Web.Маршруты')
+    itembtn3 = types.InlineKeyboardButton('Пользователи', callback_data='DD.Tests.Web.Пользователи')
+    itembtn4 = types.InlineKeyboardButton('Настройки и реквизиты', callback_data='DD.Tests.Web.Настройки')
+    itembtn5 = types.InlineKeyboardButton('Маршруты', callback_data='DD.Tests.Web.Маршруты')
+    itembtn6 = types.InlineKeyboardButton('Контрагенты', callback_data='DD.Tests.Web.Контрагенты')
 
     itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
-    markup_test_web.add(itembtn1, itembtn2)
-    markup_test_web.add(itembtn3, itembtn4)
+    markup_test_web.add(itembtn1, itembtn2, itembtn3)
+    markup_test_web.add(itembtn4, itembtn5, itembtn6)
     markup_test_web.add(itembtn10)
 
     try:
@@ -96,29 +98,29 @@ def test_diadoc_integrtion(bot, callback_query):
                 pass
 
 # DD.Test.Roaming
-def test_diadoc_roaming(bot, callback_query):
-    print('IN test_diadoc_roaming')
-    modul_for_bot.sql_user(bot, callback_query)
-    markup_test_roam = types.InlineKeyboardMarkup()
+# def test_diadoc_roaming(bot, callback_query):
+#     print('IN test_diadoc_roaming')
+#     modul_for_bot.sql_user(bot, callback_query)
+#     markup_test_roam = types.InlineKeyboardMarkup()
 
-    itembtn1 = types.InlineKeyboardButton('Общие', callback_data='DD.Tests.Roam.Общие')
-    itembtn2 = types.InlineKeyboardButton('Мониторинг роуминга', callback_data='DD.Tests.Roam.Mon')
+#     itembtn1 = types.InlineKeyboardButton('Общие', callback_data='DD.Tests.Roam.Общие')
+#     itembtn2 = types.InlineKeyboardButton('Мониторинг роуминга', callback_data='DD.Tests.Roam.Mon')
 
-    itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
+#     itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
-    markup_test_roam.add(itembtn1, itembtn2)
-    markup_test_roam.add(itembtn10)
+#     markup_test_roam.add(itembtn1, itembtn2)
+#     markup_test_roam.add(itembtn10)
 
-    try:
-        bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери подраздел:",
-                        message_id=callback_query.message.message_id, reply_markup=markup_test_roam)
-    except Exception as EX:
-        print(EX.args)
-        if test_mode == True:
-            try:
-                bot.send_message(1325029854, EX.args)
-            except:
-                pass
+#     try:
+#         bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери подраздел:",
+#                         message_id=callback_query.message.message_id, reply_markup=markup_test_roam)
+#     except Exception as EX:
+#         print(EX.args)
+#         if test_mode == True:
+#             try:
+#                 bot.send_message(1325029854, EX.args)
+#             except:
+#                 pass
 
 # ---------------------------------- КЕЙСЫ --------------------------------------------------
 
@@ -183,10 +185,11 @@ def prk_diadoc_web(bot, callback_query):
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Пользователи', callback_data='DD.Case.Web.Пользователи')
     itembtn2 = types.InlineKeyboardButton('Контрагенты', callback_data='DD.Case.Web.Контрагенты')
+    itembtn3 = types.InlineKeyboardButton('Документы', callback_data='DD.Case.Web.Документы')
 
     itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
-    markup.add(itembtn1, itembtn2)
+    markup.add(itembtn1, itembtn2, itembtn3)
     markup.add(itembtn10)
 
     try:
@@ -199,10 +202,12 @@ def prk_diadoc_roam(bot, callback_query):
     modul_for_bot.sql_user(bot, callback_query)
 
     markup = types.InlineKeyboardMarkup()
-    itembtn1 = types.InlineKeyboardButton('Заявки', callback_data='DD.Case.Web.Заявки')
+    itembtn1 = types.InlineKeyboardButton('Заявки', callback_data='DD.Case.Roam.Заявки')
+    itembtn2 = types.InlineKeyboardButton('Мониторинг', callback_data='DD.Case.Roam.Мониторинг')
+
     itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
     
-    markup.add(itembtn1)
+    markup.add(itembtn1, itembtn2)
     markup.add(itembtn10)
 
     try:
