@@ -119,6 +119,6 @@ def add_modules():
     modul_for_bot.quest("API Фокус", 2, bot)
     modul_for_bot.quest("Компас", 4, bot)
     modul_for_bot.quest("Декларант технический", 6, bot)
-    modul_for_bot.quest("Декларант методология", 8, bot)
+    modul_for_bot.quest("Декларант методология.Тесты", 8, bot)
 
     

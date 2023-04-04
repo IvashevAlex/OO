@@ -979,7 +979,7 @@ query_data_handler(bot, 'Удалить пользователя')
 query_data_handler(bot, "Диадок.Тесты.Web")
 query_data_handler(bot, "Диадок.Тесты.Интеграция")
 # query_data_handler(bot, "DD.Tests.Геракл")
-# query_data_handler(bot, "Диадок.Тесты.Роуминг")
+query_data_handler(bot, "DD.Tests.Roam")
 
 query_data_handler(bot, "DD.Case.Admin")
 query_data_handler(bot, "DD.Case.Web")

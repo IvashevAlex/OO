@@ -23,7 +23,7 @@ def test_DD(bot, callback_query):
     itembtn1 = types.InlineKeyboardButton('Web', callback_data='Диадок.Тесты.Web')
     itembtn6 = types.InlineKeyboardButton('Интеграция', callback_data='Диадок.Тесты.Интеграция')
     itembtn5 = types.InlineKeyboardButton('Геракл', callback_data='DD.Tests.Геракл')
-    itembtn3 = types.InlineKeyboardButton('Роуминг', callback_data='Диадок.Тесты.Роуминг')
+    itembtn3 = types.InlineKeyboardButton('Роуминг', callback_data='DD.Tests.Roam')
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
     markup.add(itembtn1, itembtn6)
@@ -77,7 +77,7 @@ def test_diadoc_integrtion(bot, callback_query):
 
     itembtn1 = types.InlineKeyboardButton('Общие', callback_data='DD.Tests.Int.Общие')
     itembtn2 = types.InlineKeyboardButton('Документы', callback_data='DD.Tests.Int.Документы')
-    itembtn3 = types.InlineKeyboardButton('Настройки и компоненты', callback_data='DD.Tests.Int.Настройки')
+    itembtn3 = types.InlineKeyboardButton('Настройки и контрагенты', callback_data='DD.Tests.Int.Настройки')
     itembtn4 = types.InlineKeyboardButton('Ошибки', callback_data='DD.Tests.Int.Ошибки')
 
     itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
