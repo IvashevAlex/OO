@@ -67,11 +67,17 @@ def add_modules():
     modul_for_bot.quest('ФНС', 1, bot)
     modul_for_bot.quest('ЕНП', 2, bot)
     modul_for_bot.quest('Мелкие сервисы', 3, bot)
+    modul_for_bot.quest('Case.Мелкие', 4, bot)
     modul_for_bot.quest('Отчетность в ПФР и СФР', 5, bot)
+
     modul_for_bot.quest('ФСС', 7, bot)
+
     modul_for_bot.quest('НДС и НДС+', 9, bot)
+
     modul_for_bot.quest('Требования и коннекторы', 11, bot)
+
     modul_for_bot.quest('РСВ', 13, bot)
+
     modul_for_bot.quest('НДФЛ', 15, bot)
 
 

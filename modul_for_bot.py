@@ -79,7 +79,8 @@ def quest(theme, number_of_page, bot):
 
         if practicks_data.get(callback_query.from_user.id) == 'PR':  # <---- находимся ли мы в кейсах
             if tests_data[callback_query.from_user.id] == 'extrn':
-                a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1 #из Екселя берем number_of_page + 1, ибо в файле 1ая табла тесты а следующая кейсы
+                # a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1 #из Екселя берем number_of_page + 1, ибо в файле 1ая табла тесты а следующая кейсы
+                pass
             elif tests_data[callback_query.from_user.id] == 'BUH':
                 a[callback_query.from_user.id] = 7 #В продукте КБ кейсы всегда на 7 индексе
             elif tests_data[callback_query.from_user.id] == 'ELB':
