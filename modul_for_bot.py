@@ -99,7 +99,8 @@ def quest(theme, number_of_page, bot):
                 pass
                 # a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1
             elif tests_data[callback_query.from_user.id] == 'KF':
-                a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1            
+                # a[callback_query.from_user.id] = int(a[callback_query.from_user.id]) + 1 
+                pass           
             elif tests_data[callback_query.from_user.id] == 'WIC':
                 if callback_query.data == 'WIC.Поиск_знаний': #Проверяем нажата ли кнопка поиск знаний раздела ВИК
                     save_check['wic_search'][callback_query.from_user.id] = True #Если нажата то активируем переменную, для формирования определенного сообщения в кейсах

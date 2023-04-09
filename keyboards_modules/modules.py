@@ -134,9 +134,14 @@ def add_modules():
 
     #----- Кнопки Фокус -----#
     modul_for_bot.quest("Фокус", 0, bot)
+    modul_for_bot.quest("Case.Фокус", 1, bot)
     modul_for_bot.quest("API Фокус", 2, bot)
+    modul_for_bot.quest("Case.API Фокус", 3, bot)
     modul_for_bot.quest("Компас", 4, bot)
-    modul_for_bot.quest("Декларант технический", 6, bot)
-    modul_for_bot.quest("Deklarant.Metodologiya", 8, bot)
+    modul_for_bot.quest("Case.Компас", 5, bot)
+    modul_for_bot.quest("KD.Test.Tech", 6, bot)
+    modul_for_bot.quest("KD.Case.Tech", 7, bot)
+    modul_for_bot.quest("KD.Test.Method", 8, bot)
+    modul_for_bot.quest("KD.Case.Method", 9, bot)
 
     
