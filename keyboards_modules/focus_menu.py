@@ -20,7 +20,7 @@ def test_focus(bot, callback_query):  # <--- формируем меню с те
     itembtn2 = types.InlineKeyboardButton('API Фокус', callback_data='API Фокус')
     itembtn3 = types.InlineKeyboardButton('Компас', callback_data='Компас')
     itembtn4 = types.InlineKeyboardButton('Декларант технический', callback_data='Декларант технический')
-    itembtn5 = types.InlineKeyboardButton('Декларант методология', callback_data='Декларант методология.Тесты')
+    itembtn5 = types.InlineKeyboardButton('Декларант методология', callback_data='Deklarant.Metodologiya')
     itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
     markup.add(itembtn1, itembtn2, itembtn3)
