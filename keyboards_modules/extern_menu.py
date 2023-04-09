@@ -21,10 +21,10 @@ def test_ext(bot, callback_query):  # <--- формируем меню с тес
     itembtn2 = types.InlineKeyboardButton('ФНС', callback_data='ФНС')
     itembtn3 = types.InlineKeyboardButton('ЕНП', callback_data='ЕНП')
     itembtn4 = types.InlineKeyboardButton('Мелкие сервисы', callback_data='Мелкие сервисы')
-    itembtn5 = types.InlineKeyboardButton('Отчетность ПФР и СФР', callback_data='Отчетность ПФР и СФР')
+    itembtn5 = types.InlineKeyboardButton('Отчетность ПФР и СФР', callback_data='Test.PFR')
     itembtn6 = types.InlineKeyboardButton('ФСС', callback_data='ФСС')
     itembtn7 = types.InlineKeyboardButton('НДС и НДС+', callback_data='НДС и НДС+')
-    itembtn8 = types.InlineKeyboardButton('Требования и коннектор', callback_data='Требования и коннектор')
+    itembtn8 = types.InlineKeyboardButton('Требования и коннектор', callback_data='Test.Trebovanie')
     itembtn9 = types.InlineKeyboardButton('РСВ', callback_data='РСВ')
     itembtn10 = types.InlineKeyboardButton('НДФЛ', callback_data='НДФЛ')
 
