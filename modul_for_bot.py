@@ -115,10 +115,11 @@ def quest(theme, number_of_page, bot):
 def sql_user(bot, callback_query):
     print('IN sql_user')
     userid = str(callback_query.from_user.id)
-    print('ID = ', userid, type(userid))
+    print('Пользователь =', userid,' Время обращения:', 
+            time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
 
     if str(callback_query.from_user.id) == userid:
-        print('user - ', callback_query.from_user.id)
+        print('user -', callback_query.from_user.id)
         data_base['BotUsers'][callback_query.from_user.id] = {'UserChat': str(callback_query.from_user.id),
                                                               'UserRand': '0',
                                                               'UserPage': 'None',
