@@ -119,7 +119,7 @@ def sql_user(bot, callback_query):
             time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
 
     if str(callback_query.from_user.id) == userid:
-        print('user -', callback_query.from_user.id)
+        # print('user -', callback_query.from_user.id)
         data_base['BotUsers'][callback_query.from_user.id] = {'UserChat': str(callback_query.from_user.id),
                                                               'UserRand': '0',
                                                               'UserPage': 'None',
@@ -157,7 +157,7 @@ def sql_user(bot, callback_query):
               data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns']
 
-    print(results)
+    # print(results)
 
 
 # ------ Проверяем по какому продукту сейчас проходит тестирование ------------#
