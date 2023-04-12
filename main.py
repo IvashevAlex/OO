@@ -67,8 +67,8 @@ def help_text(message):
 
 # Обработка текстового сообщения "Результаты"
 @bot.message_handler(func=lambda message: message.text == "Результаты")
-def res0(message):
-    print('IN res0')
+def results_key(message):
+    print('IN results_key')
     if echo(message) == True:
         res(bot, message)
 
@@ -84,8 +84,8 @@ def error_send(callback_query):
 # Обработка любых текстовых сообщений, исключая вышеперечисленные.
 # В среднем, считаем, что это ответы на вопросы, заданные пользователю.
 @bot.message_handler(content_types=['text'])
-def answer0(message):
-    print('IN answer0')
+def answer_text(message):
+    print('IN answer_text')
     if callback_check.get(message.from_user.id) == 'tests':
         print('IF tests')
         continue_(bot, message)

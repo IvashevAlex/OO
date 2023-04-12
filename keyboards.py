@@ -41,22 +41,25 @@ def question(bot, message):
     markup.row(itembtn12, itembtn4, itembtn5)
     markup.row(itembtn6, itembtn7, itembtn8)
     markup.row(itembtn9, itemhelp)
-    bot.send_message(message.chat.id, text.hello_mes, reply_markup=markup)
 
-    print('OUT question')
+    try:
+        bot.send_message(message.chat.id, text.hello_mes, reply_markup=markup)
+    except Exception as EX:
+        print('Ошибка в формировании меню функцией question')
+
 
 # Клавиатура выбора типа обучения
 def test_menu(bot, message):
     print('IN test_menu')
     try:
         del modul_for_bot.practicks_data[message.from_user.id]
-    except:
-        pass
+    except Exception as EX:
+        print('Ошибка очистки practicks_data в test_menu')
 
     try:
         bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
-    except Exception as Abc:
-        pass
+    except Exception as EX:
+        print('Ошибка редактирования сообщения в test_menu')
 
     markup_1 = types.InlineKeyboardMarkup()
 
@@ -69,8 +72,8 @@ def test_menu(bot, message):
 
     try:
         bot.send_message(message.from_user.id, text.education_type, reply_markup=markup_1)
-    except Exception as E:
-        pass
+    except Exception as EX:
+        print('Ошибка отправки сообщения в test_menu')
 
 # Меню админа, вызываемое по команде "/admin"
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
@@ -89,8 +92,11 @@ def Admin_menu(message, bot): #Описание функций для меню �
     markup.add(itembtn2, itembtn3)
     markup.add(itembtn4)
     markup.add(itembtn9)
-    bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
 
+    try:
+        bot.send_message(message.from_user.id, text.admin_mes, reply_markup=markup)
+    except Exception as EX:
+        print('Ошибка отправки сообщения в основном разделе Admin_menu')
 
 # Отдельное меню для продукта Установка. Тут только тесты
 def Inst_menu(name, bot):
@@ -100,7 +106,8 @@ def Inst_menu(name, bot):
         try:
             del modul_for_bot.practicks_data[message.chat.id]
         except:
-            pass
+            print('Ошибка очистки practicks_data в Inst_menu')
+
         modul_for_bot.tests_data[message.chat.id] = 'INST'
         modul_for_bot.sql_user(bot, message)
         test_INST(bot, message)  # <--- тут будет отправка и меню с выбором
@@ -114,7 +121,7 @@ def WIC_menu(name, bot):
         try:
             del modul_for_bot.practicks_data[message.chat.id]
         except:
-            pass
+            print('Ошибка очистки practicks_data в WIC_menu')
 
         modul_for_bot.practicks_data[message.from_user.id] = 'PR'
         modul_for_bot.tests_data[message.chat.id] = 'WIC'
@@ -128,8 +135,9 @@ def Other_srvice_menu(name, bot):
     def in_menu(message):
         try:
             del modul_for_bot.practicks_data[message.chat.id]
-        except:
-            pass
+        except Exception as EX:
+            print('Ошибка очистки practicks_data в Other_srvice_menu')
+       
         modul_for_bot.practicks_data[message.from_user.id] = 'PR'
         modul_for_bot.tests_data[message.chat.id] = 'OTHER'
         other_service_prk(bot, message)  # <--- тут будет отправка и меню с выбором
@@ -142,8 +150,8 @@ def test_INST(bot, message):
 
     try:
         bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
-    except Exception as Abc:
-        pass
+    except Exception as EX:
+        print('Ошибка редактирования сообщения practicks_data в test_INST')
 
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Компоненты для работы с ЭП', callback_data='Компоненты для работы с ЭП')
@@ -162,7 +170,10 @@ def test_INST(bot, message):
     markup.add(itembtn7, itembtn8)
     markup.add(itembtn9)
 
-    bot.send_message(message.chat.id, "Выбери тему: ", reply_markup=markup)
+    try:
+        bot.send_message(message.chat.id, "Выбери тему: ", reply_markup=markup)
+    except Exception as EX:
+        print('Ошибка редактирования сообщения practicks_data в test_INST')
 
 # ------------  Клавиатура кейсов для каждого отдела -----------------#
 
@@ -173,21 +184,22 @@ def prk_wic(bot, message):
 
     try:
         bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
-    except Exception as Abc:
-        pass
+    except Exception as EX:
+        print('Ошибка редактирования сообщения в prk_wic')
 
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Поиск знаний', callback_data='WIC.Поиск_знаний')
     itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='WIC.Кейсы')
-
 
     itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup.add(itembtn1, itembtn2)
     markup.add(itembtn3)
 
-    bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
-
+    try:
+        bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
+    except Exception as EX:
+        print('Ошибка отправки сообщения в prk_wic')
 
 # Отдельная клавиатура для кейсов по Внутренним сервисам
 def other_service_prk(bot, message):
@@ -196,22 +208,23 @@ def other_service_prk(bot, message):
 
     try:
         bot.edit_message_reply_markup(message.from_user.id, message.message_id - 1)
-    except Exception as Abc:
-        pass
+    except Exception as EX:
+        print('Ошибка редактирования сообщения в other_service_prk')
 
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Билли', callback_data='Билли')
     itembtn2 = types.InlineKeyboardButton('КабУЦ', callback_data='КабУЦ')
     itembtn4 = types.InlineKeyboardButton('Клиент-Сервис', callback_data='Клиент-Сервис')
 
-
     itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
     markup.add(itembtn1, itembtn2, itembtn4)
     markup.add(itembtn3)
 
-    bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
-
+    try:
+        bot.send_message(chat_id=message.from_user.id, text="Выбери тему: ", reply_markup=markup)
+    except Exception as EX:
+        print('Ошибка отправки сообщения в other_service_prk')
 
 # Возвращает к меню выбора тест/кейс для продуктов без индивидуальной схемы кнопок
 def back_to_menu(bot, message):
@@ -265,6 +278,7 @@ def praktics(bot):
 
         # <-- Ставим метку что мы нажали кнопку "Кейсы"
         modul_for_bot.practicks_data[callback_query.from_user.id] = 'PR'
+        
         if modul_for_bot.tests_data[callback_query.from_user.id] == 'DD':
             prk_diadoc(bot, callback_query)
 
