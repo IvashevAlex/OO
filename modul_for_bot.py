@@ -314,7 +314,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
 
         fs = results  # <-- тут мы имеем сразу UserRand и UserRowQuestions
         # sc = re.findall(r'\b\d+\b', fs) #<--- распарсиваем их чтоб можно было выбрать, но надо ли?
-        print('Номер вопроса =', int(fs[0])+1, type(fs), 'из', int(fs[1]), type(fs))
+        print('Номер вопроса =', int(fs[0])+1, 'из', int(fs[1]))
 
         # ----- формируем сообщение для отправки вопроса ------ #
         question_dict = sheet[int(fs[0])]
@@ -348,10 +348,10 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         # Указываем что тест еще выполняется (для обработки текстового сообщения)
         callback_check[callback_query.from_user.id] = 'tests'
     
-    try:
-        print('results[0][1] = ', results[1])
-    except:
-        pass
+    # try:
+    #     print('results[0][1] = ', results[1])
+    # except:
+    #     pass
 
 
 def answers_prk(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по кейсам
@@ -439,7 +439,7 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
                   data_base['BotUsers'][callback_query.from_user.id]['UserRowQuestions']
 
         fs = results  # <-- тут мы имеем сразу UserRand и UserRowQuestions
-        print('Номер вопроса = ', int(fs[0]), type(fs), 'из ', int(fs[1]), type(fs))
+        print('Номер вопроса = ', int(fs[0]), 'из ', int(fs[1]))
 
         # ----- формируем сообщение для отправки вопроса ------ #
         question_dict = sheet[int(fs[0])]
@@ -508,7 +508,7 @@ def true_ans(callback_query):  # <--- Функция отвечает за за�
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
 
-    print('При проверке, номер вопроса =', int(results[0]), 'номер темы в экселе =', int(results[1]), 'ID пользователя =', str(callback_query.from_user.id))
+    print('Номер вопроса =', int(results[0]), ', номер вкладки в экселе =', int(results[1]), 'ID пользователя =', str(callback_query.from_user.id))
 
     db = check_product(callback_query)
 
@@ -536,7 +536,7 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
 
-    print('При проверке, номер вопроса = ', int(results[0]), 'номер темы в экселе = ', int(results[1]))
+    print('Номер вопроса = ', int(results[0]), ', номер вкладки в экселе = ', int(results[1]))
 
     db = check_product(callback_query)
 
@@ -554,7 +554,7 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
         ans['lower'][callback_query.from_user.id].append(i)
         ans[callback_query.from_user.id].append(i.strip().upper())
 
-    print('правильные ответы - ', ans[callback_query.from_user.id])
+    print('Правильные ответы -', ans[callback_query.from_user.id])
 
     return ans[callback_query.from_user.id], ans['lower'][callback_query.from_user.id]
 
