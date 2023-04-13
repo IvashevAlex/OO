@@ -123,6 +123,6 @@ else:
 while True:
     try:
         bot.polling(none_stop=False, interval=0, timeout=20)
-    except Exception as e:
-        print(e.args)
+    except Exception as EX:
+        print(EX.args)
         sleep(0.7)

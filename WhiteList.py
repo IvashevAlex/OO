@@ -6,13 +6,20 @@ import test_mode_check
 import text
 import time
 
+# Переменная, хранящая информацию об активации тестового режима
 test_mode = test_mode_check.test_mode()
 
 mes = test_mode_check.get_admins(test_mode)
 mySQLServer = test_mode_check.get_server(test_mode)
 bot = test_mode_check.get_token(test_mode)
 myDatabase = "UsersDB"
-mes_pas = text.no_access
+
+if test_mode == False:
+    mes_pas = text.no_access
+elif test_mode == True:
+    mes_pas = text.no_access_test_mode
+else:
+    print('Что-то пошло не так')
 
 # Проверяет наличие доступа у пользователя
 def echo(callback_query):
