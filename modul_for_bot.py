@@ -164,35 +164,48 @@ def sql_user(bot, callback_query):
 def check_product(callback_query):
     print('IN check_product')
     if tests_data[callback_query.from_user.id] == 'DD':
-        print('----- IN DD check_product')
+        print('DD question')
         db = db_data['DD']
     elif tests_data[callback_query.from_user.id] == 'EDI':
+        print('EDI question')
         db = db_data['EDI']
     elif tests_data[callback_query.from_user.id] == 'extrn':
+        print('KE question')
         db = db_data['KE']
     elif tests_data[callback_query.from_user.id] == 'UC':
+        print('UC question')
         db = db_data['UC']
     elif tests_data[callback_query.from_user.id] == 'MK':
+        print('MK question')
         db = db_data['MK']
     elif tests_data[callback_query.from_user.id] == 'FMS':
+        print('FMS question')
         db = db_data['FMS']
     elif tests_data[callback_query.from_user.id] == 'OFD':
+        print('OFD question')
         db = db_data['OFD']
     elif tests_data[callback_query.from_user.id] == 'BUH':
+        print('BH question')
         db = db_data['BH']
     elif tests_data[callback_query.from_user.id] == 'ELB':
+        print('ELB question')
         db = db_data['ELB']
     elif tests_data[callback_query.from_user.id] == 'INST':
+        print('INST question')
         db = db_data['INST']
     elif tests_data[callback_query.from_user.id] == 'WIC':
+        print('WIC question')
         db = db_data['WIC']
     elif tests_data[callback_query.from_user.id] == 'OTHER':
+        print('OTHER question')
         db = db_data['OTHER']
     elif tests_data[callback_query.from_user.id] == 'KF':
+        print('KF question')
         db = db_data['KF']
     else:
+        print('ELSE')
         db = db_data['all']
-    print('No choice')
+
     return db
 
 
