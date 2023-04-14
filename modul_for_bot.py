@@ -9,7 +9,7 @@ import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
 from keyboards_modules.diadoc_menu import *
-import main
+import log
 
 import text
 import datetime as dt
@@ -118,7 +118,9 @@ def sql_user(bot, callback_query):
     userid = str(callback_query.from_user.id)
     print('Пользователь =', userid,' Время обращения:', 
             time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
-    main.log_file.write(userid,',',time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
+
+    info = (userid,',',time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
+    log.write_file(log.log_file, info)
 
     if str(callback_query.from_user.id) == userid:
         # print('user -', callback_query.from_user.id)
