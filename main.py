@@ -2,6 +2,7 @@ from time import sleep
 from modul_for_bot import *
 import text
 import test_mode_check
+from log import log_file
 
 # Переменные
 ver = '1.0.4.2'
@@ -111,7 +112,7 @@ def answer_text(message):
 
     continue_(bot, message)
 
-log_file = open('jarvislog.txt','a')
+
 
 # Информация по боту 
 print(f'Бот запущен! Текущая версия {ver}.')
