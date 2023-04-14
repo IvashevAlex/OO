@@ -111,9 +111,12 @@ def answer_text(message):
 
     continue_(bot, message)
 
+log_file = open('jarvislog.txt','a')
 
 # Информация по боту 
 print(f'Бот запущен! Текущая версия {ver}.')
+log_file.write(f'Бот запущен! Текущая версия {ver}.')
+
 if test_mode == True:
     print('Активирован режим тестирования!')
 else:

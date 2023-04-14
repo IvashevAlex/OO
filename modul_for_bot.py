@@ -9,6 +9,7 @@ import get_db_excel
 from keyboards import *
 from keyboards_modules.modules import *
 from keyboards_modules.diadoc_menu import *
+import main
 
 import text
 import datetime as dt
@@ -117,6 +118,7 @@ def sql_user(bot, callback_query):
     userid = str(callback_query.from_user.id)
     print('Пользователь =', userid,' Время обращения:', 
             time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
+    main.log_file.write(userid,',',time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
 
     if str(callback_query.from_user.id) == userid:
         # print('user -', callback_query.from_user.id)
@@ -164,46 +166,46 @@ def sql_user(bot, callback_query):
 def check_product(callback_query):
     print('IN check_product')
     if tests_data[callback_query.from_user.id] == 'DD':
-        print('DD question')
+        print('DD question *-* ')
         db = db_data['DD']
     elif tests_data[callback_query.from_user.id] == 'EDI':
-        print('EDI question')
+        print('EDI question *-* ')
         db = db_data['EDI']
     elif tests_data[callback_query.from_user.id] == 'extrn':
-        print('KE question')
+        print('KE question *-* ')
         db = db_data['KE']
     elif tests_data[callback_query.from_user.id] == 'UC':
-        print('UC question')
+        print('UC question *-* ')
         db = db_data['UC']
     elif tests_data[callback_query.from_user.id] == 'MK':
-        print('MK question')
+        print('MK question *-* ')
         db = db_data['MK']
     elif tests_data[callback_query.from_user.id] == 'FMS':
-        print('FMS question')
+        print('FMS question *-* ')
         db = db_data['FMS']
     elif tests_data[callback_query.from_user.id] == 'OFD':
-        print('OFD question')
+        print('OFD question *-* ')
         db = db_data['OFD']
     elif tests_data[callback_query.from_user.id] == 'BUH':
-        print('BH question')
+        print('BH question *-* ')
         db = db_data['BH']
     elif tests_data[callback_query.from_user.id] == 'ELB':
-        print('ELB question')
+        print('ELB question *-* ')
         db = db_data['ELB']
     elif tests_data[callback_query.from_user.id] == 'INST':
-        print('INST question')
+        print('INST question *-* ')
         db = db_data['INST']
     elif tests_data[callback_query.from_user.id] == 'WIC':
-        print('WIC question')
+        print('WIC question *-* ')
         db = db_data['WIC']
     elif tests_data[callback_query.from_user.id] == 'OTHER':
-        print('OTHER question')
+        print('OTHER question *-* ')
         db = db_data['OTHER']
     elif tests_data[callback_query.from_user.id] == 'KF':
-        print('KF question')
+        print('KF question *-* ')
         db = db_data['KF']
     else:
-        print('ELSE')
+        print('ELSE *-* ')
         db = db_data['all']
 
     return db
