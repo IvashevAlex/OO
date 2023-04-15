@@ -119,8 +119,10 @@ def sql_user(bot, callback_query):
     print('Пользователь =', userid,' Время обращения:', 
             time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
 
-    info = (userid,',',time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
-    log.write_file(log.log_file, info)
+    # # Логирует id и время обращения пользователя
+    # log.write_file(log.log_file, str(userid) + ',' + str(time.localtime()[3]) + ',' 
+    #                                                + str(time.localtime()[4]) + ',' 
+    #                                                + str(time.localtime()[5]) + '\n')
 
     if str(callback_query.from_user.id) == userid:
         # print('user -', callback_query.from_user.id)
@@ -243,17 +245,21 @@ def random_question(id_user, max_row):
 
 def answers(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по тестам
     print('IN answers')
+    
+    id_user = str(callback_query.from_user.id)
+    
     db = check_product(callback_query)  # db = db_data['FMS']['Название листа'] внутри будет dict с вопросами и вариантами ответов
-
     # <--- Получаем название вкладки (продукта) в таблице
     name_sheet = int(a[callback_query.from_user.id])
     # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
     sheets_name = list(db.keys()) #Тут мы получили название листов
-
     name_sheet = sheets_name[name_sheet] #Тут мы получаем название нужного листа
-
     sheet = db[name_sheet] #Получаем вопросы из полученного листа
     
+    try:
+        log.write_file(log.log_file, str(id_user) + ',' + str(tests_data[callback_query.from_user.id]) + 'Test\n')
+    except Exception as EX:
+        print('Ошибка логирования:', EX.args)
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
 
@@ -374,18 +380,19 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
 def answers_prk(bot, callback_query):  # <--- Функция отвечающая за поиск и отправку вопросов по кейсам
     print('IN answers_prk')
     
+    id_user = str(callback_query.from_user.id)
+    
     practicks_data['check_attempt'][callback_query.from_user.id] = '1'
-
     db = check_product(callback_query)
-
     name_sheet = int(a[callback_query.from_user.id])  # <--- Получаем название вкладки (продукта) в таблице
-
     sheets_name = list(db.keys())
-
     name_sheet = sheets_name[name_sheet]
-
     sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
 
+    try:
+        log.write_file(log.log_file, str(id_user) + ',' + str(tests_data[callback_query.from_user.id]) + 'Case\n')
+    except Exception as EX:
+        print('Ошибка логирования:', EX.args)
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
 

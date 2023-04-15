@@ -2,9 +2,10 @@ from time import sleep
 from modul_for_bot import *
 import text
 import test_mode_check
+import log
 
 # Переменные
-ver = '1.0.4.2'
+ver = '1.0.4.3'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -120,6 +121,8 @@ if test_mode == True:
     print('Активирован режим тестирования!')
 else:
     pass
+
+log.write_file(log.log_file, '\nStarting bot. Version: ' + str(ver) + '\n' + str(time.localtime()) + '\n\n')
 
 # Запуск основного цикла работы бота
 while True:
