@@ -119,11 +119,6 @@ def sql_user(bot, callback_query):
     print('Пользователь =', userid,' Время обращения:', 
             time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5])
 
-    # # Логирует id и время обращения пользователя
-    # log.write_file(log.log_file, str(userid) + ',' + str(time.localtime()[3]) + ',' 
-    #                                                + str(time.localtime()[4]) + ',' 
-    #                                                + str(time.localtime()[5]) + '\n')
-
     if str(callback_query.from_user.id) == userid:
         # print('user -', callback_query.from_user.id)
         data_base['BotUsers'][callback_query.from_user.id] = {'UserChat': str(callback_query.from_user.id),
@@ -257,7 +252,10 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
     sheet = db[name_sheet] #Получаем вопросы из полученного листа
     
     try:
-        log.write_file(log.log_file, str(id_user) + ',' + str(tests_data[callback_query.from_user.id]) + 'Test\n')
+        log.write_file(log.log_file, str(time.strftime("%c", time.struct_time)) + ','
+                                    + str(id_user) + ',' 
+                                    + str(tests_data[callback_query.from_user.id]) 
+                                    + 'Test\n')
     except Exception as EX:
         print('Ошибка логирования:', EX.args)
 
@@ -390,7 +388,10 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
     sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
 
     try:
-        log.write_file(log.log_file, str(id_user) + ',' + str(tests_data[callback_query.from_user.id]) + 'Case\n')
+        log.write_file(log.log_file, str(time.strftime("%c", time.struct_time)) + ','
+                                    + str(id_user) + ',' 
+                                    + str(tests_data[callback_query.from_user.id]) 
+                                    + 'Case\n')
     except Exception as EX:
         print('Ошибка логирования:', EX.args)
 

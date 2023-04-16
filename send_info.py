@@ -3,6 +3,7 @@ import datetime as dt
 from WhiteList import *
 import pypyodbc
 import sql_queries
+import log
 
 # today = dt.date.today() - положение в данном месте не позволяет оновлять переменную , т.к. она объявляетс только один раз
 
@@ -199,6 +200,14 @@ while True:
                             print('Отправка', users_id)
                             try:
                                 bot.send_message(users_id, message_by_number, parse_mode='Markdown', disable_web_page_preview=True)
+                                
+                                try:
+                                    log.write_file(log.log_file, str(time.strftime("%c", time.struct_time)) + ','
+                                                           + str(users_id) + ','
+                                                           + 'SendInfo'+ number_of_message_by_date +'\n')
+                                except Exception as EX:
+                                    print('Ошибка логирования отправки сообщений')
+
                             except Exception as e:
                                 # Фиксируем причину возникновения ошибки
                                 print('----------')
