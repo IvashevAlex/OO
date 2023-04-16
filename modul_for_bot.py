@@ -252,9 +252,10 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
     sheet = db[name_sheet] #Получаем вопросы из полученного листа
     
     try:
-        log.write_file(log.log_file, str(time.strftime("%c", time.struct_time)) + ','
+        log.write_file(log.log_file, str(time.localtime()[0],'-',time.localtime()[1],'-',time.localtime()[2]) + ','
+                                    + str(time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5]) + ','
                                     + str(id_user) + ',' 
-                                    + str(tests_data[callback_query.from_user.id]) 
+                                    + str(tests_data[callback_query.from_user.id])
                                     + 'Test\n')
     except Exception as EX:
         print('Ошибка логирования:', EX.args)
@@ -388,8 +389,9 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
     sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
 
     try:
-        log.write_file(log.log_file, str(time.strftime("%c", time.struct_time)) + ','
-                                    + str(id_user) + ',' 
+        log.write_file(log.log_file, str(time.localtime()[0],'-',time.localtime()[1],'-',time.localtime()[2]) + ','
+                                    + str(time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5]) + ','
+                                    + str(id_user) + ','
                                     + str(tests_data[callback_query.from_user.id]) 
                                     + 'Case\n')
     except Exception as EX:
