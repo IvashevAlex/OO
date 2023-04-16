@@ -165,46 +165,32 @@ def sql_user(bot, callback_query):
 def check_product(callback_query):
     print('IN check_product')
     if tests_data[callback_query.from_user.id] == 'DD':
-        print('DD question *-* ')
         db = db_data['DD']
     elif tests_data[callback_query.from_user.id] == 'EDI':
-        print('EDI question *-* ')
         db = db_data['EDI']
     elif tests_data[callback_query.from_user.id] == 'extrn':
-        print('KE question *-* ')
         db = db_data['KE']
     elif tests_data[callback_query.from_user.id] == 'UC':
-        print('UC question *-* ')
         db = db_data['UC']
     elif tests_data[callback_query.from_user.id] == 'MK':
-        print('MK question *-* ')
         db = db_data['MK']
     elif tests_data[callback_query.from_user.id] == 'FMS':
-        print('FMS question *-* ')
         db = db_data['FMS']
     elif tests_data[callback_query.from_user.id] == 'OFD':
-        print('OFD question *-* ')
         db = db_data['OFD']
     elif tests_data[callback_query.from_user.id] == 'BUH':
-        print('BH question *-* ')
         db = db_data['BH']
     elif tests_data[callback_query.from_user.id] == 'ELB':
-        print('ELB question *-* ')
         db = db_data['ELB']
     elif tests_data[callback_query.from_user.id] == 'INST':
-        print('INST question *-* ')
         db = db_data['INST']
     elif tests_data[callback_query.from_user.id] == 'WIC':
-        print('WIC question *-* ')
         db = db_data['WIC']
     elif tests_data[callback_query.from_user.id] == 'OTHER':
-        print('OTHER question *-* ')
         db = db_data['OTHER']
     elif tests_data[callback_query.from_user.id] == 'KF':
-        print('KF question *-* ')
         db = db_data['KF']
     else:
-        print('ELSE *-* ')
         db = db_data['all']
 
     return db
@@ -252,8 +238,8 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
     sheet = db[name_sheet] #Получаем вопросы из полученного листа
     
     try:
-        log.write_file(log.log_file, str(str(time.localtime()[0]) + '-' + str(time.localtime()[1]) + '-' + str(time.localtime()[2])) + ','
-                                    + str(str(time.localtime()[3]) + '-' + str(time.localtime()[4]) + '-' + str(time.localtime()[5])) + ','
+        log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
+                                    + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
                                     + str(id_user) + ','
                                     + str(tests_data[callback_query.from_user.id])
                                     + 'Test\n')
@@ -336,7 +322,7 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
 
         fs = results  # <-- тут мы имеем сразу UserRand и UserRowQuestions
         # sc = re.findall(r'\b\d+\b', fs) #<--- распарсиваем их чтоб можно было выбрать, но надо ли?
-        print('Номер вопроса =', int(fs[0])+1, 'из', int(fs[1]))
+        print('Номер заданного вопроса =', int(fs[0])+1,'. Всего по теме доступно', int(fs[1]), ' вопроса.')
 
         # ----- формируем сообщение для отправки вопроса ------ #
         question_dict = sheet[int(fs[0])]
@@ -389,8 +375,8 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
     sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
 
     try:
-        log.write_file(log.log_file, str(str(time.localtime()[0]) + '-' + str(time.localtime()[1]) + '-' + str(time.localtime()[2])) + ','
-                                    + str(str(time.localtime()[3]) + '-' + str(time.localtime()[4]) + '-' + str(time.localtime()[5])) + ','
+        log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
+                                    + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
                                     + str(id_user) + ','
                                     + str(tests_data[callback_query.from_user.id])
                                     + 'Case\n')
