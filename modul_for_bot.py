@@ -910,16 +910,22 @@ def query_data_handler(bot, data):
             cursor.execute(SQLQuery)
             all_messages = cursor.fetchall()
             for i in range(len(all_messages)):
-                bot.send_message(callback_query.from_user.id, 
-                                'Рассылка №' + str(all_messages[i][0]) + ':\n' + str(all_messages[i][1]), 
-                                parse_mode='Markdown', disable_web_page_preview=True)
-                time.sleep(0.1)
+                try:
+                    bot.send_message(callback_query.from_user.id, 
+                                    'Рассылка ' + str(all_messages[i][0]) + ':\n' + str(all_messages[i][1]), 
+                                    parse_mode='Markdown', disable_web_page_preview=True)
+                    time.sleep(0.1)
+                except Exception as EX:
+                    print('Не удалось отправить текст под номером', i)
+                    print(EX.args)
         
     elif data == 'Изменить сообщение':
         message = bot.edit_message_text("Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст.\n"\
                             "Обрати внимание, что символ * - это разделитель и его нельяз использовать в тексте рассылки.\n"\
                             "При необходимоести указать символ ' необходимо указать его дважды - WIC''a.\n"\
-                            "Гиперссылка указывается как [слово](http://www.example.com/).",
+                            "Гиперссылка указывается как [слово](http://www.example.com/).\n"\
+                            "Перенос на новую строку указывай в самом сообщении используя Shift+Enter.",
+                            "Если сообщение не изменилось, то проверь, что оно соответствует всем вышеперечисленным правилам.",
                             chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_base_change)

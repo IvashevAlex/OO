@@ -11,7 +11,7 @@ def time_checker():
     # Проверка на день недели. По выходным сообщения не рассылаем. Отправка в 12:05:05 по локальному времени
     if dt.datetime.today().isoweekday() in (1,2,3,4,5):
         if time.localtime()[3] == 12:
-            if time.localtime()[4] == 50:
+            if time.localtime()[4] == 5:
                 if time.localtime()[5] == 5:
                     time.sleep(1) # Что-бы случайно не отправить дважды
                     return True

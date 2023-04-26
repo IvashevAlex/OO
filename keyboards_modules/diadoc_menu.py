@@ -22,12 +22,11 @@ def test_DD(bot, callback_query):
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Web', callback_data='Диадок.Тесты.Web')
     itembtn6 = types.InlineKeyboardButton('Интеграция', callback_data='Диадок.Тесты.Интеграция')
-    itembtn5 = types.InlineKeyboardButton('Геракл', callback_data='DD.Tests.Геракл')
+    # itembtn5 = types.InlineKeyboardButton('Геракл', callback_data='DD.Tests.Геракл')
     itembtn3 = types.InlineKeyboardButton('Роуминг', callback_data='DD.Tests.Roam')
     itembtn12 = types.InlineKeyboardButton('Назад', callback_data='Назад')
 
-    markup.add(itembtn1, itembtn6)
-    markup.add(itembtn3, itembtn5)
+    markup.add(itembtn1, itembtn3, itembtn6)
     markup.add(itembtn12)
 
     try:
@@ -97,30 +96,6 @@ def test_diadoc_integrtion(bot, callback_query):
             except:
                 pass
 
-# DD.Test.Roaming
-# def test_diadoc_roaming(bot, callback_query):
-#     print('IN test_diadoc_roaming')
-#     modul_for_bot.sql_user(bot, callback_query)
-#     markup_test_roam = types.InlineKeyboardMarkup()
-
-#     itembtn1 = types.InlineKeyboardButton('Общие', callback_data='DD.Tests.Roam.Общие')
-#     itembtn2 = types.InlineKeyboardButton('Мониторинг роуминга', callback_data='DD.Tests.Roam.Mon')
-
-#     itembtn10 = types.InlineKeyboardButton('Назад', callback_data='Назад')
-
-#     markup_test_roam.add(itembtn1, itembtn2)
-#     markup_test_roam.add(itembtn10)
-
-#     try:
-#         bot.edit_message_text(chat_id=callback_query.from_user.id, text="Выбери подраздел:",
-#                         message_id=callback_query.message.message_id, reply_markup=markup_test_roam)
-#     except Exception as EX:
-#         print(EX.args)
-#         if test_mode == True:
-#             try:
-#                 bot.send_message(1325029854, EX.args)
-#             except:
-#                 pass
 
 # ---------------------------------- КЕЙСЫ --------------------------------------------------
 
