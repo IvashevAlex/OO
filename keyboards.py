@@ -350,11 +350,15 @@ def sending_menu_base(bot, callback_query):
     markup_base.add(itembtn12)
 
     # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    SQLQuery = sql_queries.number_of_values_in_messages()
-    cursor.execute(SQLQuery)
-    number_of_messages = cursor.fetchall()[0][0]
+    try:
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.number_of_values_in_messages()
+        cursor.execute(SQLQuery)
+        number_of_messages = cursor.fetchall()[0][0]
+    except Exception as EX:
+        print('Ошибка работы с БД в sending_menu_base:', end='')
+        print(EX.args)
     # End SQL
 
     try:
@@ -369,15 +373,21 @@ def sending_menu_base(bot, callback_query):
 # Добавление новой записи в dbo.Messages
 def sending_menu_base_add_to_sql(message):
     print('IN sending_menu_base_add_to_sql')
+
     # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    print('TEXT: ', message.text)
-    SQLQuery = sql_queries.add_new_value_in_messages(message.text)
-    print(SQLQuery)
-    cursor.execute(SQLQuery)
-    connection.commit()
-    connection.close()
+    try:
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        print('TEXT: ', message.text)
+        SQLQuery = sql_queries.add_new_value_in_messages(message.text)
+        print(SQLQuery)
+        cursor.execute(SQLQuery)
+        connection.commit()
+        connection.close()
+        print('запись успешно добавлена')
+    except Exception as EX:
+        print('Ошибка работы с БД в sending_menu_base_add_to_sql:', end='')
+        print(EX.args)        
     # End SQL
 
 
@@ -388,13 +398,20 @@ def sending_menu_base_change(message):
     print(number_text)
     print(number_text[0])
     print(number_text[1])
+    
     # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    SQLQuery = sql_queries.select_message_for_change(number_text[0], number_text[1])
-    cursor.execute(SQLQuery)
-    connection.commit()
-    connection.close()
+    try:
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.select_message_for_change(number_text[0], number_text[1])
+        cursor.execute(SQLQuery)
+        connection.commit()
+        connection.close()
+        print('Текст успешно изменен')
+    except Exception as EX:
+        print('Ошибка работы с БД в sending_menu_base_change:', end='')
+        print(EX.args)          
+
     # End SQL 
     try:
         bot.send_message(chat_id=message.from_user.id,  text='Сообщение изменено!', message_id=message.message_id)
@@ -419,11 +436,15 @@ def sending_menu_calendar(bot, callback_query):
     markup_calendar.add(itembtn12)
 
     # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    SQLQuery = sql_queries.number_of_values_in_calendar()
-    cursor.execute(SQLQuery)
-    number_of_not_null_records = cursor.fetchall()[0][1]
+    try:
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.number_of_values_in_calendar()
+        cursor.execute(SQLQuery)
+        number_of_not_null_records = cursor.fetchall()[0][1]
+    except Exception as EX:
+        print('Ошибка работы с БД в sending_menu_calendar:', end='')
+        print(EX.args)   
     # End SQL
 
     try:
@@ -441,25 +462,37 @@ def edit_sending_menu_calendar(message):
     print(number_text)
     print(number_text[0])
     print(number_text[1])
+    
     # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    SQLQuery = sql_queries.select_calendar_for_change(number_text[0], number_text[1])
-    cursor.execute(SQLQuery)
-    connection.commit()
-    connection.close()
+    try:
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.select_calendar_for_change(number_text[0], number_text[1])
+        cursor.execute(SQLQuery)
+        connection.commit()
+        connection.close()
+    except Exception as EX:
+        print('Ошибка работы с БД в edit_sending_menu_calendar:', end='')
+        print(EX.args)
+    # End SQL
 
 # Задает указанному дню рассылки значение NULL
 def sending_menu_calendar_delete(message):
     print('IN sending_menu_calendar_delete')
+    
     # Start SQL
-    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    SQLQuery = sql_queries.clear_value_in_callendar(message.text)
-    cursor.execute(SQLQuery)
-    connection.commit()
-    connection.close()
+    try:
+        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = sql_queries.clear_value_in_callendar(message.text)
+        cursor.execute(SQLQuery)
+        connection.commit()
+        connection.close()
+    except Exception as EX:
+        print('Ошибка работы с БД в edit_sending_menu_calendar:', end='')
+        print(EX.args)
     # End SQL
+    
     try:
         bot.send_message(chat_id=message.from_user.id,  text='День очищен от рассылки!', message_id=message.message_id)
     except:

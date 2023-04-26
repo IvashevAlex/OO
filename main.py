@@ -34,12 +34,6 @@ def admin_menu(message):
     else:
         bot.send_message(message.from_user.id, text.no_admin_access)
 
-# Обработка команды /test_1
-@bot.message_handler(commands=["test_1"])
-def test(message):
-    print('IN test')
-    if echo(message) == True:
-        bot.send_message(message.chat.id, text.test_1, parse_mode='Markdown')
 
 # Обработка текстового сообщения "В меню"
 @bot.message_handler(func=lambda message: message.text == "В меню")
@@ -130,4 +124,4 @@ while True:
         bot.polling(none_stop=False, interval=0, timeout=20)
     except Exception as EX:
         print(EX.args)
-        sleep(0.7)
+        sleep(1)

@@ -24,8 +24,13 @@ def get_question():
 
     bd_questions = {}
 
+    # Цикл формирует словари с вопросами по каждому продукту из json файлов
     for i in list_tables:
-        with open(f'Data/ExcelToJSON/{i}.json', 'r', encoding='utf-8') as file:
-            bd_questions[name_dict[i]] = json.load(file)
-        print(i,'... Ok')
+        try:
+            with open(f'Data/ExcelToJSON/{i}.json', 'r', encoding='utf-8') as file:
+                bd_questions[name_dict[i]] = json.load(file)
+            print(i,'... Ok')
+        except Exception as EX:
+            print(i, '... ERROR ---',end='')
+            print(EX.args)
     return bd_questions
