@@ -686,9 +686,9 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
                                             + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
                                             + str(id_user) + ','
                                             + str(tests_data[callback_query.from_user.id])
-                                            + 'Test\n' + ','
+                                            + 'Test' + ','
                                             + 'Ans' + ','
-                                            + 'Yes')
+                                            + 'Yes\n')
             except Exception as EX:
                 print('Ошибка логирования:', EX.args)
 
@@ -760,9 +760,9 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
                                             + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
                                             + str(id_user) + ','
                                             + str(tests_data[callback_query.from_user.id])
-                                            + 'Case\n' + ','
+                                            + 'Case' + ','
                                             + 'Ans' + ','
-                                            + 'Yes')
+                                            + 'Yes\n')
             except Exception as EX:
                 print('Ошибка логирования:', EX.args)
 
@@ -775,6 +775,9 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
                 markup.add(itembtn1)
                 markup.add(itembtn2)
 
+                # ! тест
+                print('Case ERROR ------------------- 1')
+
                 message_id = bot.edit_message_text("Неправильно! У тебя есть еще одна попытка.", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id], reply_markup=markup)
                 practicks_data['check_attempt'][callback_query.from_user.id] = '0'
                 data_base['BotUsers'][callback_query.from_user.id]['UserAnswer'] = 'None'
@@ -783,7 +786,7 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
             else:
                 bot.edit_message_text(f"Неправильно! Учи!\nПравильный ответ: {lower_ans_prk[0]}.", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
                 # ! тест
-                print('Case ERROR')
+                print('Case ERROR ------------------- 2')
 
         data_base['BotUsers'][callback_query.from_user.id]['UserRand'] = str(int(results[0]) + 1)
         h = 0
