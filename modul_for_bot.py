@@ -242,7 +242,8 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
                                     + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
                                     + str(id_user) + ','
                                     + str(tests_data[callback_query.from_user.id])
-                                    + 'Test\n')
+                                    + 'Test\n' + ','
+                                    + 'Ask')
     except Exception as EX:
         print('Ошибка логирования:', EX.args)
 
@@ -379,7 +380,8 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
                                     + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
                                     + str(id_user) + ','
                                     + str(tests_data[callback_query.from_user.id])
-                                    + 'Case\n')
+                                    + 'Case\n' + ','
+                                    + 'Ask')
     except Exception as EX:
         print('Ошибка логирования:', EX.args)
 
@@ -652,6 +654,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
 def check_answer(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по тестам
     print('IN check_answer')
     print(callback_query.from_user.id)
+    id_user = str(callback_query.from_user.id)
 
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserAnswer'], \
@@ -673,18 +676,41 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
         check_true_ans = true_ans(callback_query)
 
         if sorted(set(map(str, results[1]))) == check_true_ans:
+            
             bot.edit_message_text("Красава!", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
             data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns'] = str(int(results[2]) + 1)
 
+            # Логирование правильного ответа
+            try:
+                log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
+                                            + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
+                                            + str(id_user) + ','
+                                            + str(tests_data[callback_query.from_user.id])
+                                            + 'Test\n' + ','
+                                            + 'Ans' + ','
+                                            + 'Yes')
+            except Exception as EX:
+                print('Ошибка логирования:', EX.args)
+
         else:
             check_true_ans_1 = ''
+            
             for i in check_true_ans:
                 check_true_ans_1 += f'{i}'
+            
+            
             if len(check_true_ans) == 1:
-                bot.edit_message_text(f"Неправильно! Учи! \nПравильный вариант: {check_true_ans_1}.", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
+                bot.edit_message_text(f"Неправильно! Учи! \nПравильный вариант: {check_true_ans_1}.", chat_id=callback_query.from_user.id, 
+                                        message_id=save_message_id['message_id'][callback_query.from_user.id])
+                #! тест
+                print('ПЕРВЫЙ ', id_user, tests_data[callback_query.from_user.id], check_true_ans)
+            
             else:
                 bot.edit_message_text(f"Неправильно! Учи! \nПравильные варианты: {check_true_ans_1}.", chat_id=callback_query.from_user.id,
-                                      message_id=save_message_id['message_id'][callback_query.from_user.id])
+                                        message_id=save_message_id['message_id'][callback_query.from_user.id])
+                #! тест
+                print('ВТОРОЙ ', id_user, tests_data[callback_query.from_user.id], check_true_ans)
+        
         data_base['BotUsers'][callback_query.from_user.id]['UserRand'] = str(int(results[0]) + 1)
 
         h = 0
@@ -695,6 +721,7 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
 
 def check_answer_prk(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по кейсам
     print('IN check_answer_prk')
+    id_user = str(callback_query.from_user.id)
     
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserAnswer'], \
@@ -713,6 +740,7 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
         markup = types.InlineKeyboardMarkup()
         itembtn2 = types.InlineKeyboardButton('Сообщить об ошибке', callback_data='Сообщить об ошибке')
         markup.add(itembtn2)
+        
         try:
             bot.edit_message_caption(chat_id=callback_query.from_user.id, message_id=save_message_id['check_answer'][callback_query.from_user.id],
                                   caption=save_message_id['message_text'][callback_query.from_user.id], reply_markup=markup, parse_mode='HTML')
@@ -725,6 +753,19 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
         if db_results.upper() in check_true_ans_prk:
             bot.edit_message_text("Красава!", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
             data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns'] = str(int(results[2]) + 1)
+        
+        # Логирование правильного ответа
+            try:
+                log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
+                                            + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
+                                            + str(id_user) + ','
+                                            + str(tests_data[callback_query.from_user.id])
+                                            + 'Case\n' + ','
+                                            + 'Ans' + ','
+                                            + 'Yes')
+            except Exception as EX:
+                print('Ошибка логирования:', EX.args)
+
         else:
             if practicks_data['check_attempt'][callback_query.from_user.id] == '1':
                 markup = types.InlineKeyboardMarkup()
@@ -741,6 +782,8 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
                 return
             else:
                 bot.edit_message_text(f"Неправильно! Учи!\nПравильный ответ: {lower_ans_prk[0]}.", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
+                # ! тест
+                print('Case ERROR')
 
         data_base['BotUsers'][callback_query.from_user.id]['UserRand'] = str(int(results[0]) + 1)
         h = 0

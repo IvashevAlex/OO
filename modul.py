@@ -20,13 +20,13 @@ def question(db):
     return sheet
 
 # Возможно, функция нигде не вызывается
-def pointer (count):
-    print('ON modul.pointer')
-    print(float(count) / 20 * 100)
-    if int(float(count) / 20 * 100) > 80:
-        print("Ты сдашь, красава!")
-    else:
-        print("Штош...")
+# def pointer (count):
+#     print('ON modul.pointer')
+#     print(float(count) / 20 * 100)
+#     if int(float(count) / 20 * 100) > 80:
+#         print("Ты сдашь, красава!")
+#     else:
+#         print("Штош...")
 
 # Возможно, функция нигде не вызывается
 def ans_user ():

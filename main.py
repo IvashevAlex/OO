@@ -5,7 +5,7 @@ import test_mode_check
 import log
 
 # Переменные
-ver = '1.0.4.7'
+ver = '1.0.4.8'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
