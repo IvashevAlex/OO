@@ -51,4 +51,4 @@ def prk_uc(bot, callback_query):
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
 
-UC_menu("Удостоверяющий центр", bot)
+UC_menu("Удостов. центр", bot)
