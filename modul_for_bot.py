@@ -242,8 +242,9 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
                                     + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
                                     + str(id_user) + ','
                                     + str(tests_data[callback_query.from_user.id])
-                                    + 'Test\n' + ','
-                                    + 'Ask')
+                                    + 'Test' + ','
+                                    + 'Ask' + ','
+                                    + 'None\n')
     except Exception as EX:
         print('Ошибка логирования:', EX.args)
 
@@ -380,8 +381,9 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
                                     + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
                                     + str(id_user) + ','
                                     + str(tests_data[callback_query.from_user.id])
-                                    + 'Case\n' + ','
-                                    + 'Ask')
+                                    + 'Case' + ','
+                                    + 'Ask' + ','
+                                    +'None\n')
     except Exception as EX:
         print('Ошибка логирования:', EX.args)
 
