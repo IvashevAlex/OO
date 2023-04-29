@@ -17,11 +17,14 @@ def select_message_by_number(number):
               FROM [dbo].[Messages]
               WHERE [Number] = """ + str(number) + """;
            """
+
+
 # Выбор ВСЕХ сообщений
 def get_all_info_from_messages():
     return """SELECT * 
               FROM [dbo].[Messages]
            """
+
 
 # Указание нового текста сообщения по номеру (изменить запись)
 def select_message_for_change(message_number, new_message_body):
@@ -38,8 +41,8 @@ def add_new_value_in_messages(new_messages_text):
               VALUES ((SELECT COUNT(*) FROM [dbo].[Messages]), '""" + str(new_messages_text) + """');
            """
 
-# Удаление не предусмотрено
 
+# Удаление не предусмотрено
 # ----------------------------- dbo.Settable -------------------------------
 
 # Получение общего числа записей в dbo.Settable
