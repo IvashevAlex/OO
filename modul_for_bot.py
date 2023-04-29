@@ -214,6 +214,7 @@ def get_max_row(sheet):  # <--- Функция для получения мак�
 # Функция выбора случайного вопроса
 def random_question(id_user, max_row):
     print('IN random_question')
+    
     if len(rand_question[id_user]) < 1:
         for i in range(0, max_row):
             rand_question[id_user].append(i)
@@ -237,6 +238,9 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
     name_sheet = sheets_name[name_sheet] #Тут мы получаем название нужного листа
     sheet = db[name_sheet] #Получаем вопросы из полученного листа
     
+    print(db, name_sheet, sheets_name, sheet)
+
+    # ! Логирование. был задан вопрос по тесту
     try:
         log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
                                     + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
@@ -279,6 +283,8 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
         bot.send_message(callback_query.from_user.id, f'Ты ответил на все вопросы! \n'
                                                       f'\nКоличество вопросов, которые были заданы: {str(ans_q)}'
                                                       f'\nПравильных ответов: {int(sc[1])}')
+
+        # ! Логирование. были даны ответы по всем тестам
 
         callback_check[callback_query.from_user.id] = 'end'
 
@@ -376,6 +382,7 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
     name_sheet = sheets_name[name_sheet]
     sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
 
+    # ! Логирование. был задан вопрос по кейсу
     try:
         log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
                                     + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
@@ -383,7 +390,7 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
                                     + str(tests_data[callback_query.from_user.id])
                                     + 'Case' + ','
                                     + 'Ask' + ','
-                                    +'None\n')
+                                    + 'None\n')
     except Exception as EX:
         print('Ошибка логирования:', EX.args)
 
@@ -417,6 +424,9 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
         bot.send_message(callback_query.from_user.id, f'Ты выполнил все кейсы! \n'
                                                       f'\nКоличество кейсов, которые были заданы: {str(ans_q)}.'
                                                       f'\nПравильных ответов: {int(sc[1])}.')
+        
+        # ! Логирование. были даны ответы по всем кейсам
+        
         callback_check[callback_query.from_user.id] = 'end'
 
     else:  # <--- Если ответил не на все вопросы
@@ -522,19 +532,13 @@ def true_ans(callback_query):  # <--- Функция отвечает за за�
     print('IN true_ans')
     
     ans[callback_query.from_user.id] = []
-
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
-
     print('Номер вопроса =', int(results[0]), ', номер вкладки в экселе =', int(results[1]), 'ID пользователя =', str(callback_query.from_user.id))
-
     db = check_product(callback_query)
 
     sheets_name = list(db.keys()) #Получаем все названия листов
-
     sheet_name = sheets_name[int(results[1])] #Получаем название листа
-
     sheet = db[sheet_name]
-
     question_dict = sheet[int(results[0])]
 
     for i in question_dict:
@@ -550,21 +554,14 @@ def true_ans_prk(callback_query):  # <--- Функция отвечает за �
     
     ans[callback_query.from_user.id] = []
     ans['lower'][callback_query.from_user.id] = []
-
     results = data_base['BotUsers'][callback_query.from_user.id]['UserRand'], data_base['BotUsers'][callback_query.from_user.id]['UserPage']
-
     print('Номер вопроса = ', int(results[0]), ', номер вкладки в экселе = ', int(results[1]))
-
     db = check_product(callback_query)
 
     sheets_name = list(db.keys()) #Получаем все названия листов
-
     sheet_name = sheets_name[int(results[1])] #Получаем название листа
-
     sheet = db[sheet_name]
-
     question_dict = sheet[int(results[0])]
-
     question_dict = (str(question_dict['Ответ']))
 
     for i in question_dict.split(';'):
@@ -588,7 +585,6 @@ def continue_(bot, message):  # <--- функция обработки прос�
             data_base['BotUsers'][message.chat.id]['UserAnswer'] = str(message.text)
 
 
-
     elif callback_check[message.chat.id] == '1':  # Если пользователь нажал на сообщить об ошибке
         print('IF 1')
         bot.send_message(message.chat.id, 'Ты еще не выбрал о какой ошибке хочешь сообщить. Если не хочешь сообщать, нажми «Отмена».')
@@ -599,7 +595,6 @@ def continue_(bot, message):  # <--- функция обработки прос�
         text_error = 'Сообщение о технической ошибке: '
         bot.send_message(fafa_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
         bot.send_message(message.chat.id, text.tech_error_msg)
-
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
     elif callback_check[message.chat.id] == '3':  # Если пользователь нажал на сообщить об ошибке и выбрал "об ошибке в вопросе"
@@ -648,7 +643,6 @@ def continue_(bot, message):  # <--- функция обработки прос�
         bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         bot.send_message(message.chat.id, text.tech_error_msg)
-
         callback_check[message.from_user.id] = save_check[message.from_user.id]
 
     print('IN continue_ END')
@@ -663,9 +657,11 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
               data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserPage']
 
-    print('1 if')
+    
     if results[1] == 'None':  # <---смотрим в БД пустой ли ответ
+        print('1 if')
         bot.edit_message_text(text.empty_answer, chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
+    
     else:
         print('2 if')
 
@@ -682,7 +678,7 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
             bot.edit_message_text("Красава!", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
             data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns'] = str(int(results[2]) + 1)
 
-            # Логирование правильного ответа
+            #! Логирование правильного ответа
             try:
                 log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
                                             + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
@@ -704,14 +700,34 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
             if len(check_true_ans) == 1:
                 bot.edit_message_text(f"Неправильно! Учи! \nПравильный вариант: {check_true_ans_1}.", chat_id=callback_query.from_user.id, 
                                         message_id=save_message_id['message_id'][callback_query.from_user.id])
-                #! тест
-                print('ПЕРВЫЙ ', id_user, tests_data[callback_query.from_user.id], check_true_ans)
+                
+                #! Логирование неправильного ответа в тестах
+                try:
+                    log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
+                                                + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
+                                                + str(id_user) + ','
+                                                + str(tests_data[callback_query.from_user.id])
+                                                + 'Test' + ','
+                                                + 'Ans' + ','
+                                                + 'No\n')
+                except Exception as EX:
+                    print('Ошибка логирования:', EX.args)
             
             else:
                 bot.edit_message_text(f"Неправильно! Учи! \nПравильные варианты: {check_true_ans_1}.", chat_id=callback_query.from_user.id,
                                         message_id=save_message_id['message_id'][callback_query.from_user.id])
-                #! тест
-                print('ВТОРОЙ ', id_user, tests_data[callback_query.from_user.id], check_true_ans)
+                
+                #! Логирование неправильного ответа в тестах
+                try:
+                    log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
+                                                + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
+                                                + str(id_user) + ','
+                                                + str(tests_data[callback_query.from_user.id])
+                                                + 'Test' + ','
+                                                + 'Ans' + ','
+                                                + 'No\n')
+                except Exception as EX:
+                    print('Ошибка логирования:', EX.args)
         
         data_base['BotUsers'][callback_query.from_user.id]['UserRand'] = str(int(results[0]) + 1)
 
@@ -729,9 +745,10 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
               data_base['BotUsers'][callback_query.from_user.id]['UserAnswer'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns'], \
               data_base['BotUsers'][callback_query.from_user.id]['UserPage']
-    print('1 if')
+
 
     if results[1] == 'None':  # <---смотрим в БД пустой ли ответ
+        print('1 if')
         bot.edit_message_text("Ты вводишь пустой ответ. Пока не напишешь варианты ответа, дальше не двинемся.",
                               chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
         return
@@ -777,8 +794,17 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
                 markup.add(itembtn1)
                 markup.add(itembtn2)
 
-                # ! тест
-                print('Case ERROR ------------------- 1')
+                #! Логирование первого неправильного ответа в кейсах
+                try:
+                    log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
+                                                + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
+                                                + str(id_user) + ','
+                                                + str(tests_data[callback_query.from_user.id])
+                                                + 'Case' + ','
+                                                + 'Ans' + ','
+                                                + 'No1\n')
+                except Exception as EX:
+                    print('Ошибка логирования:', EX.args)
 
                 message_id = bot.edit_message_text("Неправильно! У тебя есть еще одна попытка.", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id], reply_markup=markup)
                 practicks_data['check_attempt'][callback_query.from_user.id] = '0'
@@ -787,8 +813,18 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
                 return
             else:
                 bot.edit_message_text(f"Неправильно! Учи!\nПравильный ответ: {lower_ans_prk[0]}.", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
-                # ! тест
-                print('Case ERROR ------------------- 2')
+
+                #! Логирование второго неправильного ответа в кейсах
+                try:
+                    log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
+                                                + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
+                                                + str(id_user) + ','
+                                                + str(tests_data[callback_query.from_user.id])
+                                                + 'Case' + ','
+                                                + 'Ans' + ','
+                                                + 'No2\n')
+                except Exception as EX:
+                    print('Ошибка логирования:', EX.args)
 
         data_base['BotUsers'][callback_query.from_user.id]['UserRand'] = str(int(results[0]) + 1)
         h = 0
@@ -849,60 +885,60 @@ def query_data_handler(bot, data):
         callback_check[callback_query.from_user.id] = save_check[callback_query.from_user.id]
 
     elif data == 'Техническая ошибка':
-      markup = types.InlineKeyboardMarkup()
-      itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
-      markup.add(itembtn9)
+        markup = types.InlineKeyboardMarkup()
+        itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+        markup.add(itembtn9)
 
-      bot.answer_callback_query(callback_query.id)
-      bot.edit_message_text('Опиши полностью техническую ошибку, которая у тебя произошла.', chat_id=callback_query.from_user.id,
+        bot.answer_callback_query(callback_query.id)
+        bot.edit_message_text('Опиши полностью техническую ошибку, которая у тебя произошла.', chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id, reply_markup=markup)
 
-      callback_check[callback_query.from_user.id] = '2'  # Присваиваем ИД переменную, чтобы дальше фильтровать
+        callback_check[callback_query.from_user.id] = '2'  # Присваиваем ИД переменную, чтобы дальше фильтровать
     
     elif data == 'Текстовая ошибка':
-      markup = types.InlineKeyboardMarkup()
-      itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
-      markup.add(itembtn9)
+        markup = types.InlineKeyboardMarkup()
+        itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+        markup.add(itembtn9)
 
-      bot.answer_callback_query(callback_query.id)
-      bot.edit_message_text('Опиши полностью ошибку в вопросе.', chat_id=callback_query.from_user.id,
+        bot.answer_callback_query(callback_query.id)
+        bot.edit_message_text('Опиши полностью ошибку в вопросе.', chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id, reply_markup=markup)
 
-      callback_check[callback_query.from_user.id] = '3'  # Присваиваем ИД переменную, чтобы дальше фильтровать
+        callback_check[callback_query.from_user.id] = '3'  # Присваиваем ИД переменную, чтобы дальше фильтровать
 
     elif data == 'Назад':
-      try:
-          del practicks_data[callback_query.from_user.id]
-      except:
-          pass
+        try:
+            del practicks_data[callback_query.from_user.id]
+        except:
+            pass
 
-      markup_1 = types.InlineKeyboardMarkup()
+        markup_1 = types.InlineKeyboardMarkup()
 
-      itembtn1 = types.InlineKeyboardButton('Тесты', callback_data='Тесты')
-      itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='Кейсы')
-      itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+        itembtn1 = types.InlineKeyboardButton('Тесты', callback_data='Тесты')
+        itembtn2 = types.InlineKeyboardButton('Кейсы', callback_data='Кейсы')
+        itembtn12 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-      markup_1.add(itembtn1, itembtn2)
-      markup_1.add(itembtn12)
+        markup_1.add(itembtn1, itembtn2)
+        markup_1.add(itembtn12)
 
-      try:
-          bot.edit_message_text(chat_id=callback_query.from_user.id, text="Какой вид обучения тебя интересует?",
-                                message_id=callback_query.message.message_id, reply_markup=markup_1)
-      except Exception as E:
-          print(E.args)
+        try:
+            bot.edit_message_text(chat_id=callback_query.from_user.id, text="Какой вид обучения тебя интересует?",
+                                    message_id=callback_query.message.message_id, reply_markup=markup_1)
+        except Exception as EX:
+            print(EX.args)
 
-      bot.answer_callback_query(callback_query.id)
+        bot.answer_callback_query(callback_query.id)
 
     elif data == 'Обновить таблицы':
-      global db_data
+        global db_data
 
-      db_data = {}
-      db_data = get_db_excel.get_question()
+        db_data = {}
+        db_data = get_db_excel.get_question()
 
-      bot.answer_callback_query(callback_query.id)
+        bot.answer_callback_query(callback_query.id)
 
-      bot.send_message(chat_id=callback_query.from_user.id, text='Таблицы успешно обновлены!')
-      print('Таблицы были обновлены!')
+        bot.send_message(chat_id=callback_query.from_user.id, text='Таблицы успешно обновлены!')
+        print('Таблицы были обновлены!')
 
     elif data == 'Зарегистрировать пользователя':
         add_user(callback_query, data_base)
@@ -952,20 +988,24 @@ def query_data_handler(bot, data):
         bot.register_next_step_handler(message, sending_menu_base_add_to_sql)
         
     elif data == 'Просмотреть все сообщения':
+        try:
             connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
             cursor = connection.cursor()
             SQLQuery = sql_queries.get_all_info_from_messages()
             cursor.execute(SQLQuery)
             all_messages = cursor.fetchall()
-            for i in range(len(all_messages)):
-                try:
-                    bot.send_message(callback_query.from_user.id, 
-                                    'Рассылка ' + str(all_messages[i][0]) + ':\n' + str(all_messages[i][1]), 
-                                    parse_mode='Markdown', disable_web_page_preview=True)
-                    time.sleep(0.1)
-                except Exception as EX:
-                    print('Не удалось отправить текст под номером', i)
-                    print(EX.args)
+        except Exception as EX:
+            print(EX.args)
+        
+        for i in range(len(all_messages)):
+            try:
+                bot.send_message(callback_query.from_user.id, 
+                                'Рассылка ' + str(all_messages[i][0]) + ':\n' + str(all_messages[i][1]), 
+                                parse_mode='Markdown', disable_web_page_preview=True)
+                time.sleep(0.1)
+            except Exception as EX:
+                print('Не удалось отправить текст под номером', i)
+                print(EX.args)
         
     elif data == 'Изменить сообщение':
         message = bot.edit_message_text("Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст.\n"\
@@ -976,7 +1016,12 @@ def query_data_handler(bot, data):
                             "Если сообщение не изменилось, то проверь, что оно соответствует всем вышеперечисленным правилам.",
                             chat_id=callback_query.from_user.id,
                             message_id=callback_query.message.message_id)
-        bot.register_next_step_handler(message, sending_menu_base_change)
+        try:
+            bot.register_next_step_handler(message, sending_menu_base_change)
+        except:
+            print('Ошибка изменения сообщения!')
+            bot.send_message(callback_query.from_user.id, 'Ошибка изменения сообщения. проверь соответствие требованиям', 
+                            parse_mode='Markdown', disable_web_page_preview=True)
         
     elif data == 'Задать день и номер рассылки':
         message = bot.edit_message_text("Отправь день и новый номер рассылки, разделив их звездочкой. Пример: 5*11 \n"\
@@ -987,12 +1032,16 @@ def query_data_handler(bot, data):
         bot.register_next_step_handler(message, edit_sending_menu_calendar)
 
     elif data == 'Просмотреть расписание':
-        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-        cursor = connection.cursor()
-        SQLQuery = sql_queries.get_all_info_from_calendar()
-        cursor.execute(SQLQuery)
-        all_messages = cursor.fetchall()
-        group_calendar = str()
+        try:
+            connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+            cursor = connection.cursor()
+            SQLQuery = sql_queries.get_all_info_from_calendar()
+            cursor.execute(SQLQuery)
+            all_messages = cursor.fetchall()
+            group_calendar = str()
+        except Exception as EX:
+            print(EX.args)
+        
         for i in range(len(all_messages)):
             group_calendar = group_calendar + 'День '+ str(all_messages[i][0]) + ' - Номер рассылки: ' + str(all_messages[i][1]) + '\n'
         bot.send_message(callback_query.from_user.id, group_calendar)
@@ -1006,13 +1055,16 @@ def query_data_handler(bot, data):
 
     # По хорошему нужно сделать проверку последней даты для предотвращения повторного нажатия
     elif data == 'Начать новый набор!':
-        connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-        cursor = connection.cursor()
-        SQLQuery = sql_queries.create_new_wave()
-        cursor.execute(SQLQuery) 
-        connection.commit()
-        connection.close()
-        bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(dt.date.today()) + '.')
+        try:
+            connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+            cursor = connection.cursor()
+            SQLQuery = sql_queries.create_new_wave()
+            cursor.execute(SQLQuery) 
+            connection.commit()
+            connection.close()
+            bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(dt.date.today()) + '.')
+        except Exception as EX:
+            print(EX.args)
 
     # ? Вызов как с другими функциями не получается, поскольку Admin_menu принимает не callback_query, message
     # ? Пока опция заблокрирована
