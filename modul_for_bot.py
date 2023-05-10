@@ -41,7 +41,11 @@ save_check = {'wic_search':{}
 tests_data = {}
 practicks_data = {'check_attempt':{}}
 ans = {'lower': {}}
-callback_check = {'text': {}}
+
+# Переменная хранит статсу выбанного типа обучения 'tests', 'practicks', 'admin'. Посте завершения всех заданий ставится статус 'end'
+# Дополнительно используется статус '1','2','3' для обрботки сообщений об ошибках
+callback_check = {'text': {}} 
+
 file_id = {}
 file_dir = 'Data/screens/'  # Указываем путь до папок отделов с скринами и файлами
 save_message_id = {'check_answer': {},
@@ -129,6 +133,8 @@ def sql_user(bot, callback_query):
                                                               'UserCounterTrueAns': '0'}
 
         rand_question[callback_query.from_user.id] = []
+        
+        # Очистка параметра типа обучения. Срабатывает при выходе в меню
         try:
             del callback_check[callback_query.from_user.id]
         except:
@@ -149,6 +155,7 @@ def sql_user(bot, callback_query):
     except:
         pass
 
+# Очистка параметра типа обучения. Срабатывает при выходе в меню
     try:
         del callback_check[callback_query.from_user.id]
     except:

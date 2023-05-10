@@ -5,7 +5,7 @@ import test_mode_check
 import log
 
 # Переменные
-ver = '1.0.4.8'
+ver = '1.0.4.9'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -116,7 +116,8 @@ if test_mode == True:
 else:
     pass
 
-log.write_file(log.log_file, '\nStarting bot. Version: ' + str(ver) + '\n' + str(time.localtime()) + '\n\n')
+# Запись сообщения о перезапуске бота кажется излишней
+# log.write_file(log.log_file, '\nStarting bot. Version: ' + str(ver) + '\n' + str(time.localtime()) + '\n\n')
 
 # Запуск основного цикла работы бота
 while True:

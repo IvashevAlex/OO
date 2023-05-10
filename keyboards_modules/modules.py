@@ -18,14 +18,16 @@ def add_modules():
 
 
     #------ Кнопки Установки -----#
-    modul_for_bot.quest('Компоненты для работы с ЭП', 0, bot)
-    modul_for_bot.quest('Запрос КЭП', 1, bot)
-    modul_for_bot.quest('Работа с ЭП', 2, bot)
-    modul_for_bot.quest('КЭП для ЕГАИС', 3, bot)
-    modul_for_bot.quest('Сертификаты УЦ', 4, bot)
-    modul_for_bot.quest('Работа с ЭП не на Windows', 5, bot)
-    modul_for_bot.quest('DSS', 6, bot)
-    modul_for_bot.quest('Установка общее', 7, bot)
+    modul_for_bot.quest('Сертификаты и носители', 0, bot)
+    modul_for_bot.quest('Работа с электронной подписью', 1, bot)
+    # modul_for_bot.quest('Компоненты для работы с ЭП', 0, bot)
+    # modul_for_bot.quest('Запрос КЭП', 1, bot)
+    # modul_for_bot.quest('Работа с ЭП', 2, bot)
+    # modul_for_bot.quest('КЭП для ЕГАИС', 3, bot)
+    # modul_for_bot.quest('Сертификаты УЦ', 4, bot)
+    # modul_for_bot.quest('Работа с ЭП не на Windows', 5, bot)
+    # modul_for_bot.quest('DSS', 6, bot)
+    # modul_for_bot.quest('Установка общее', 7, bot)
 
 
     #------- Кнопки внутр сервисы ------#
@@ -47,8 +49,8 @@ def add_modules():
     modul_for_bot.quest("DD.Tests.Int.Настройки", 8, bot)
     modul_for_bot.quest("DD.Tests.Int.Ошибки", 9, bot)
 
-    modul_for_bot.quest("DD.Tests.Геракл", 10, bot)
-    modul_for_bot.quest("DD.Tests.Roam", 11, bot)
+    # modul_for_bot.quest("DD.Tests.Геракл", 10, bot)
+    modul_for_bot.quest("DD.Tests.Roam", 10, bot)
 
     modul_for_bot.quest("DD.Case.Admin.АдминкаДД", 12, bot)
     modul_for_bot.quest("DD.Case.Admin.АдминкаПР", 13, bot)

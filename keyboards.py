@@ -154,20 +154,19 @@ def test_INST(bot, message):
         print('Ошибка редактирования сообщения practicks_data в test_INST')
 
     markup = types.InlineKeyboardMarkup()
-    itembtn1 = types.InlineKeyboardButton('Компоненты для работы с ЭП', callback_data='Компоненты для работы с ЭП')
-    itembtn2 = types.InlineKeyboardButton('Запрос КЭП', callback_data='Запрос КЭП')
-    itembtn3 = types.InlineKeyboardButton('Работа с ЭП', callback_data='Работа с ЭП')
-    itembtn4 = types.InlineKeyboardButton('КЭП для ЕГАИС', callback_data='КЭП для ЕГАИС')
-    itembtn5 = types.InlineKeyboardButton('Сертификаты УЦ', callback_data='Сертификаты УЦ')
-    itembtn6 = types.InlineKeyboardButton('Работа с ЭП не на Windows', callback_data='Работа с ЭП не на Windows')
-    itembtn7 = types.InlineKeyboardButton('DSS', callback_data='DSS')
-    itembtn8 = types.InlineKeyboardButton('Установка общее', callback_data='Установка общее')
+    itembtn1 = types.InlineKeyboardButton('Сертификаты и носители', callback_data='Компоненты для работы с ЭП')
+    itembtn2 = types.InlineKeyboardButton('Работа с электронной подписью', callback_data='Работа с электронной подписью')
+    # itembtn3 = types.InlineKeyboardButton('Работа с ЭП', callback_data='Работа с ЭП')
+    # itembtn4 = types.InlineKeyboardButton('КЭП для ЕГАИС', callback_data='КЭП для ЕГАИС')
+    # itembtn5 = types.InlineKeyboardButton('Сертификаты УЦ', callback_data='Сертификаты УЦ')
+    # itembtn6 = types.InlineKeyboardButton('Работа с ЭП не на Windows', callback_data='Работа с ЭП не на Windows')
+    # itembtn7 = types.InlineKeyboardButton('DSS', callback_data='DSS')
+    # itembtn8 = types.InlineKeyboardButton('Установка общее', callback_data='Установка общее')
     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
 
-    markup.add(itembtn1, itembtn2, itembtn3)
-    markup.add(itembtn4, itembtn5, itembtn6)
-    markup.add(itembtn7, itembtn8)
+    markup.add(itembtn1)
+    markup.add(itembtn2)
     markup.add(itembtn9)
 
     try:
