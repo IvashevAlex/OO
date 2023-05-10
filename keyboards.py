@@ -28,7 +28,7 @@ def question(bot, message):
     itembtn12 = types.KeyboardButton('Удостов. центр')
     itembtn13 = types.KeyboardButton('Устaнoвка')
     itembtn14 = types.KeyboardButton('WIС')
-    itembtn15 = types.KeyboardButton('Внутренние сервисы')
+    itembtn15 = types.KeyboardButton('Вн. сервисы')
     itembtn5 = types.KeyboardButton('OФД')
     itembtn6 = types.KeyboardButton('ФMС')
     itembtn7 = types.KeyboardButton('Бухгaлтерия')
@@ -154,7 +154,7 @@ def test_INST(bot, message):
         print('Ошибка редактирования сообщения practicks_data в test_INST')
 
     markup = types.InlineKeyboardMarkup()
-    itembtn1 = types.InlineKeyboardButton('Сертификаты и носители', callback_data='Компоненты для работы с ЭП')
+    itembtn1 = types.InlineKeyboardButton('Сертификаты и носители', callback_data='Сертификаты и носители')
     itembtn2 = types.InlineKeyboardButton('Работа с электронной подписью', callback_data='Работа с электронной подписью')
     # itembtn3 = types.InlineKeyboardButton('Работа с ЭП', callback_data='Работа с ЭП')
     # itembtn4 = types.InlineKeyboardButton('КЭП для ЕГАИС', callback_data='КЭП для ЕГАИС')
@@ -520,7 +520,7 @@ def sending_menu_start_new_wave(bot, callback_query):
     except:
         pass
 
-Other_srvice_menu("Внутренние сервисы", bot)
+Other_srvice_menu("Вн. сервисы", bot)
 WIC_menu("WIС", bot)
 Inst_menu("Устaнoвка", bot)
 tests(bot)
