@@ -33,7 +33,7 @@ def add_modules():
     #------- Кнопки внутр сервисы ------#
     modul_for_bot.quest('Билли', 0, bot)
     modul_for_bot.quest('КабУЦ', 1, bot)
-    modul_for_bot.quest('Клиент-Сервис', 2, bot)
+    # modul_for_bot.quest('Клиент-Сервис', 2, bot)
 
 
     #-----------Кнопки Диадок --------#

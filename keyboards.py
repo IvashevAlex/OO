@@ -213,11 +213,11 @@ def other_service_prk(bot, message):
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Билли', callback_data='Билли')
     itembtn2 = types.InlineKeyboardButton('КабУЦ', callback_data='КабУЦ')
-    itembtn4 = types.InlineKeyboardButton('Клиент-Сервис', callback_data='Клиент-Сервис')
+    # itembtn4 = types.InlineKeyboardButton('Клиент-Сервис', callback_data='Клиент-Сервис')
 
     itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-    markup.add(itembtn1, itembtn2, itembtn4)
+    markup.add(itembtn1, itembtn2)
     markup.add(itembtn3)
 
     try:
