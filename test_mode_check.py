@@ -16,7 +16,8 @@ def get_token(mode):
 # Возвращает имя сервера в зависимости от режима
 def get_server(mode):
     if mode == True:
-        return "ASUS\SQLEXPRESS" # тестовый сервер
+        # return "ASUS\SQLEXPRESS" # тестовый сервер старый ПК
+        return "MSI\SQLEXPRESS" # тестовый сервер новый ПК
     else:
         return "K1606047" # рабочий сервер
 
