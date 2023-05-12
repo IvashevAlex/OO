@@ -8,6 +8,7 @@
 /Data
 /.idea
 /.vscode
+/.gitignore
 /Lib
 /Scripts
 /Include
