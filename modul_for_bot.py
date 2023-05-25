@@ -245,7 +245,6 @@ def answers(bot, callback_query):  # <--- Функция отвечающая з
     name_sheet = sheets_name[name_sheet] #Тут мы получаем название нужного листа
     sheet = db[name_sheet] #Получаем вопросы из полученного листа
 
-    # ! Логирование. был задан вопрос по тесту
     try:
         log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
                                     + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
@@ -385,7 +384,6 @@ def answers_prk(bot, callback_query):  # <--- Функция отвечающа�
     name_sheet = sheets_name[name_sheet]
     sheet = db[name_sheet]  # <--- Загружаем все вопросы во вкладке, имя которой узнали выше
 
-    # ! Логирование. был задан вопрос по кейсу
     try:
         log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
                                     + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
@@ -591,12 +589,13 @@ def continue_(bot, message):  # <--- функция обработки прос�
         bot.send_message(message.chat.id, 'Ты еще не выбрал о какой ошибке хочешь сообщить. Если не хочешь сообщать, нажми «Отмена».')
         
 
-    elif callback_check[message.chat.id] == '2':  # Если пользователь нажал на сообщить об ошибке и выбрал "о технческой ошибке"
-        print('IF 2')
-        text_error = 'Сообщение о технической ошибке: '
-        bot.send_message(fafa_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
-        bot.send_message(message.chat.id, text.tech_error_msg)
-        callback_check[message.from_user.id] = save_check[message.from_user.id]
+    elif callback_check[message.chat.id] == '2': # Если пользователь нажал на сообщить об ошибке и выбрал "о технческой ошибке"
+        pass
+        # print('IF 2')
+        # text_error = 'Сообщение о технической ошибке: '
+        # bot.send_message(fafa_id, text=f'{text_error}{message.text}\nОб ошибке сообщил - @{message.from_user.username}')
+        # bot.send_message(message.chat.id, text.tech_error_msg)
+        # callback_check[message.from_user.id] = save_check[message.from_user.id]
 
     elif callback_check[message.chat.id] == '3':  # Если пользователь нажал на сообщить об ошибке и выбрал "об ошибке в вопросе"
         print('IF 3')
@@ -858,12 +857,12 @@ def send_error(bot, callback_query):  # <--- Меню Inline "Сообщить �
     print('IN send_error')
     error_markup = types.InlineKeyboardMarkup()
 
-    itembtn1 = types.InlineKeyboardButton('О технической ошибке', callback_data='Техническая ошибка')
+    # itembtn1 = types.InlineKeyboardButton('О технической ошибке', callback_data='Техническая ошибка')
     itembtn2 = types.InlineKeyboardButton('Об ошибке в вопросе', callback_data='Текстовая ошибка')
     itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
-    error_markup.add(itembtn1, itembtn2)
-    error_markup.add(itembtn3)
+    error_markup.add(itembtn2, itembtn3)
+
     bot.send_message(callback_query.from_user.id, text.error_choice, reply_markup=error_markup)
     save_check[callback_query.from_user.id] = callback_check[callback_query.from_user.id]
 
@@ -885,16 +884,16 @@ def query_data_handler(bot, data):
       elif callback_check.get(callback_query.from_user.id) in ('1', '2', '3'):
         callback_check[callback_query.from_user.id] = save_check[callback_query.from_user.id]
 
-    elif data == 'Техническая ошибка':
-        markup = types.InlineKeyboardMarkup()
-        itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
-        markup.add(itembtn9)
+    # elif data == 'Техническая ошибка':
+    #     markup = types.InlineKeyboardMarkup()
+    #     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
+    #     markup.add(itembtn9)
 
-        bot.answer_callback_query(callback_query.id)
-        bot.edit_message_text('Опиши полностью техническую ошибку, которая у тебя произошла.', chat_id=callback_query.from_user.id,
-                            message_id=callback_query.message.message_id, reply_markup=markup)
+    #     bot.answer_callback_query(callback_query.id)
+    #     bot.edit_message_text('Опиши полностью техническую ошибку, которая у тебя произошла.', chat_id=callback_query.from_user.id,
+    #                         message_id=callback_query.message.message_id, reply_markup=markup)
 
-        callback_check[callback_query.from_user.id] = '2'  # Присваиваем ИД переменную, чтобы дальше фильтровать
+    #     callback_check[callback_query.from_user.id] = '2'  # Присваиваем ИД переменную, чтобы дальше фильтровать
     
     elif data == 'Текстовая ошибка':
         markup = types.InlineKeyboardMarkup()
@@ -1090,7 +1089,7 @@ def query_data_handler(bot, data):
 
 add_modules()
 query_data_handler(bot, 'Отмена')
-query_data_handler(bot, 'Техническая ошибка')
+# query_data_handler(bot, 'Техническая ошибка')
 query_data_handler(bot, 'Текстовая ошибка')
 query_data_handler(bot, 'Назад')
 query_data_handler(bot, 'Обновить таблицы')
