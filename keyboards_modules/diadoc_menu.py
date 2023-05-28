@@ -2,6 +2,7 @@ import modul_for_bot
 import keyboards
 from telebot import types
 from WhiteList import bot
+from config import admins
 import test_mode_check
 
 test_mode = test_mode_check.test_mode()
@@ -36,7 +37,7 @@ def test_DD(bot, callback_query):
         print(EX.args)
         if test_mode == True:
             try:
-                bot.send_message(1325029854, EX.args)
+                bot.send_message(admins[1], EX.args)
             except:
                 pass
 
@@ -65,7 +66,7 @@ def test_diadoc_web(bot, callback_query):
         print(EX.args)
         if test_mode == True:
             try:
-                bot.send_message(1325029854, EX.args)
+                bot.send_message(admins[1], EX.args)
             except:
                 pass
 
@@ -92,7 +93,7 @@ def test_diadoc_integrtion(bot, callback_query):
         print(EX.args)
         if test_mode == True:
             try:
-                bot.send_message(1325029854, EX.args)
+                bot.send_message(admins[1], EX.args)
             except:
                 pass
 
@@ -120,7 +121,7 @@ def prk_diadoc(bot, callback_query):
         print(EX.args)
         if test_mode == True:
             try:
-                bot.send_message(1325029854, EX.args)
+                bot.send_message(admins[1], EX.args)
             except:
                 pass
 
@@ -148,7 +149,7 @@ def prk_diadoc_admin(bot, callback_query):
         print(EX.args)
         if test_mode == True:
             try:
-                bot.send_message(1325029854, EX.args)
+                bot.send_message(admins[1], EX.args)
             except:
                 pass
 
@@ -192,7 +193,7 @@ def prk_diadoc_roam(bot, callback_query):
         print(EX.args)
         if test_mode == True:
             try:
-                bot.send_message(1325029854, EX.args)
+                bot.send_message(admins[1], EX.args)
             except:
                 pass
 
