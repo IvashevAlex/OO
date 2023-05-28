@@ -84,7 +84,7 @@ def add_user(message, data_base):
     else:
         return
 
-    print('Добавляем пользователя с номером ', res)
+    print('Добавляем пользователя с номером', res)
 
     # SQL запрос на смену флага доступа для пользователя с id указанным в переменной res
     SQLQuery = """UPDATE dbo.WhiteList

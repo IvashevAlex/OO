@@ -6,7 +6,7 @@ import test_mode_check
 
 
 # Переменные
-ver = '1.0.5.5'
+ver = '1.0.5.6'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -111,7 +111,7 @@ def answer_text(message):
 
 
 # Информация по боту 
-print(f'Бот запущен! Текущая версия {ver}.')
+print(f'Бот запущен! Текущая версия {ver}')
 
 if test_mode == True:
     print('Активирован режим тестирования!')
