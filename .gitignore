@@ -2,6 +2,7 @@
 
 /__pycache__
 /keyboards_modules/__pycache__
+/dosc/change.log
 
 # dependencies
 /venv
