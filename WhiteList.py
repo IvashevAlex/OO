@@ -2,6 +2,7 @@ import pypyodbc
 import telebot
 from telebot import types
 from telebot.types import CallbackQuery
+from config import DB_name
 import test_mode_check
 import text
 import time
@@ -12,7 +13,7 @@ test_mode = test_mode_check.test_mode()
 mes = test_mode_check.get_admins(test_mode)
 mySQLServer = test_mode_check.get_server(test_mode)
 bot = test_mode_check.get_token(test_mode)
-myDatabase = "UsersDB"
+myDatabase = DB_name
 
 if test_mode == False:
     mes_pas = text.no_access

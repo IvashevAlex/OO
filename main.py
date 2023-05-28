@@ -1,12 +1,12 @@
 from time import sleep
 from modul_for_bot import *
+from config import *
 import text
 import test_mode_check
-import log
 
 
 # Переменные
-ver = '1.0.5.4'
+ver = '1.0.5.5'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -31,7 +31,7 @@ def help(message):
 @bot.message_handler(commands=["admin"])
 def admin_menu(message):
     print('IN admin_menu')
-    if message.chat.id in (233770916, 391368365, 1325029854, 411204685):
+    if message.chat.id in admins:
         Admin_menu(message, bot)
     else:
         bot.send_message(message.from_user.id, text.no_admin_access)
@@ -117,9 +117,6 @@ if test_mode == True:
     print('Активирован режим тестирования!')
 else:
     pass
-
-# Запись сообщения о перезапуске бота кажется излишней
-# log.write_file(log.log_file, '\nStarting bot. Version: ' + str(ver) + '\n' + str(time.localtime()) + '\n\n')
 
 # Запуск основного цикла работы бота
 while True:

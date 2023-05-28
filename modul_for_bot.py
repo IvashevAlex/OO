@@ -1,11 +1,9 @@
 import random
-# import requests
 import time
-# import openpyxl
 import pypyodbc
-import re
 import test_mode_check
 import get_db_excel
+from config import *
 from keyboards import *
 from keyboards_modules.modules import *
 from keyboards_modules.diadoc_menu import *
@@ -19,11 +17,11 @@ today = dt.date.today()
 test_mode = test_mode_check.test_mode()
 
 if test_mode == False:
-    alex_id = 233770916 #ID для обработки сообщений об ошибке в вопросе
-    fafa_id = 1325029854 #ID для обработки технической ошибки
+    alex_id = admins[0] #ID для обработки сообщений об ошибке в вопросе
+    fafa_id = admins[1] #ID для обработки технической ошибки
 else:
-    alex_id = 1325029854 #ID для обработки сообщений об ошибке в вопросе
-    fafa_id = 1325029854 #ID для обработки технической ошибки
+    alex_id = admins[1] #ID для обработки сообщений об ошибке в вопросе
+    fafa_id = admins[1] #ID для обработки технической ошибки
 
 data_base = {'BotUsers': {},
              'UserQuestions': {},
@@ -139,7 +137,6 @@ def sql_user(bot, callback_query):
             del callback_check[callback_query.from_user.id]
         except:
             pass
-
 
     else:
         data_base['BotUsers'][callback_query.from_user.id] = {'UserChat': str(callback_query.from_user.id),
@@ -639,7 +636,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
             product = 'Установка'
         
 
-        text_error = f'<b>Лёха, конс нашел ошибку в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+        text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
         bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         bot.send_message(message.chat.id, text.tech_error_msg)
@@ -737,7 +734,7 @@ def check_answer(bot, callback_query):  # Функция прооверяет п
             h += 1
 
 
-def check_answer_prk(bot, callback_query):  # Функция прооверяет правильность введённого ответа от пользователя по кейсам
+def check_answer_prk(bot, callback_query):  # Функция проверяет правильность введённого ответа от пользователя по кейсам
     print('IN check_answer_prk')
     id_user = str(callback_query.from_user.id)
     
@@ -773,7 +770,7 @@ def check_answer_prk(bot, callback_query):  # Функция прооверяе�
             bot.edit_message_text("Красава!", chat_id=callback_query.from_user.id, message_id=save_message_id['message_id'][callback_query.from_user.id])
             data_base['BotUsers'][callback_query.from_user.id]['UserCounterTrueAns'] = str(int(results[2]) + 1)
         
-        # Логирование правильного ответа
+        #! Логирование правильного ответа
             try:
                 log.write_file(log.log_file, str(str(time.localtime()[2]) + '.' + str(time.localtime()[1]) + '.' + str(time.localtime()[0])) + ','
                                             + str(str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5])) + ','
@@ -1010,7 +1007,7 @@ def query_data_handler(bot, data):
     elif data == 'Изменить сообщение':
         message = bot.edit_message_text("Отправь номер сообщения и новый текст, разделив их звездочкой. Пример: 5*Новый текст.\n"\
                             "Обрати внимание, что символ * - это разделитель и его нельяз использовать в тексте рассылки.\n"\
-                            "При необходимоести указать символ ' необходимо указать его дважды - WIC''a.\n"\
+                            "При необходимоести указать символ ' пиши его дважды - WIC''a.\n"\
                             "Гиперссылка указывается как [слово](http://www.example.com/).\n"\
                             "Перенос на новую строку указывай в самом сообщении используя Shift+Enter.",\
                             "Если сообщение не изменилось, то проверь, что оно соответствует всем вышеперечисленным правилам.",
@@ -1020,7 +1017,7 @@ def query_data_handler(bot, data):
             bot.register_next_step_handler(message, sending_menu_base_change)
         except:
             print('Ошибка изменения сообщения!')
-            bot.send_message(callback_query.from_user.id, 'Ошибка изменения сообщения. проверь соответствие требованиям', 
+            bot.send_message(callback_query.from_user.id, 'Ошибка изменения сообщения. Проверь соответствие требованиям', 
                             parse_mode='Markdown', disable_web_page_preview=True)
         
     elif data == 'Задать день и номер рассылки':

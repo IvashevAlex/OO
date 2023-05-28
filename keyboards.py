@@ -156,14 +156,7 @@ def test_INST(bot, message):
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Сертификаты и носители', callback_data='Сертификаты и носители')
     itembtn2 = types.InlineKeyboardButton('Работа с электронной подписью', callback_data='Работа с электронной подписью')
-    # itembtn3 = types.InlineKeyboardButton('Работа с ЭП', callback_data='Работа с ЭП')
-    # itembtn4 = types.InlineKeyboardButton('КЭП для ЕГАИС', callback_data='КЭП для ЕГАИС')
-    # itembtn5 = types.InlineKeyboardButton('Сертификаты УЦ', callback_data='Сертификаты УЦ')
-    # itembtn6 = types.InlineKeyboardButton('Работа с ЭП не на Windows', callback_data='Работа с ЭП не на Windows')
-    # itembtn7 = types.InlineKeyboardButton('DSS', callback_data='DSS')
-    # itembtn8 = types.InlineKeyboardButton('Установка общее', callback_data='Установка общее')
     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
-
 
     markup.add(itembtn1)
     markup.add(itembtn2)
@@ -213,7 +206,6 @@ def other_service_prk(bot, message):
     markup = types.InlineKeyboardMarkup()
     itembtn1 = types.InlineKeyboardButton('Билли', callback_data='Билли')
     itembtn2 = types.InlineKeyboardButton('КабУЦ', callback_data='КабУЦ')
-    # itembtn4 = types.InlineKeyboardButton('Клиент-Сервис', callback_data='Клиент-Сервис')
 
     itembtn3 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
 
@@ -383,7 +375,7 @@ def sending_menu_base_add_to_sql(message):
         cursor.execute(SQLQuery)
         connection.commit()
         connection.close()
-        print('запись успешно добавлена')
+        print('Запись успешно добавлена')
     except Exception as EX:
         print('Ошибка работы с БД в sending_menu_base_add_to_sql:', end='')
         print(EX.args)        

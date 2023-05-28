@@ -1,4 +1,5 @@
 import telebot
+from config import *
 
 # По умолчанию тестовый режим включен. При запуске в продакшн устанавливаем значение False
 def test_mode():
@@ -7,22 +8,22 @@ def test_mode():
 # Возвращает бота с нужным токеном в зависимости от режима
 def get_token(mode):
     if mode == True:
-        return telebot.TeleBot('2075877718:AAHdfH9_PL2rBX-8uBIvFsIh-tdnUnHNA98',  threaded=False) # Тестовый бот
+        return telebot.TeleBot(test_token, threaded=False) # Тестовый бот
     elif mode == False:
-        return telebot.TeleBot('1253732018:AAESPvgR9YfmnTAHtHRMWJ8tjOmApA_qSyI',  threaded=False) # Рабочий бот
+        return telebot.TeleBot(prod_token, threaded=False) # Рабочий бот
     else:
         print('Что-то пошло не так! Не удалось определить режим запуска!')
 
 # Возвращает имя сервера в зависимости от режима
 def get_server(mode):
     if mode == True:
-        return "MSI\SQLEXPRESS" # тестовый сервер
+        return test_server_name # тестовый сервер
     else:
-        return "K1607008\SQLEXPRESS" # раюочий сервер
+        return prod_server_name # раюочий сервер
 
 # Возвращает админские id в зависимости от режима
 def get_admins(mode):
     if mode == True:
-        return ['1325029854', '1325029854']
+        return [str(admins[1]), str(admins[1])]
     else:
-        return ['233770916', '1325029854']
+        return [str(admins[0]), str(admins[1])]
