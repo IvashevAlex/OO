@@ -1,4 +1,5 @@
 import datetime as dt
+import time
 
 today = dt.date.today()
 
@@ -61,6 +62,7 @@ def get_full_list_of_dates():
 
 # Создать новый набор с сегодняшнего дня
 def create_new_wave():
+    time.sleep(1)
     return """INSERT INTO [dbo].[Settable] (StartDate)
               VALUES ('""" + str(dt.date.today()) + """'); 
             """

@@ -73,48 +73,55 @@ def echo(callback_query):
 
 # Добавляет пользователю маркер о разрешении на доступ
 def add_user(message, data_base):
-    connection = pypyodbc.connect('Driver={SQL Server};'
-                                  'Server=' + mySQLServer + ';'
-                                  'Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    
-    # Если запрос получен от админа, то формируем переменную res со значением id добовляемого пользователя
-    if str(message.from_user.id) in mes:
-        res = data_base['BotUsers'][message.from_user.id]['UserAnswer']
-    else:
-        return
+    try:
+        connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        
+        # Если запрос получен от админа, то формируем переменную res со значением id добовляемого пользователя
+        if str(message.from_user.id) in mes:
+            res = data_base['BotUsers'][message.from_user.id]['UserAnswer']
+        else:
+            return
 
-    print('Добавляем пользователя с номером', res)
+        print('Добавляем пользователя с номером', res)
 
-    # SQL запрос на смену флага доступа для пользователя с id указанным в переменной res
-    SQLQuery = """UPDATE dbo.WhiteList
-                  SET UserMark = 1
-                  WHERE UserChat = """ + str(res) + """;"""
+        # SQL запрос на смену флага доступа для пользователя с id указанным в переменной res
+        SQLQuery = """UPDATE dbo.WhiteList
+                    SET UserMark = 1
+                    WHERE UserChat = """ + str(res) + """;"""
 
-    cursor.execute(SQLQuery)
-    bot.send_message(chat_id=message.from_user.id, text=f'Пользователь с id {str(res)} добавлен.')
+        cursor.execute(SQLQuery)
+        bot.send_message(chat_id=message.from_user.id, text=f'Пользователь с id {str(res)} добавлен.')
 
-    connection.commit()
-    connection.close()
-
+        connection.commit()
+        connection.close()
+    except:
+        print('Ошибка добавления пользователя!')
+        bot.send_message(chat_id=message.from_user.id, text='Ошибка добавления. Попробуй еще раз.')
 
 # Удаляет всю информацию о пользователе из БД
 def rm_user(message, data_base):
-    connection = pypyodbc.connect('Driver={SQL Server};'
-                                  'Server=' + mySQLServer + ';'
-                                  'Database=' + myDatabase + ';')
-    cursor = connection.cursor()
+    try:
+        connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+        cursor = connection.cursor()
 
-    if str(message.from_user.id) in mes:
-        res = data_base['BotUsers'][message.from_user.id]['UserAnswer']
-    else:
-        return
+        if str(message.from_user.id) in mes:
+            res = data_base['BotUsers'][message.from_user.id]['UserAnswer']
+        else:
+            return
 
-    SQLQuery = """DELETE dbo.WhiteList 
-                  WHERE UserChat = """ + str(res) + """;"""
-                  
-    cursor.execute(SQLQuery)
-    bot.send_message(chat_id=message.from_user.id, text=f"Пользователь с id {str(res)} удален.")
+        SQLQuery = """DELETE dbo.WhiteList 
+                    WHERE UserChat = """ + str(res) + """;"""
+                    
+        cursor.execute(SQLQuery)
+        bot.send_message(chat_id=message.from_user.id, text=f"Пользователь с id {str(res)} удален.")
 
-    connection.commit()
-    connection.close()
+        connection.commit()
+        connection.close()
+    except:
+        print('Ошибка удаления пользователя!')
+        bot.send_message(chat_id=message.from_user.id, text='Ошибка удаления. Попробуй еще раз.')

@@ -1060,6 +1060,7 @@ def query_data_handler(bot, data):
             connection.commit()
             connection.close()
             bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(dt.date.today()) + '.')
+            time.sleep(1)
         except Exception as EX:
             print(EX.args)
 
