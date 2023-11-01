@@ -52,16 +52,16 @@ def add_modules():
     # modul_for_bot.quest("DD.Tests.Геракл", 10, bot)
     modul_for_bot.quest("DD.Tests.Roam", 10, bot)
 
-    modul_for_bot.quest("DD.Case.Admin.АдминкаДД", 12, bot)
-    modul_for_bot.quest("DD.Case.Admin.АдминкаПР", 13, bot)
-    modul_for_bot.quest("DD.Case.Admin.Билли", 14, bot)
+    modul_for_bot.quest("DD.Case.Admin.АдминкаДД", 11, bot)
+    modul_for_bot.quest("DD.Case.Admin.АдминкаПР", 12, bot)
+    modul_for_bot.quest("DD.Case.Admin.Билли", 13, bot)
 
-    modul_for_bot.quest("DD.Case.Web.Пользователи", 15, bot)
-    modul_for_bot.quest("DD.Case.Web.Контрагенты", 16, bot)
-    modul_for_bot.quest("DD.Case.Web.Документы", 17, bot)
+    modul_for_bot.quest("DD.Case.Web.Пользователи", 14, bot)
+    modul_for_bot.quest("DD.Case.Web.Контрагенты", 15, bot)
+    modul_for_bot.quest("DD.Case.Web.Документы", 16, bot)
 
-    modul_for_bot.quest("DD.Case.Roam.Заявки", 18, bot)
-    modul_for_bot.quest("DD.Case.Roam.Мониторинг", 19, bot)
+    modul_for_bot.quest("DD.Case.Roam.Заявки", 17, bot)
+    modul_for_bot.quest("DD.Case.Roam.Мониторинг", 18, bot)
 
 
     #---- Кнопки КЭ ------#
