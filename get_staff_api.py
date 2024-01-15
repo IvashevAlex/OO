@@ -14,8 +14,8 @@ def staff_api_users(token):
         
     try:
         response = requests.request("GET", link, headers=headers, data=payload)
-        data = json.loads(response.text)
-        file = open('data.json', 'a+', encoding='utf-8')
+        data = str(json.loads(response.text)["newUsers"])
+        file = open('data.json', 'w+', encoding='utf-8')
         file.write(data)
         file.close()
         print('Запрос к АПИ выполнен успешно.')
