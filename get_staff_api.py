@@ -2,6 +2,8 @@ import requests
 import json
 import config
 
+
+# Метод отправляющий запрос в АПИ
 def staff_api_users(token):
     value_auth = 'Bearer ' + token
     url = config.staff_api_users_url
@@ -24,7 +26,7 @@ def staff_api_users(token):
         print('Ошибка запроса данных по АПИ')
         print(EX.args)
 
-
+# Метод отправляющий POST запрос для получения нового токена 
 def checking_request():
 
     url = config.checking_request_url
@@ -45,7 +47,7 @@ def checking_request():
         print('Ошибка запроса нового токена')
         print(EX.args)
 
-
+# Метод отправляющий короткий GET запрос для проверки работоспособности токена и при необходимости вызывающий метод его обновления
 def check_token(token):
 
     value_auth = 'Bearer ' + token
