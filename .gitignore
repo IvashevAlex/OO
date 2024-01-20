@@ -35,4 +35,4 @@ yarn-error.log*
 jarvislog.txt
 config.py
 token.txt
-data.txt
+data.json

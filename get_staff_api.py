@@ -3,6 +3,13 @@ import json
 import config
 
 
+def get_token():
+    file = open('token.txt','r')
+    token = file.read()
+    file.close()
+    return token
+
+
 # Метод отправляющий запрос в АПИ
 def staff_api_users(token):
     value_auth = 'Bearer ' + token
@@ -16,8 +23,8 @@ def staff_api_users(token):
         
     try:
         response = requests.request("GET", link, headers=headers, data=payload)
-        data = str(json.loads(response.text)["newUsers"])
-        file = open('data.txt', 'w+', encoding='utf-8')
+        data = response.text
+        file = open('data.json', 'w', encoding='utf-8')
         file.write(data)
         file.close()
         print('Запрос к АПИ выполнен успешно')
@@ -69,9 +76,6 @@ def check_token(token):
         print(EX.args)
 
 
-file = open('token.txt','r')
-token = file.read()
-file.close()
-
+token = get_token()
 check_token(token)
 staff_api_users(token)
