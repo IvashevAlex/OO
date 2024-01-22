@@ -19,6 +19,7 @@ def staff_api_users(token):
     headers = {'Authorization': value_auth, 'Cookie': config.staff_api_users_Cookie}
     params = config.staff_api_users_params
 
+    #! Разделить переменную params отдельно выделив дату запроса. Нужно решить за сколько дней делать запрос (от 0 до 6 дней)
     link = url + method + params
         
     try:
@@ -49,7 +50,10 @@ def checking_request():
         file.write(data)
         file.close()
         print('Новый токен успешно получен')
+        token = get_token()
+        staff_api_users(token)
     
+       
     except Exception as EX:
         print('Ошибка запроса нового токена')
         print(EX.args)
@@ -70,6 +74,7 @@ def check_token(token):
             checking_request()
         else:
             print('Код ответа:', response.status_code)
+            staff_api_users(token)
 
     except Exception as EX:
         print('Ошибка проверки доступа по токену')
@@ -78,4 +83,3 @@ def check_token(token):
 
 token = get_token()
 check_token(token)
-staff_api_users(token)
