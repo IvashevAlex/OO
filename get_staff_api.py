@@ -2,11 +2,17 @@ import requests
 import json
 import config
 
-
+# Метод получающий значение токена из файла
+#! Переместить хранение токена в БД
 def get_token():
-    file = open('token.txt','r')
-    token = file.read()
-    file.close()
+    try:
+        file = open('token.txt','r')
+        token = file.read()
+        file.close()
+    except:
+        token = str('Ошибка чтения файла токена!')
+        print('Ошибка чтения файла токена!')
+
     return token
 
 
