@@ -24,49 +24,77 @@ else:
 
 # Проверяет наличие доступа у пользователя
 def echo(callback_query):
-    # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
-    connection = pypyodbc.connect('Driver={SQL Server};'
-                                  'Server=' + mySQLServer + ';'
-                                  'Database=' + myDatabase + ';')
-    cursor = connection.cursor()
-    SQLQuery = """ SELECT TOP(1) 
-                    IIF(UserChat = """ + str(callback_query.from_user.id) + """, 
-                        CONVERT(VARCHAR(max), UserChat), 
-                        'False') as res
-                    FROM dbo.WhiteList ORDER BY res"""
+    try:
+        # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
+        connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+        SQLQuery = """ SELECT TOP(1) 
+                        IIF(UserChat = """ + str(callback_query.from_user.id) + """, 
+                            CONVERT(VARCHAR(max), UserChat), 
+                            'False') as res
+                        FROM dbo.WhiteList ORDER BY res"""
 
-    cursor.execute(SQLQuery)
-    count = cursor.fetchall()
-    userid = str(count[0][0])
+        cursor.execute(SQLQuery)
+        count = cursor.fetchall()
+        userid = str(count[0][0])
+
+    except:
+        print('Ошибка запроса к базе данных!')
 
     # Если юзер уже есть в списке, то проверяем флаг доступа из UserMark
     if str(callback_query.from_user.id) == userid:
-        SQLQuery = """SELECT UserMark 
-                       FROM dbo.WhiteList 
-                       WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
+        try:
+            SQLQuery = """SELECT UserMark 
+                        FROM dbo.WhiteList 
+                        WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
 
-        cursor.execute(SQLQuery)
-        result = cursor.fetchall()
-        print(result[0][0])
+            cursor.execute(SQLQuery)
+            result = cursor.fetchall()
+            print(result[0][0])
+        except:
+            print('Ошибка проверки флага доступа')
 
         # Если флаг 0, то сообщаем юзеру об остутствии прав на использование
         if (result[0][0] == False):
-            bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+            try:
+                bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+            except:
+                print('Ошибка отправки сообщения об отсутствии доступа пользователю!')
     
     # Если юзера нет в списке, то вносим его данные из Телеграм. 
     # Флаг остается нулевым. Изменение значения флага производит админ через меню бота
     else:
-    
-        SQLQuery = """ INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO, AddUserDate)
-                        VALUES (""" + str(callback_query.from_user.id) + """, 
-                        '@' + '""" + str(callback_query.from_user.username) + """', 
-                        '""" + str(callback_query.from_user.first_name) + ' ' + str(callback_query.from_user.last_name) + """',
-                        '""" + str(time.strftime('%Y-%m-%d')) + """');"""
+        try:
+            SQLQuery = """ INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO, AddUserDate)
+                            VALUES (""" + str(callback_query.from_user.id) + """, 
+                            '@' + '""" + str(callback_query.from_user.username) + """', 
+                            '""" + str(callback_query.from_user.first_name) + ' ' + str(callback_query.from_user.last_name) + """',
+                            '""" + str(time.strftime('%Y-%m-%d')) + """');"""
 
-        cursor.execute(SQLQuery)
-        bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
-        connection.commit()
-        connection.close()
+            cursor.execute(SQLQuery)
+            bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+            connection.commit()
+            connection.close()
+        
+        except:
+            try:
+                SQLQuery = """ INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO, AddUserDate)
+                            VALUES (""" + str(callback_query.from_user.id) + """, 
+                            '@' + '""" + str(callback_query.from_user.username) + """', 
+                            '""" + str('Ошибка') + ' ' + str('Ошибка') + """',
+                            '""" + str(time.strftime('%Y-%m-%d')) + """');"""
+
+                cursor.execute(SQLQuery)
+                bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+                connection.commit()
+                connection.close()
+                print('Запись выполнена, но данные first_name и last_name указаны как Ошибка!')
+
+            except:
+                print('Ошибка записи данных в БД!')
+
 
     return result[0][0]
 
