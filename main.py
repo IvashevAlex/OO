@@ -15,6 +15,12 @@ test_mode = test_mode_check.test_mode()
 @bot.message_handler(commands=["start"])
 def greeting(message):
     print('IN greeting')
+    try:
+        print('--->', message.from_user.id, message.from_user.username, message.from_user.first_name, 
+                      message.from_user.last_name, message.text)
+    except:
+        print('Ошибка запроса данных сообщения!')
+    
     if echo(message) == True:
         question(bot, message)
 
