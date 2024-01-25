@@ -37,3 +37,5 @@ config.py
 token.txt
 data.json
 parsing_json.py
+new_users.csv
+fired_users.csv
