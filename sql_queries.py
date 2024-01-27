@@ -125,3 +125,10 @@ def get_list_of_users(lists_one, lists_two):
     return """SELECT [UserChat]
               FROM [dbo].[WhiteList]
               WHERE AddUserDate BETWEEN '""" + str(lists_one) + """' AND '""" + str(lists_two) + """'"""
+
+
+# Проверка наличия юзернейма ТГ в таблице EmailUserName БД UsersDB
+def check_in_email_user_name(UsersName):
+    return str("""SELECT *
+              FROM [dbo].[EmailUserName]
+              WHERE [UserNameTG] = '""" + str(UsersName) + """'""")

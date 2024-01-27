@@ -2,8 +2,11 @@ import pypyodbc
 import telebot
 from telebot import types
 from telebot.types import CallbackQuery
+
 from config import DB_name
 import test_mode_check
+import sql_queries
+
 import text
 import time
 
@@ -24,6 +27,7 @@ else:
 
 # Проверяет наличие доступа у пользователя
 def echo(callback_query):
+    print('start echo')
     try:
         # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
         connection = pypyodbc.connect('Driver={SQL Server};'
@@ -45,7 +49,9 @@ def echo(callback_query):
 
     # Если юзер уже есть в списке, то проверяем флаг доступа из UserMark
     if str(callback_query.from_user.id) == userid:
+        print('if userid')
         try:
+            print('start')
             SQLQuery = """SELECT UserMark 
                         FROM dbo.WhiteList 
                         WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
@@ -53,11 +59,38 @@ def echo(callback_query):
             cursor.execute(SQLQuery)
             result = cursor.fetchall()
             print(result[0][0])
+            print('end')
         except:
             print('Ошибка проверки флага доступа')
 
         # Если флаг 0, то сообщаем юзеру об остутствии прав на использование
-        if (result[0][0] == False):
+        if (result[0][0] == None):
+            print('result[0][0] == None')
+            SQLQuery = sql_queries.check_in_email_user_name(str('@' + callback_query.from_user.username))
+            cursor = connection.cursor()
+            cursor.execute(SQLQuery)
+            count = cursor.fetchall()
+
+            if count is False:
+                print('Нет данных')
+            else:
+                print(count)
+            #todo 
+            """
+            Перед отрпавкой юзера к админу мы делаем запрос к БД и проверяем есть ли юзернейм в списке [EmailUserName].
+            Если его нет мы делаем запрос к АПИ и записываем новые данные в [EmailUserName], если такие есть, то
+            после получения ответа повторно запращиваемданные [EmailUserName] и если ответа нет - посылаем к админу.
+
+            Также из ответа АПИ записываем данные в [FiredUserEmail] и если такие есть в [WhiteList], то удаляем запись.
+            Если юзер есть в списке [EmailUserName], то проставляем ему флаг доступа и перезапускаем echo.
+            Каждое добавление/удаление логируем в отдельный файл. Файлы логов в определенное время отправляем себе в ТГ.
+            
+            Нужно добавлять дату создания записи на подобии той, что в [WhiteList] чтобы автоматически чистить информацию 
+            которая страше двух недель, чтобы избежать разрастания файликов. Добавить автоочистку наборов из [Settable] для
+            всех записей которые страше 4 недель
+            """
+
+
             try:
                 bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
             except:
@@ -66,6 +99,7 @@ def echo(callback_query):
     # Если юзера нет в списке, то вносим его данные из Телеграм. 
     # Флаг остается нулевым. Изменение значения флага производит админ через меню бота
     else:
+        print('else userid')
         try:
             SQLQuery = """ INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO, AddUserDate)
                             VALUES (""" + str(callback_query.from_user.id) + """, 

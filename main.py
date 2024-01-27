@@ -16,8 +16,9 @@ test_mode = test_mode_check.test_mode()
 def greeting(message):
     print('IN greeting')
     try:
-        print('--->', message.from_user.id, message.from_user.username, message.from_user.first_name, 
-                      message.from_user.last_name, message.text)
+        print('--->', message.text, time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5],
+                      message.from_user.id, message.from_user.username, message.from_user.first_name, 
+                      message.from_user.last_name)
     except:
         print('Ошибка запроса данных сообщения!')
     
