@@ -65,16 +65,39 @@ def echo(callback_query):
 
         # Если флаг 0, то сообщаем юзеру об остутствии прав на использование
         if (result[0][0] == None):
-            print('result[0][0] == None')
+
             SQLQuery = sql_queries.check_in_email_user_name(str('@' + callback_query.from_user.username))
             cursor = connection.cursor()
             cursor.execute(SQLQuery)
             count = cursor.fetchall()
 
-            if count is False:
-                print('Нет данных')
+            if count is None:
+                print('Нет данных о пользователе')
             else:
                 print(count)
+                try:
+                    print('IN auto add user')
+                    connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+                    cursor = connection.cursor()
+
+                    SQLQuery = """UPDATE dbo.WhiteList
+                    SET UserMark = 1
+                    WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
+
+                    cursor.execute(SQLQuery)
+                    connection.commit()
+                    connection.close()
+                    print('EXIT from auto add user')
+
+                except:
+                    print('Ошибка автодобваления пользователя!')
+                    try:
+                        bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+                    except:
+                        print('Ошибка отправки сообщения об отсутствии доступа пользователю!')
+            
             #todo 
             """
             Перед отрпавкой юзера к админу мы делаем запрос к БД и проверяем есть ли юзернейм в списке [EmailUserName].
@@ -91,10 +114,6 @@ def echo(callback_query):
             """
 
 
-            try:
-                bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
-            except:
-                print('Ошибка отправки сообщения об отсутствии доступа пользователю!')
     
     # Если юзера нет в списке, то вносим его данные из Телеграм. 
     # Флаг остается нулевым. Изменение значения флага производит админ через меню бота
