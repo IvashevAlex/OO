@@ -59,10 +59,9 @@ for n1 in range(newUsers_len):
             cursor.execute(SQLQuery)
             count = cursor.fetchall()
             connection.close()
-            print(count[0][0])
 
-            # Если ваписи там нет, то вносим её туда
-            if count[0][0] is 0:
+            # Если записи там нет, то вносим её туда
+            if count[0][0] == 0:
                 print('Нет данных по ', str(newUsers[n1].get('email')), 'в true_access. Добавляем запись в БД')
 
                 connection = pypyodbc.connect('Driver={SQL Server};'
@@ -73,7 +72,6 @@ for n1 in range(newUsers_len):
                 SQLQuery = """INSERT INTO [dbo].[TrueAccess] ([Email], [UserNameTG])
                             VALUES('""" + str(newUsers[n1].get('email')) + """','""" + str(tg_name_changed) + """');
                             """
-                # print(SQLQuery)
                 cursor.execute(SQLQuery)
                 connection.commit()
                 connection.close()
@@ -87,9 +85,42 @@ new_users.close()
 print('')
 print('Список уволенных пользователей:')
 fired_users = open('fired_users.csv', 'w+', encoding='utf-8')
+
 for n3 in range(firedUsers_len):
     firedUsers_email = dict()
     fired_users.write(str(dict(firedUsers[n3]).get('email') + '\n'))
     print(dict(firedUsers[n3]).get('email'))
-fired_users.close
+
+    connection = pypyodbc.connect('Driver={SQL Server};'
+                            'Server=' + mySQLServer + ';'
+                            'Database=' + myDatabase + ';')
+    cursor = connection.cursor()
+    SQLQuery = """SELECT COUNT (*)
+                    FROM [dbo].[TrueAccess]
+                    WHERE [Email] =  '""" + str(dict(firedUsers[n3]).get('email')) + """'
+                """
+    cursor.execute(SQLQuery)
+    count = cursor.fetchall()
+    connection.close()
+
+    if count[0][0] == 1:
+        print('Уволенный юзер ', str(newUsers[n1].get('email')), 'есть в true_access. Удаляем запись из БД')
+
+        connection = pypyodbc.connect('Driver={SQL Server};'
+                            'Server=' + mySQLServer + ';'
+                            'Database=' + myDatabase + ';')
+        cursor = connection.cursor()
+
+        SQLQuery = """DELETE FROM [dbo].[TrueAccess]
+                    WHERE [Email] =  '""" + str(dict(firedUsers[n3]).get('email')) + """'
+                    """
+        cursor.execute(SQLQuery)
+        connection.commit()
+        connection.close()
+    
+    else:
+        print('Юзера ', str(dict(firedUsers[n3]).get('email')) , ' уже нет в БД true_access. Действий не требуется')
+        print('')
+
+fired_users.close()
 print('')

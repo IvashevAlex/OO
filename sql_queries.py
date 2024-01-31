@@ -127,8 +127,8 @@ def get_list_of_users(lists_one, lists_two):
               WHERE AddUserDate BETWEEN '""" + str(lists_one) + """' AND '""" + str(lists_two) + """'"""
 
 
-# Проверка наличия юзернейма ТГ в таблице EmailUserName БД UsersDB
-def check_in_email_user_name(UsersName):
-    return str("""SELECT *
-              FROM [dbo].[EmailUserName]
+# Проверка наличия юзернейма ТГ в таблице TrueAccess БД UsersDB
+def check_in_true_access(UsersName):
+    return str("""SELECT COUNT (*)
+              FROM [dbo].[TrueAccess]
               WHERE [UserNameTG] = '""" + str(UsersName) + """'""")

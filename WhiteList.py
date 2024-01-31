@@ -13,11 +13,13 @@ import time
 # Переменная, хранящая информацию об активации тестового режима
 test_mode = test_mode_check.test_mode()
 
+# Переменные хранящие список админов, токен бота, имя SQL сервера и имя базы данных
 mes = test_mode_check.get_admins(test_mode)
 mySQLServer = test_mode_check.get_server(test_mode)
 bot = test_mode_check.get_token(test_mode)
 myDatabase = DB_name
 
+# Выбор сообщения об отсутствии доступа в зависимости от режима работы тест/прод
 if test_mode == False:
     mes_pas = text.no_access
 elif test_mode == True:
@@ -27,9 +29,9 @@ else:
 
 # Проверяет наличие доступа у пользователя
 def echo(callback_query):
-    print('start echo')
+
+    # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
     try:
-        # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
         connection = pypyodbc.connect('Driver={SQL Server};'
                                     'Server=' + mySQLServer + ';'
                                     'Database=' + myDatabase + ';')
@@ -47,72 +49,70 @@ def echo(callback_query):
     except:
         print('Ошибка запроса к базе данных!')
 
+
     # Если юзер уже есть в списке, то проверяем флаг доступа из UserMark
     if str(callback_query.from_user.id) == userid:
-        print('if userid')
+        
         try:
-            print('start')
-            SQLQuery = """SELECT UserMark 
+            SQLQuery = """SELECT COUNT (*) 
                         FROM dbo.WhiteList 
-                        WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
+                        WHERE UserChat = """ + str(callback_query.from_user.id) + """ AND UserMark = '1';"""
 
             cursor.execute(SQLQuery)
             result = cursor.fetchall()
-            print(result[0][0])
-            print('end')
+        
         except:
             print('Ошибка проверки флага доступа')
 
-        # Если флаг 0, то сообщаем юзеру об остутствии прав на использование
-        if (result[0][0] == None):
 
-            SQLQuery = sql_queries.check_in_email_user_name(str('@' + callback_query.from_user.username))
-            cursor = connection.cursor()
-            cursor.execute(SQLQuery)
-            count = cursor.fetchall()
+        # Если флаг 0, то проверяем наличие юзернейма в списке TrueAccess
+        if result[0][0] == 0:
+            try:
+                SQLQuery = sql_queries.check_in_true_access(str('@' + callback_query.from_user.username))
+                cursor = connection.cursor()
+                cursor.execute(SQLQuery)
+                count = cursor.fetchall()
+            
+            except:
+                print()
 
-            if count is None:
+            # Если информации в TrueAccess нет, то отправляем к админу
+            if count == 0:
                 print('Нет данных о пользователе')
-            else:
-                print(count)
                 try:
-                    print('IN auto add user')
+                    bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+                    
+                except:
+                    print('Ошибка отправки сообщения об отсутствии доступа пользователю!')
+            
+
+            # Если запись есть, то добавляем юзеру флаг доступа автоматически
+            else:
+
+                try:
                     connection = pypyodbc.connect('Driver={SQL Server};'
                                     'Server=' + mySQLServer + ';'
                                     'Database=' + myDatabase + ';')
                     cursor = connection.cursor()
 
-                    SQLQuery = """UPDATE dbo.WhiteList
-                    SET UserMark = 1
-                    WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
+                    SQLQuery = """  UPDATE dbo.WhiteList
+                                    SET UserMark = 1
+                                    WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
 
                     cursor.execute(SQLQuery)
                     connection.commit()
                     connection.close()
-                    print('EXIT from auto add user')
+
 
                 except:
                     print('Ошибка автодобваления пользователя!')
+                    
+
                     try:
                         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+                    
                     except:
                         print('Ошибка отправки сообщения об отсутствии доступа пользователю!')
-            
-            #todo 
-            """
-            Перед отрпавкой юзера к админу мы делаем запрос к БД и проверяем есть ли юзернейм в списке [EmailUserName].
-            Если его нет мы делаем запрос к АПИ и записываем новые данные в [EmailUserName], если такие есть, то
-            после получения ответа повторно запращиваемданные [EmailUserName] и если ответа нет - посылаем к админу.
-
-            Также из ответа АПИ записываем данные в [FiredUserEmail] и если такие есть в [WhiteList], то удаляем запись.
-            Если юзер есть в списке [EmailUserName], то проставляем ему флаг доступа и перезапускаем echo.
-            Каждое добавление/удаление логируем в отдельный файл. Файлы логов в определенное время отправляем себе в ТГ.
-            
-            Нужно добавлять дату создания записи на подобии той, что в [WhiteList] чтобы автоматически чистить информацию 
-            которая страше двух недель, чтобы избежать разрастания файликов. Добавить автоочистку наборов из [Settable] для
-            всех записей которые страше 4 недель
-            """
-
 
     
     # Если юзера нет в списке, то вносим его данные из Телеграм. 
