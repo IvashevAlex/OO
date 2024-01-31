@@ -52,20 +52,17 @@ for n1 in range(newUsers_len):
                                     'Server=' + mySQLServer + ';'
                                     'Database=' + myDatabase + ';')
             cursor = connection.cursor()
-            print('111', str(newUsers[n1].get('email')))
-            SQLQuery = """SELECT *
+            SQLQuery = """SELECT COUNT (*)
                           FROM [dbo].[TrueAccess]
-                          WHERE [Email] = '""" + str(newUsers[n1].get('email')) + """'
+                          WHERE [Email] =  '""" + str(newUsers[n1].get('email')) + """'
                         """
-            print('222',SQLQuery)
             cursor.execute(SQLQuery)
-            connection.commit()
-            connection.close()
             count = cursor.fetchall()
-            print('333')
+            connection.close()
+            print(count[0][0])
 
             # Если ваписи там нет, то вносим её туда
-            if count is None:
+            if count[0][0] is 0:
                 print('Нет данных по ', str(newUsers[n1].get('email')), 'в true_access. Добавляем запись в БД')
 
                 connection = pypyodbc.connect('Driver={SQL Server};'
@@ -73,16 +70,17 @@ for n1 in range(newUsers_len):
                                     'Database=' + myDatabase + ';')
                 cursor = connection.cursor()
 
-                SQLQuery = """INSERT INTO [dbo].[TrueAccess] ([Email],[UserNameTG])
-                            VALUES('""" + str(newUsers[n1].get('email')) + """"', str(tg_name_changed))
+                SQLQuery = """INSERT INTO [dbo].[TrueAccess] ([Email], [UserNameTG])
+                            VALUES('""" + str(newUsers[n1].get('email')) + """','""" + str(tg_name_changed) + """');
                             """
-
+                # print(SQLQuery)
                 cursor.execute(SQLQuery)
                 connection.commit()
                 connection.close()
             
             else:
                 print('Юзер ', str(newUsers[n1].get('email')), ' уже есть в БД true_access. Действий не требуется')
+                print('')
 
 new_users.close()
 
