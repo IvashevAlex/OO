@@ -1,4 +1,13 @@
+import pypyodbc
 import json
+import test_mode_check
+
+from config import DB_name
+
+test_mode = test_mode_check.test_mode()
+
+mySQLServer = test_mode_check.get_server(test_mode)
+myDatabase = DB_name
 
 with open('data.json','r', encoding='utf-8') as file:
     result_dict = json.load(file)
@@ -17,7 +26,6 @@ firedUsers_email_len = len(firedUsers_email)
 
 print('Список новых пользователей:')
 
-# ! удалить начало вида https://t.me/ и t.me/. Добавить ко всем названим @
 new_users = open('new_users.csv', 'w+', encoding='utf-8')
 for n1 in range(newUsers_len):
     newUsers_Contacts = dict(newUsers[n1])['contacts']
@@ -38,6 +46,44 @@ for n1 in range(newUsers_len):
             
             new_users.write(str(newUsers[n1].get('email') + ',' + tg_name_changed + '\n'))
             print(newUsers[n1].get('email'), ',', tg_name_changed)
+
+            # Проверяем наличие поты юзера в общей базе доступа
+            connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+            cursor = connection.cursor()
+            print('111', str(newUsers[n1].get('email')))
+            SQLQuery = """SELECT *
+                          FROM [dbo].[TrueAccess]
+                          WHERE [Email] = '""" + str(newUsers[n1].get('email')) + """'
+                        """
+            print('222',SQLQuery)
+            cursor.execute(SQLQuery)
+            connection.commit()
+            connection.close()
+            count = cursor.fetchall()
+            print('333')
+
+            # Если ваписи там нет, то вносим её туда
+            if count is None:
+                print('Нет данных по ', str(newUsers[n1].get('email')), 'в true_access. Добавляем запись в БД')
+
+                connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+                cursor = connection.cursor()
+
+                SQLQuery = """INSERT INTO [dbo].[TrueAccess] ([Email],[UserNameTG])
+                            VALUES('""" + str(newUsers[n1].get('email')) + """"', str(tg_name_changed))
+                            """
+
+                cursor.execute(SQLQuery)
+                connection.commit()
+                connection.close()
+            
+            else:
+                print('Юзер ', str(newUsers[n1].get('email')), ' уже есть в БД true_access. Действий не требуется')
+
 new_users.close()
 
 print('')
