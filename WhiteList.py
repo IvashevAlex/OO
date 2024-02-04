@@ -1,11 +1,12 @@
 import pypyodbc
-import telebot
 from telebot import types
 from telebot.types import CallbackQuery
 
 from config import DB_name
 import test_mode_check
 import sql_queries
+import get_staff_api
+import parsing_json
 
 import text
 import time
@@ -27,14 +28,15 @@ elif test_mode == True:
 else:
     print('Что-то пошло не так')
 
+
 # Проверяет наличие доступа у пользователя
 def echo(callback_query):
 
     # Проверяем наличие id юзера в столбце UserChat таблицы WhiteList
     try:
         connection = pypyodbc.connect('Driver={SQL Server};'
-                                    'Server=' + mySQLServer + ';'
-                                    'Database=' + myDatabase + ';')
+                                      'Server=' + mySQLServer + ';'
+                                      'Database=' + myDatabase + ';')
         cursor = connection.cursor()
         SQLQuery = """ SELECT TOP(1) 
                         IIF(UserChat = """ + str(callback_query.from_user.id) + """, 
@@ -76,8 +78,11 @@ def echo(callback_query):
             except:
                 print()
 
-            # Если информации в TrueAccess нет, то отправляем к админу
+            # Если информации в TrueAccess нет, то отправляем запрос к api для обновления данных
             if count == 0:
+                get_staff_api # получение файла data.json
+                parsing_json # добавление и удаление юзеров из TrueAccess
+
                 print('Нет данных о пользователе')
                 try:
                     bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
@@ -118,7 +123,7 @@ def echo(callback_query):
     # Если юзера нет в списке, то вносим его данные из Телеграм. 
     # Флаг остается нулевым. Изменение значения флага производит админ через меню бота
     else:
-        print('else userid')
+
         try:
             SQLQuery = """ INSERT INTO dbo.WhiteList (UserChat, UserId, UserFIO, AddUserDate)
                             VALUES (""" + str(callback_query.from_user.id) + """, 

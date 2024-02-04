@@ -3,7 +3,6 @@ import json
 import config
 
 # Метод получающий значение токена из файла
-#! Переместить хранение токена в БД
 def get_token():
     try:
         file = open('token.txt','r')
@@ -25,7 +24,6 @@ def staff_api_users(token):
     headers = {'Authorization': value_auth, 'Cookie': config.staff_api_users_Cookie}
     params = config.staff_api_users_params
 
-    #! Разделить переменную params отдельно выделив дату запроса. Нужно решить за сколько дней делать запрос (от 0 до 6 дней)
     link = url + method + params
         
     try:

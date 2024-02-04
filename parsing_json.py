@@ -9,6 +9,7 @@ test_mode = test_mode_check.test_mode()
 mySQLServer = test_mode_check.get_server(test_mode)
 myDatabase = DB_name
 
+# Парсит файл data.json 
 with open('data.json','r', encoding='utf-8') as file:
     result_dict = json.load(file)
 
@@ -24,8 +25,7 @@ firedUsers_len = len(firedUsers)
 
 firedUsers_email_len = len(firedUsers_email)
 
-print('Список новых пользователей:')
-
+# Внесение записей о новых сотрудниках в TrueAccess
 new_users = open('new_users.csv', 'w+', encoding='utf-8')
 for n1 in range(newUsers_len):
     newUsers_Contacts = dict(newUsers[n1])['contacts']
@@ -63,7 +63,7 @@ for n1 in range(newUsers_len):
             # Если записи там нет, то вносим её туда
             if count[0][0] == 0:
                 print('Нет данных по ', str(newUsers[n1].get('email')), 'в true_access. Добавляем запись в БД')
-
+                print('')
                 connection = pypyodbc.connect('Driver={SQL Server};'
                                     'Server=' + mySQLServer + ';'
                                     'Database=' + myDatabase + ';')
@@ -77,15 +77,13 @@ for n1 in range(newUsers_len):
                 connection.close()
             
             else:
-                print('Юзер ', str(newUsers[n1].get('email')), ' уже есть в БД true_access. Действий не требуется')
-                print('')
+                pass
 
 new_users.close()
 
-print('')
-print('Список уволенных пользователей:')
-fired_users = open('fired_users.csv', 'w+', encoding='utf-8')
 
+# Удаление записей об уволенных сотрудниках из TrueAccess
+fired_users = open('fired_users.csv', 'w+', encoding='utf-8')
 for n3 in range(firedUsers_len):
     firedUsers_email = dict()
     fired_users.write(str(dict(firedUsers[n3]).get('email') + '\n'))
@@ -104,23 +102,34 @@ for n3 in range(firedUsers_len):
     connection.close()
 
     if count[0][0] == 1:
-        print('Уволенный юзер ', str(newUsers[n1].get('email')), 'есть в true_access. Удаляем запись из БД')
 
         connection = pypyodbc.connect('Driver={SQL Server};'
                             'Server=' + mySQLServer + ';'
                             'Database=' + myDatabase + ';')
         cursor = connection.cursor()
 
+        # Удаляем из TrueAccess записи, содержащие потчы из списка удаленных
         SQLQuery = """DELETE FROM [dbo].[TrueAccess]
                     WHERE [Email] =  '""" + str(dict(firedUsers[n3]).get('email')) + """'
                     """
         cursor.execute(SQLQuery)
         connection.commit()
+
         connection.close()
     
     else:
-        print('Юзера ', str(dict(firedUsers[n3]).get('email')) , ' уже нет в БД true_access. Действий не требуется')
-        print('')
+        pass
 
 fired_users.close()
-print('')
+
+# Удаляем из WhiteList все почты котрых нет в TrueAccess
+connection = pypyodbc.connect('Driver={SQL Server};'
+                            'Server=' + mySQLServer + ';'
+                            'Database=' + myDatabase + ';')
+
+cursor = connection.cursor()
+SQLQuery = """DELETE FROM [dbo].[WhiteList]
+            WHERE [UserId] NOT IN (SELECT [UserNameTG] FROM [TrueAccess])
+            """
+cursor.execute(SQLQuery)
+connection.commit()

@@ -14,7 +14,6 @@ test_mode = test_mode_check.test_mode()
 # Обработка команды /start
 @bot.message_handler(commands=["start"])
 def greeting(message):
-    print('IN greeting')
     try:
         print('--->', time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5],
                       message.from_user.id, message.from_user.username, 
