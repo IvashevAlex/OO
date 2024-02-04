@@ -1,8 +1,8 @@
 import pypyodbc
 from telebot import types
 from telebot.types import CallbackQuery
-
 from config import DB_name
+
 import test_mode_check
 import sql_queries
 import get_staff_api
@@ -73,27 +73,59 @@ def echo(callback_query):
                 SQLQuery = sql_queries.check_in_true_access(str('@' + callback_query.from_user.username))
                 cursor = connection.cursor()
                 cursor.execute(SQLQuery)
-                count = cursor.fetchall()
-            
+                count = cursor.fetchall()[0][0]
+                print('!!!', count)
             except:
                 print()
 
             # Если информации в TrueAccess нет, то отправляем запрос к api для обновления данных
             if count == 0:
+                print('!11', count)
                 get_staff_api # получение файла data.json
                 parsing_json # добавление и удаление юзеров из TrueAccess
-
-                print('Нет данных о пользователе')
+                
                 try:
-                    bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+                    SQLQuery = sql_queries.check_in_true_access(str('@' + callback_query.from_user.username))
+                    cursor = connection.cursor()
+                    cursor.execute(SQLQuery)
+                    count = cursor.fetchall()[0][0]
+                    print('!33', count)
+
+                    if count == 0:
+                        bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
                     
+                    if count == 1:
+                        # ! Запросить у юзера почту со стафа. Если почта верная, то выполнить добавление
+
+
+                        connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+                        cursor = connection.cursor()
+
+                        SQLQuery = """  UPDATE dbo.WhiteList
+                                    SET UserMark = 1
+                                    WHERE UserChat = """ + str(callback_query.from_user.id) + """;"""
+
+                        cursor.execute(SQLQuery)
+                        connection.commit()
+                        connection.close()
+                
                 except:
-                    print('Ошибка отправки сообщения об отсутствии доступа пользователю!')
+                    print('Доступ предоставлен')
+
+                
+                # try:
+                #     bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
+                    
+                # except:
+                #     print('Ошибка отправки сообщения об отсутствии доступа пользователю!')
             
 
             # Если запись есть, то добавляем юзеру флаг доступа автоматически
-            else:
-
+            
+            elif count == 1:
+                print('!22', count)
                 try:
                     connection = pypyodbc.connect('Driver={SQL Server};'
                                     'Server=' + mySQLServer + ';'
@@ -112,12 +144,13 @@ def echo(callback_query):
                 except:
                     print('Ошибка автодобваления пользователя!')
                     
-
                     try:
                         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
                     
                     except:
                         print('Ошибка отправки сообщения об отсутствии доступа пользователю!')
+            else:
+                pass
 
     
     # Если юзера нет в списке, то вносим его данные из Телеграм. 
