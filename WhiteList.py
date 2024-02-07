@@ -51,7 +51,6 @@ def echo(callback_query):
     except:
         print('Ошибка запроса к базе данных!')
 
-
     # Если юзер уже есть в списке, то проверяем флаг доступа из UserMark
     if str(callback_query.from_user.id) == userid:
         
@@ -74,15 +73,11 @@ def echo(callback_query):
                 cursor = connection.cursor()
                 cursor.execute(SQLQuery)
                 count = cursor.fetchall()[0][0]
-                print('!!!', count)
             except:
-                if callback_query.from_user.username == 'None':
-                    bot.send_message(callback_query.from_user.id, 
-                                     'Чтобы продолжить работу с ботом укажи имя пользователя в "Настройки-Мой аккаунт"')
+                pass
 
             # Если информации в TrueAccess нет, то отправляем запрос к api для обновления данных
             if count == 0:
-                print('!11', count)
                 get_staff_api # получение файла data.json
                 parsing_json # добавление и удаление юзеров из TrueAccess
                 
@@ -90,16 +85,12 @@ def echo(callback_query):
                     SQLQuery = sql_queries.check_in_true_access(str('@' + callback_query.from_user.username))
                     cursor = connection.cursor()
                     cursor.execute(SQLQuery)
-                    count = cursor.fetchall()[0][0]
-                    print('!33', count)
+                    count_2 = cursor.fetchall()[0][0]
 
-                    if count == 0:
+                    if count_2 == 0:
                         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
                     
-                    if count == 1:
-                        # ! Запросить у юзера почту со стафа. Если почта верная, то выполнить добавление
-
-
+                    if count_2 == 1:
                         connection = pypyodbc.connect('Driver={SQL Server};'
                                     'Server=' + mySQLServer + ';'
                                     'Database=' + myDatabase + ';')
