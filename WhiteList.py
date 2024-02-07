@@ -76,7 +76,9 @@ def echo(callback_query):
                 count = cursor.fetchall()[0][0]
                 print('!!!', count)
             except:
-                print()
+                if callback_query.from_user.username == 'None':
+                    bot.send_message(callback_query.from_user.id, 
+                                     'Чтобы продолжить работу с ботом укажи имя пользователя в "Настройки-Мой аккаунт"')
 
             # Если информации в TrueAccess нет, то отправляем запрос к api для обновления данных
             if count == 0:
@@ -125,7 +127,6 @@ def echo(callback_query):
             # Если запись есть, то добавляем юзеру флаг доступа автоматически
             
             elif count == 1:
-                print('!22', count)
                 try:
                     connection = pypyodbc.connect('Driver={SQL Server};'
                                     'Server=' + mySQLServer + ';'
@@ -139,7 +140,8 @@ def echo(callback_query):
                     cursor.execute(SQLQuery)
                     connection.commit()
                     connection.close()
-
+                    print('Пользователь ', callback_query.from_user.id, 'успешно добавлен!')
+                    bot.send_message(callback_query.from_user.id, 'Доступ к боту предоставлен. Нажми /start чтобы начать работу.')
 
                 except:
                     print('Ошибка автодобваления пользователя!')
