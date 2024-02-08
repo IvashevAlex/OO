@@ -6,7 +6,7 @@ import test_mode_check
 
 
 # Переменные
-ver = '1.0.7.2'
+ver = '1.0.7.3'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -28,7 +28,7 @@ def greeting(message):
 # Обработка команды /help
 @bot.message_handler(commands=["help"])
 def help(message):
-    print('IN help')
+
     if echo(message) == True:
         bot.send_message(message.chat.id, info, parse_mode='Markdown')
 
@@ -36,7 +36,7 @@ def help(message):
 # Обработка команды /admin
 @bot.message_handler(commands=["admin"])
 def admin_menu(message):
-    print('IN admin_menu')
+
     if message.chat.id in admins:
         Admin_menu(message, bot)
     else:
@@ -46,7 +46,7 @@ def admin_menu(message):
 # Обработка текстового сообщения "В меню"
 @bot.message_handler(func=lambda message: message.text == "В меню")
 def back(message):
-    print('IN back')
+
     if echo(message) == True:
         question(bot, message)
 
@@ -54,7 +54,7 @@ def back(message):
 # Обработка текстового сообщения "Назад"
 @bot.message_handler(func=lambda message: message.text == "Назад")
 def back_menu(message):
-    print('IN back_menu')
+
     if echo(message) == True:
         # Запускаем test_menu из modul_for_bot
         back_to_menu(bot, message)
@@ -63,7 +63,7 @@ def back_menu(message):
 # Обработка текстового сообщения "Пoмощь". Первая буква "o" в слове латинская
 @bot.message_handler(func=lambda message: message.text == "Пoмощь")
 def help_text(message):
-    print('IN help_text')
+
     if echo(message) == True:
         bot.send_message(message.chat.id, info, parse_mode='Markdown')
 
@@ -71,7 +71,7 @@ def help_text(message):
 # Обработка текстового сообщения "Результаты"
 @bot.message_handler(func=lambda message: message.text == "Результаты")
 def results_key(message):
-    print('IN results_key')
+
     if echo(message) == True:
         res(bot, message)
 
@@ -79,7 +79,7 @@ def results_key(message):
 # Обработка нажатия кнопки "Сообщить об ошибке"
 @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Сообщить об ошибке')
 def error_send(callback_query):
-    print('IN error_send')
+
     if echo(callback_query) == True:
         send_error(bot, callback_query)
 
@@ -88,9 +88,9 @@ def error_send(callback_query):
 # В среднем, считаем, что это ответы на вопросы, заданные пользователю.
 @bot.message_handler(content_types=['text'])
 def answer_text(message):
-    print('IN answer_text')
+
     if callback_check.get(message.from_user.id) == 'tests':
-        print('IF tests')
+
         continue_(bot, message)
         messages = bot.send_message(message.from_user.id, text.waiting_check)
         save_message_id['message_id'][message.from_user.id] = messages.message_id
@@ -98,7 +98,7 @@ def answer_text(message):
         return
 
     elif callback_check.get(message.from_user.id) == 'practicks':
-        print('IF practics')
+
         continue_(bot, message)
         messages = bot.send_message(message.from_user.id, text.waiting_check)
         save_message_id['message_id'][message.from_user.id] = messages.message_id
@@ -107,13 +107,12 @@ def answer_text(message):
     
 
     elif callback_check.get(message.from_user.id) == None:
-        print('IF None')
+
         if echo(message) == True:
             messages = bot.send_message(message.from_user.id, text.not_selected)
             save_message_id['message_id'][message.from_user.id] = messages.message_id
 
     continue_(bot, message)
-
 
 
 # Информация по боту 
