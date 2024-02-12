@@ -17,7 +17,7 @@ def tg_username_changer(tg_name_changed):
     if 't.me/' in tg_name_changed:
         tg_name_changed = tg_name_changed.replace('t.me/','')
     
-    if str(newUsers_Contacts[n2].get('value'))[0] != '@':
+    if str(newUsers_contacts)[0] != '@':
         tg_name_changed = '@' + tg_name_changed
     
     return tg_name_changed
@@ -33,27 +33,27 @@ firedUsers = result_dict['firedUsers']
 lastModifiedDate = result_dict['lastModifiedDate']
 
 newUsers_len = len(newUsers)
-modifiedUsers = len(modifiedUsers)
+modifiedUsers_len = len(modifiedUsers)
 firedUsers_len = len(firedUsers)
 
-# newUsers_Contacts = newUsers[0].get('contacts')
+# newUsers_contacts = newUsers[0].get('contacts')
 # modifiedUsers = modifiedUsers[0].get('contacts')
 # firedUsers_email = firedUsers[0].get('email')
 # firedUsers_email_len = len(firedUsers_email)
 
 # Внесение записей о новых сотрудниках в TrueAccess
-new_users = open('new_users.csv', 'w+', encoding='utf-8')
+# new_users = open('new_users.csv', 'w+', encoding='utf-8')
 
 for n1 in range(newUsers_len):
-    newUsers_Contacts = dict(newUsers[n1])['contacts']
-    newUsers_Contacts_len = len(newUsers_Contacts)
+    newUsers_contacts = dict(newUsers[n1])['contacts']
+    newUsers_contacts_len = len(newUsers_contacts)
     
-    for n2 in range(newUsers_Contacts_len):
-        if newUsers_Contacts[n2].get('typeId') == 11:
-            tg_name_changed = newUsers_Contacts[n2].get('value')
+    for n2 in range(newUsers_contacts_len):
+        if newUsers_contacts[n2].get('typeId') == 11:
+            tg_name_changed = newUsers_contacts[n2].get('value')
             tg_name_changed = tg_username_changer(tg_name_changed)
             
-            new_users.write(str(newUsers[n1].get('email') + ',' + tg_name_changed + '\n'))
+            # new_users.write(str(newUsers[n1].get('email') + ',' + tg_name_changed + '\n'))
             print(newUsers[n1].get('email'), ',', tg_name_changed)
 
             # Проверяем наличие почты юзера в общей базе доступа
@@ -88,14 +88,59 @@ for n1 in range(newUsers_len):
             else:
                 pass
 
-new_users.close()
+# new_users.close()
+
+# Внесение записей о действующих сотрудниках, изменявших информацию
+for m1 in range(modifiedUsers_len):
+    modifiedUsers_contacts = dict(modifiedUsers[m1])['contacts']
+    modifiedUsers_contacts_len = len(modifiedUsers_contacts)
+    
+    for m2 in range(modifiedUsers_contacts_len):
+        if modifiedUsers_contacts[m2].get('typeId') == 11:
+            tg_name_changed = modifiedUsers_contacts[m2].get('value')
+            tg_name_changed = tg_username_changer(tg_name_changed)
+            
+            # new_users.write(str(newUsers[n1].get('email') + ',' + tg_name_changed + '\n'))
+            print(modifiedUsers[m1].get('email'), ',', tg_name_changed)
+
+            # Проверяем наличие почты юзера в общей базе доступа
+            connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+            cursor = connection.cursor()
+            SQLQuery = """SELECT COUNT (*)
+                          FROM [dbo].[TrueAccess]
+                          WHERE [Email] =  '""" + str(modifiedUsers[m1].get('email')) + """'
+                        """
+            cursor.execute(SQLQuery)
+            count = cursor.fetchall()
+            connection.close()
+
+            # Если записи там нет, то вносим её туда
+            if count[0][0] == 0:
+                print('Нет данных по ', str(modifiedUsers[m1].get('email')), 'в true_access. Добавляем запись в БД')
+                print('')
+                connection = pypyodbc.connect('Driver={SQL Server};'
+                                    'Server=' + mySQLServer + ';'
+                                    'Database=' + myDatabase + ';')
+                cursor = connection.cursor()
+
+                SQLQuery = """INSERT INTO [dbo].[TrueAccess] ([Email], [UserNameTG])
+                            VALUES('""" + str(modifiedUsers[m1].get('email')) + """','""" + str(tg_name_changed) + """');
+                            """
+                cursor.execute(SQLQuery)
+                connection.commit()
+                connection.close()
+            
+            else:
+                pass
 
 
 # Удаление записей об уволенных сотрудниках из TrueAccess
-fired_users = open('fired_users.csv', 'w+', encoding='utf-8')
+# fired_users = open('fired_users.csv', 'w+', encoding='utf-8')
 for n3 in range(firedUsers_len):
     firedUsers_email = dict()
-    fired_users.write(str(dict(firedUsers[n3]).get('email') + '\n'))
+    # fired_users.write(str(dict(firedUsers[n3]).get('email') + '\n'))
     print(dict(firedUsers[n3]).get('email'))
 
     connection = pypyodbc.connect('Driver={SQL Server};'
@@ -129,7 +174,7 @@ for n3 in range(firedUsers_len):
     else:
         pass
 
-fired_users.close()
+# fired_users.close()
 
 # Удаляем из WhiteList все почты котрых нет в TrueAccess
 connection = pypyodbc.connect('Driver={SQL Server};'
