@@ -225,7 +225,6 @@ while True:
                                 print('Отправка', users_id)
                                 try:
                                     bot.send_message(users_id, message_by_number, parse_mode='Markdown', disable_web_page_preview=True)
-                                    
 
                                 except Exception as e:
                                     # Фиксируем причину возникновения ошибки
