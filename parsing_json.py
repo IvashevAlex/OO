@@ -9,24 +9,41 @@ test_mode = test_mode_check.test_mode()
 mySQLServer = test_mode_check.get_server(test_mode)
 myDatabase = DB_name
 
+
+def tg_username_changer(tg_name_changed):
+    if 'https://t.me/' in tg_name_changed:
+        tg_name_changed = tg_name_changed.replace('https://t.me/','')
+
+    if 't.me/' in tg_name_changed:
+        tg_name_changed = tg_name_changed.replace('t.me/','')
+    
+    if str(newUsers_Contacts[n2].get('value'))[0] != '@':
+        tg_name_changed = '@' + tg_name_changed
+    
+    return tg_name_changed
+
+
 # Парсит файл data.json 
 with open('data.json','r', encoding='utf-8') as file:
     result_dict = json.load(file)
 
 newUsers = result_dict['newUsers']
+modifiedUsers = result_dict['modifiedUsers']
 firedUsers = result_dict['firedUsers']
-
-newUsers_Contacts = newUsers[0].get('contacts')
-firedUsers_email = firedUsers[0].get('email')
+lastModifiedDate = result_dict['lastModifiedDate']
 
 newUsers_len = len(newUsers)
+modifiedUsers = len(modifiedUsers)
 firedUsers_len = len(firedUsers)
 
-
-firedUsers_email_len = len(firedUsers_email)
+# newUsers_Contacts = newUsers[0].get('contacts')
+# modifiedUsers = modifiedUsers[0].get('contacts')
+# firedUsers_email = firedUsers[0].get('email')
+# firedUsers_email_len = len(firedUsers_email)
 
 # Внесение записей о новых сотрудниках в TrueAccess
 new_users = open('new_users.csv', 'w+', encoding='utf-8')
+
 for n1 in range(newUsers_len):
     newUsers_Contacts = dict(newUsers[n1])['contacts']
     newUsers_Contacts_len = len(newUsers_Contacts)
@@ -34,20 +51,12 @@ for n1 in range(newUsers_len):
     for n2 in range(newUsers_Contacts_len):
         if newUsers_Contacts[n2].get('typeId') == 11:
             tg_name_changed = newUsers_Contacts[n2].get('value')
-
-            if 'https://t.me/' in tg_name_changed:
-                tg_name_changed = tg_name_changed.replace('https://t.me/','')
-
-            if 't.me/' in tg_name_changed:
-                tg_name_changed = tg_name_changed.replace('t.me/','')
-            
-            if str(newUsers_Contacts[n2].get('value'))[0] != '@':
-                tg_name_changed = '@' + tg_name_changed
+            tg_name_changed = tg_username_changer(tg_name_changed)
             
             new_users.write(str(newUsers[n1].get('email') + ',' + tg_name_changed + '\n'))
             print(newUsers[n1].get('email'), ',', tg_name_changed)
 
-            # Проверяем наличие поты юзера в общей базе доступа
+            # Проверяем наличие почты юзера в общей базе доступа
             connection = pypyodbc.connect('Driver={SQL Server};'
                                     'Server=' + mySQLServer + ';'
                                     'Database=' + myDatabase + ';')
