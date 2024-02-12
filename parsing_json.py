@@ -44,6 +44,8 @@ firedUsers_len = len(firedUsers)
 # Внесение записей о новых сотрудниках в TrueAccess
 # new_users = open('new_users.csv', 'w+', encoding='utf-8')
 
+print('НОВЫЕ ЮЗЕРЫ')
+
 for n1 in range(newUsers_len):
     newUsers_contacts = dict(newUsers[n1])['contacts']
     newUsers_contacts_len = len(newUsers_contacts)
@@ -89,6 +91,8 @@ for n1 in range(newUsers_len):
                 pass
 
 # new_users.close()
+print('')
+print('МОДИФИЦИРОВАННЫЕ ЮЗЕРЫ')
 
 # Внесение записей о действующих сотрудниках, изменявших информацию
 for m1 in range(modifiedUsers_len):
@@ -135,6 +139,8 @@ for m1 in range(modifiedUsers_len):
             else:
                 pass
 
+print('')
+print('УДАЛЁННЫЕ ЮЗЕРЫ')
 
 # Удаление записей об уволенных сотрудниках из TrueAccess
 # fired_users = open('fired_users.csv', 'w+', encoding='utf-8')

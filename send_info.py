@@ -197,24 +197,49 @@ while True:
                         print('-' * 50)
                         for i in range(len(dict_of_groups.get(lists_of_dates[_]))):
                             users_id = dict_of_groups.get(lists_of_dates[_])[i][0]
-                            print('Отправка', users_id)
-                            try:
-                                bot.send_message(users_id, message_by_number, parse_mode='Markdown', disable_web_page_preview=True)
-                                
+                            
+                            # Добавить проверку на наличие маркера доступа
 
-                            except Exception as e:
-                                # Фиксируем причину возникновения ошибки
-                                print('----------')
-                                print(e.args)
-                                print('Ошибка отправки: ', users_id)
-                                time.sleep(1)
+                            try:
+                                connection = pypyodbc.connect('Driver={SQL Server};'
+                                                            'Server=' + mySQLServer + ';'
+                                                            'Database=' + myDatabase + ';')
+                                cursor = connection.cursor()
+                                SQLQuery = """  SELECT UserMark 
+                                                FROM dbo.WhiteList 
+                                                WHERE UserChat = '""" + str(users_id) + """' ;"""
+
+                                cursor.execute(SQLQuery)
+                                count = cursor.fetchall()
+                                marker_check = str(count[0][0])
+                            
+                            except:
+                                marker_check = 0
+                                print('Ошибка запроса к базе данных!')
+
+
+                            if marker_check != 1:
+                                pass
+
+                            else:
+                                print('Отправка', users_id)
                                 try:
                                     bot.send_message(users_id, message_by_number, parse_mode='Markdown', disable_web_page_preview=True)
-                                    print('Отправлено со второй попытки.')
-                                except:
-                                    print('Повторная отправка не удалась.')
-                                    pass
-                                print('----------')
+                                    
+
+                                except Exception as e:
+                                    # Фиксируем причину возникновения ошибки
+                                    print('----------')
+                                    print(e.args)
+                                    print('Ошибка отправки: ', users_id)
+                                    time.sleep(1)
+                                    try:
+                                        bot.send_message(users_id, message_by_number, parse_mode='Markdown', disable_web_page_preview=True)
+                                        print('Отправлено со второй попытки.')
+                                    except:
+                                        print('Повторная отправка не удалась.')
+                                        pass
+                                    print('----------')
                     else:
                         pass
                 
