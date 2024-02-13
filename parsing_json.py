@@ -17,9 +17,9 @@ def tg_username_changer(tg_name_changed):
     if 't.me/' in tg_name_changed:
         tg_name_changed = tg_name_changed.replace('t.me/','')
     
-    if str(newUsers_contacts)[0] != '@':
+    if str(tg_name_changed[0]) != '@':
         tg_name_changed = '@' + tg_name_changed
-    
+
     return tg_name_changed
 
 
@@ -105,7 +105,7 @@ for m1 in range(modifiedUsers_len):
             tg_name_changed = tg_username_changer(tg_name_changed)
             
             # new_users.write(str(newUsers[n1].get('email') + ',' + tg_name_changed + '\n'))
-            print(modifiedUsers[m1].get('email'), ',', tg_name_changed)
+            # print(modifiedUsers[m1].get('email'), ',', tg_name_changed)
 
             # Проверяем наличие почты юзера в общей базе доступа
             connection = pypyodbc.connect('Driver={SQL Server};'
