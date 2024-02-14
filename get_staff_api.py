@@ -84,6 +84,7 @@ def check_token(token):
         print('Ошибка проверки доступа по токену')
         print(EX.args)
 
-
-token = get_token()
-check_token(token)
+def get_start():
+    print('GET_STAFF_API')
+    token = get_token()
+    check_token(token)

@@ -10,13 +10,13 @@ import log
 def time_checker():
     # Проверка на день недели. По выходным сообщения не рассылаем. Отправка в 12:05:05 по локальному времени
     if dt.datetime.today().isoweekday() in (1,2,3,4,5):
-        if time.localtime()[3] == 10:
-            if time.localtime()[4] == 10:
-                if time.localtime()[5] == 10:
-                    time.sleep(1) # Что-бы случайно не отправить дважды
-                    return True
-                else:
-                    return False
+        if time.localtime()[3] == 9:
+            if time.localtime()[4] == 27:
+                # if time.localtime()[5] == 10:
+                time.sleep(60) # Что-бы случайно не отправить дважды
+                return True
+                # else:
+                #     return False
             else:
                 return False
         else:
@@ -173,6 +173,8 @@ print('Программа рассылки запущена!')
 
 # Основной цикл
 while True:
+    time.sleep(20)
+    print('.', end='')
     if time_checker() == True:
         try:
             print('Начало отправки:', time.localtime()[3], time.localtime()[4], time.localtime()[5])
@@ -201,6 +203,7 @@ while True:
                             # Добавить проверку на наличие маркера доступа
 
                             try:
+                                print('ПРОВЕРКА МАРКЕРА ДОСТУПА ДЛЯ', users_id)
                                 connection = pypyodbc.connect('Driver={SQL Server};'
                                                             'Server=' + mySQLServer + ';'
                                                             'Database=' + myDatabase + ';')
@@ -211,7 +214,7 @@ while True:
 
                                 cursor.execute(SQLQuery)
                                 count = cursor.fetchall()
-                                marker_check = str(count[0][0])
+                                marker_check = count[0][0]
                             
                             except:
                                 marker_check = 0
@@ -219,6 +222,7 @@ while True:
 
 
                             if marker_check != 1:
+                                print('ДОСТУПА НЕТ')
                                 pass
 
                             else:

@@ -61,6 +61,7 @@ def echo(callback_query):
 
             cursor.execute(SQLQuery)
             result = cursor.fetchall()
+            print('RES: ', result)
         
         except:
             print('Ошибка проверки флага доступа')
@@ -73,19 +74,23 @@ def echo(callback_query):
                 cursor = connection.cursor()
                 cursor.execute(SQLQuery)
                 count = cursor.fetchall()[0][0]
+                print('COUNT: ', count)
             except:
                 pass
 
             # Если информации в TrueAccess нет, то отправляем запрос к api для обновления данных
             if count == 0:
-                get_staff_api # получение файла data.json
-                parsing_json # добавление и удаление юзеров из TrueAccess
+                print('GET API')
+                # ! В цикле не выполняется. Понять почему
+                get_staff_api.get_start() # получение файла data.json
+                parsing_json.parsing() # добавление и удаление юзеров из TrueAccess
                 
                 try:
                     SQLQuery = sql_queries.check_in_true_access(str('@' + callback_query.from_user.username))
                     cursor = connection.cursor()
                     cursor.execute(SQLQuery)
                     count_2 = cursor.fetchall()[0][0]
+                    print('COUNT_2', count_2)
 
                     if count_2 == 0:
                         bot.send_message(callback_query.from_user.id, mes_pas + str(callback_query.from_user.id) + ".")
