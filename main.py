@@ -3,6 +3,7 @@ from modul_for_bot import *
 from config import *
 import text
 import test_mode_check
+import log
 
 
 # Переменные
@@ -15,10 +16,14 @@ test_mode = test_mode_check.test_mode()
 @bot.message_handler(commands=["start"])
 def greeting(message):
     try:
-        print('--->', time.localtime()[3],':',time.localtime()[4],':',time.localtime()[5],
-                      message.from_user.id, message.from_user.username, 
-                      message.from_user.first_name, message.from_user.last_name)
-    except:
+        time_info = str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5]) + ' '
+        user_info = str(message.from_user.id) + ' ' + str(message.from_user.username) + ' '
+        result = time_info + user_info + '/start\n'
+        print('--->', result)
+        log.write_actions_log(log.actions_log_file, result)
+
+    except Exception as EX:
+        print(EX.args)
         print('Ошибка запроса данных сообщения!')
     
     if echo(message) == True:
