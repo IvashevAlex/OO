@@ -10,6 +10,6 @@ def write_file(log_file, info):
     log_file.close()
 
 def write_actions_log(actions_log_file, info):
-    actions_log_file = open('actions_log_file.txt','a')
-    actions_log_file.write(info)
+    actions_log_file = open('actions_log_file.txt','a',encoding='utf-8')
+    actions_log_file.write(str(info))
     actions_log_file.close()
