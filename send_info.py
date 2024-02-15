@@ -22,7 +22,9 @@ def time_checker():
         else:
             return False
     else:
+        time.sleep(86000)
         return False
+        
 
 
 # Обращаемся к БД и получаем словарь формата {число дней:номер рассылки}
