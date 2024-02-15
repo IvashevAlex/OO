@@ -20,6 +20,7 @@ def greeting(message):
         user_info = str(message.from_user.id) + ' ' + str(message.from_user.username) + ' '
         result = time_info + user_info + ' --- /start\n'
         print('--->', result)
+        log.write_actions_log(log.actions_log_file, '\n')
         log.write_actions_log(log.actions_log_file, result)
 
     except Exception as EX:

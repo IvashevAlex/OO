@@ -60,22 +60,17 @@ def echo(callback_query):
 
     # Если юзер уже есть в списке, то проверяем флаг доступа из UserMark
     if str(callback_query.from_user.id) == userid:
-        print('1')
+
         time_info = str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5]) + ' '
-        print('2')
         try:
-            print('3')
             SQLQuery = """SELECT COUNT (*) 
                         FROM dbo.WhiteList 
                         WHERE UserChat = """ + str(callback_query.from_user.id) + """ AND UserMark = '1';"""
 
             cursor.execute(SQLQuery)
-            print('4')
             result = cursor.fetchall()
-            print('5')
             result_log_string = '    ' + time_info + str(callback_query.from_user.id) + ' --- 3 Маркер доступа = ', str(result[0][0]), '\n'
             log.write_actions_log(log.actions_log_file, result_log_string)
-            print('6')
         
         except Exception as EX:
             print(EX.args)
