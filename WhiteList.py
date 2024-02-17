@@ -98,9 +98,10 @@ def echo(callback_query):
             # Если информации в TrueAccess нет, то отправляем запрос к api для обновления данных
             if count == 0:
                 # time_info = str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5]) + ' '
-
-                get_staff_api.get_start() # получение файла data.json
-                parsing_json.parsing() # добавление и удаление юзеров из TrueAccess
+                # ! запрос обновления при каждом обращении незареганого юзера убрал для исключения возможного спама в АПИ
+                # ! на замену сделал автозапрос данных кажжые 2 часа с 9 до 21 
+                # get_staff_api.get_start() # получение файла data.json
+                # parsing_json.parsing() # добавление и удаление юзеров из TrueAccess
                 
                 try:
                     SQLQuery = sql_queries.check_in_true_access(str('@' + callback_query.from_user.username))
@@ -133,7 +134,8 @@ def echo(callback_query):
                         # log.write_actions_log(log.actions_log_file, result_log_string)
                 
                 except:
-                    print('Доступ предоставлен в результате запрос к АПИ!')
+                    pass
+                    # print('Доступ предоставлен в результате запрос к АПИ!')
                     # result_log_string = '    ' + time_info + str(callback_query.from_user.id) + ' --- 10 Доступ предоставлен в результате запрос к АПИ!\n'
                     # log.write_actions_log(log.actions_log_file, result_log_string)
 

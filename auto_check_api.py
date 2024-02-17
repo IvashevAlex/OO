@@ -5,8 +5,8 @@ from WhiteList import *
 def auto_checker():
 
     if time.localtime()[3] in [3, 9, 11, 13, 15, 17, 19, 21]:
-        if time.localtime()[4] == 16:
-            time.sleep(60) # Что-бы случайно не отправить дважды
+        if time.localtime()[4] == 35:
+            time.sleep(1)
             return True
         else:
             return False
@@ -29,5 +29,5 @@ while True:
             print(str(time.localtime()[3]) + ':' + str(time.localtime()[4]), 'Ошибка парсинга ответа АПИ')
         
         print('Данные успешно обновлены в', str(time.localtime()[3]) + ':' + str(time.localtime()[4]))
-        time.sleep(7000)
+        time.sleep(6600)
         
