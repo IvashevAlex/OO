@@ -128,7 +128,7 @@ def weekdays_minus_sundays(pre_answer_int, first_day_format):
 # Суббота и воскресенье всегда считаются выходными. Возможно, стоит добавить список выходных через БД
 def weekday_calc(today, lists_of_dates_pair):
     try:
-        print('IN weekday_calc')
+        # print('IN weekday_calc')
         print(lists_of_dates_pair[0])
         first_day = lists_of_dates_pair[0]
         first_day_format = dt.datetime.strptime(first_day, '%Y-%m-%d').date()

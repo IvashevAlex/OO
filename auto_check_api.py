@@ -5,7 +5,7 @@ from WhiteList import *
 def auto_checker():
 
     if time.localtime()[3] in [3, 9, 11, 13, 15, 17, 19, 21]:
-        if time.localtime()[4] == 35:
+        if time.localtime()[4] == 55:
             time.sleep(1)
             return True
         else:

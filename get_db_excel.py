@@ -1,7 +1,7 @@
 import json
 
 def get_question():
-    print('IN get_question')
+    # print('IN get_question')
     list_tables = ['УЦ', 'ФМС', 'Маркет', 'Ритейл', 'Диадок', 'KE', 'Бухгалтерия', 
     'Эльба', 'ОФД', 'Установка', 'WIC', 'Вн. сервисы', 'Фокус']
 

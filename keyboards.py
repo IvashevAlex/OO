@@ -16,7 +16,7 @@ import sql_queries
 
 # Функция отрисовки кнопок в начальном меню
 def question(bot, message):
-    print('IN question')
+    # print('IN question')
     print(message.chat.id)
     modul_for_bot.sql_user(bot, message)
 
@@ -50,7 +50,7 @@ def question(bot, message):
 
 # Клавиатура выбора типа обучения
 def test_menu(bot, message):
-    print('IN test_menu')
+    # print('IN test_menu')
     try:
         del modul_for_bot.practicks_data[message.from_user.id]
     except Exception as EX:
@@ -77,7 +77,7 @@ def test_menu(bot, message):
 
 # Меню админа, вызываемое по команде "/admin"
 def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
-    print('IN Admin_menu')
+    # print('IN Admin_menu')
     modul_for_bot.callback_check[message.from_user.id] = 'admin'
     markup = types.InlineKeyboardMarkup()
     
@@ -100,7 +100,7 @@ def Admin_menu(message, bot): #Описание функций для меню �
 
 # Отдельное меню для продукта Установка. Тут только тесты
 def Inst_menu(name, bot):
-    print('IN Inst_menu')
+    # print('IN Inst_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def in_menu(message):
         try:
@@ -115,7 +115,7 @@ def Inst_menu(name, bot):
 
 # Отдельное меню ВИК. Тут только кейсы
 def WIC_menu(name, bot):
-    print('IN WIC_menu')
+    # print('IN WIC_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def wic_menu(message):
         try:
@@ -130,7 +130,7 @@ def WIC_menu(name, bot):
 
 # Отдельное меню для Внутренних сервисов. Тут только кейсы
 def Other_srvice_menu(name, bot):
-    print('IN Other_service_menu')
+    # print('IN Other_service_menu')
     @bot.message_handler(func=lambda message: message.text == name)
     def in_menu(message):
         try:
@@ -145,7 +145,7 @@ def Other_srvice_menu(name, bot):
 
 # Установка - Тесты - Клавиатура
 def test_INST(bot, message):
-    print('IN test_INST')
+    # print('IN test_INST')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -171,7 +171,7 @@ def test_INST(bot, message):
 
 # Отдельная клавиатура для кейсов по ВИК
 def prk_wic(bot, message):
-    print('IN prk_wic')
+    # print('IN prk_wic')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -195,7 +195,7 @@ def prk_wic(bot, message):
 
 # Отдельная клавиатура для кейсов по Внутренним сервисам
 def other_service_prk(bot, message):
-    print('IN other_service_prk')
+    # print('IN other_service_prk')
     modul_for_bot.sql_user(bot, message)
 
     try:
@@ -219,13 +219,13 @@ def other_service_prk(bot, message):
 
 # Возвращает к меню выбора тест/кейс для продуктов без индивидуальной схемы кнопок
 def back_to_menu(bot, message):
-    print('IN back_to_menu')
+    # print('IN back_to_menu')
     test_menu(bot, message)
 
 
 # Запускает функцию меню тестов продукта, ранее записанного в modul_for_bot.tests_data[callback_query.from_user.id]
 def tests(bot):
-    print('IN tests')
+    # print('IN tests')
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Тесты')
     def tests_hm(callback_query: CallbackQuery):
 
@@ -262,7 +262,7 @@ def tests(bot):
 
 # Запускает функцию меню кейсов продукта, ранее записанного в modul_for_bot.tests_data[callback_query.from_user.id]
 def praktics(bot):
-    print('IN praktics')
+    # print('IN praktics')
     @bot.callback_query_handler(func=lambda callback_query: callback_query.data == 'Кейсы')
     def tests_h(callback_query: CallbackQuery):
         bot.answer_callback_query(callback_query.id)
@@ -304,7 +304,7 @@ def praktics(bot):
 
 # Меню рассылки
 def sending_menu(bot, callback_query):
-    print('IN sending_menu')
+    # print('IN sending_menu')
     markup_send = types.InlineKeyboardMarkup()
 
     itembtn1 = types.InlineKeyboardButton('База сообщений', callback_data='База сообщений')
@@ -327,7 +327,7 @@ def sending_menu(bot, callback_query):
 
 # Меню Рассылки - База сообщений (dbo.Messages)
 def sending_menu_base(bot, callback_query):
-    print('IN sending_menu_base')
+    # print('IN sending_menu_base')
     markup_base = types.InlineKeyboardMarkup()
 
     itembtn2 = types.InlineKeyboardButton('Создать сообщение', callback_data='Создать сообщение')
@@ -363,7 +363,7 @@ def sending_menu_base(bot, callback_query):
 
 # Добавление новой записи в dbo.Messages
 def sending_menu_base_add_to_sql(message):
-    print('IN sending_menu_base_add_to_sql')
+    # print('IN sending_menu_base_add_to_sql')
 
     # Start SQL
     try:
@@ -384,7 +384,7 @@ def sending_menu_base_add_to_sql(message):
 
 # Изменить текст записи в dbo.Messages
 def sending_menu_base_change(message):
-    print('IN sending_menu_base_change')
+    # print('IN sending_menu_base_change')
     number_text = str(message.text).split('*')
     print(number_text)
     print(number_text[0])
@@ -413,7 +413,7 @@ def sending_menu_base_change(message):
 
 # Меню рассылки - Календарь рассылок (dbo.Calendar)
 def sending_menu_calendar(bot, callback_query):
-    print('IN sending_menu_calendar')
+    # print('IN sending_menu_calendar')
     markup_calendar = types.InlineKeyboardMarkup()
 
     itembtn2 = types.InlineKeyboardButton('Задать день и номер рассылки', callback_data='Задать день и номер рассылки')
@@ -448,7 +448,7 @@ def sending_menu_calendar(bot, callback_query):
 
 # Изменяет в календаре номер рассылки для указанного дня
 def edit_sending_menu_calendar(message):
-    print('IN edit_sending_menu_calendar')
+    # print('IN edit_sending_menu_calendar')
     number_text = str(message.text).split('*')
     print(number_text)
     print(number_text[0])
@@ -469,7 +469,7 @@ def edit_sending_menu_calendar(message):
 
 # Задает указанному дню рассылки значение NULL
 def sending_menu_calendar_delete(message):
-    print('IN sending_menu_calendar_delete')
+    # print('IN sending_menu_calendar_delete')
     
     # Start SQL
     try:
@@ -493,7 +493,7 @@ def sending_menu_calendar_delete(message):
 
 # Функция добавляет новую дату в dbo.Settable, дату начала нового набора
 def sending_menu_start_new_wave(bot, callback_query):
-    print('IN sending_menu_calendar')
+    # print('IN sending_menu_calendar')
     markup_new_wave = types.InlineKeyboardMarkup()
 
     itembtn2 = types.InlineKeyboardButton('Начать новый набор!', callback_data='Начать новый набор!')
