@@ -82,7 +82,7 @@ def parsing():
                     print('запись есть БД', end='; ')
 
     # new_users.close()
-    print('')
+    print('\n')
     print('МОДИФИЦИРОВАННЫЕ ЮЗЕРЫ')
 
     # Внесение записей о действующих сотрудниках, изменявших информацию
@@ -113,7 +113,8 @@ def parsing():
 
                 # Если записи там нет, то вносим её туда
                 if count[0][0] == 0:
-                    print('Добавляем запись в БД (мод.)', end=' --- ')
+                    
+                    print('Добавляем запись в БД (мод.)', str(modifiedUsers[m1].get('email')), end='; ')
                     connection = pypyodbc.connect('Driver={SQL Server};'
                                         'Server=' + mySQLServer + ';'
                                         'Database=' + myDatabase + ';')
@@ -129,7 +130,7 @@ def parsing():
                 else:
                     pass
 
-    print('')
+    print('\n')
     print('УДАЛЁННЫЕ ЮЗЕРЫ')
 
     # Удаление записей об уволенных сотрудниках из TrueAccess

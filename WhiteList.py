@@ -156,7 +156,7 @@ def echo(callback_query):
                     connection.commit()
                     connection.close()
                     print('Пользователь ', callback_query.from_user.id, 'успешно добавлен!')
-                    bot.send_message(callback_query.from_user.id, 'Доступ к боту предоставлен. Нажми /start чтобы начать работу.')
+                    bot.send_message(callback_query.from_user.id, 'Доступ к боту предоставлен автоматически. \nНажми /start чтобы начать работу.')
                     # result_log_string = '    ' + time_info + str(callback_query.from_user.id) + ' --- 11 Установлен маркер доступа = 1 без запроса к АПИ\n'
                     # log.write_actions_log(log.actions_log_file, result_log_string)
 

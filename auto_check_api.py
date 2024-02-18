@@ -5,7 +5,7 @@ from WhiteList import *
 def auto_checker():
 
     if time.localtime()[3] in [3, 9, 11, 13, 15, 17, 19, 21]:
-        if time.localtime()[4] == 10:
+        if time.localtime()[4] == 5:
             time.sleep(1)
             return True
         else:
@@ -28,6 +28,7 @@ while True:
         except:
             print(str(time.localtime()[3]) + ':' + str(time.localtime()[4]), 'Ошибка парсинга ответа АПИ')
         
+        print('\n')
         print('Данные успешно обновлены в', str(time.localtime()[3]) + ':' + str(time.localtime()[4]))
         time.sleep(6600) # После обновления данных в течение 1,5 часов нет смысла проверять время
         

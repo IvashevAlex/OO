@@ -32,7 +32,7 @@ def staff_api_users(token):
         file = open('data.json', 'w', encoding='utf-8')
         file.write(data)
         file.close()
-        print('Запрос к АПИ выполнен успешно')
+        print('Запрос к АПИ выполнен успешно',end='\n')
 
     except Exception as EX:
         print('Ошибка запроса данных по АПИ')
