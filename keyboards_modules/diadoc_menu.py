@@ -128,7 +128,7 @@ def prk_diadoc(bot, callback_query):
 
 # DD.Case.Admin
 def prk_diadoc_admin(bot, callback_query):
-    print('IN prk_diadoc_admin')
+    # print('IN prk_diadoc_admin')
     modul_for_bot.sql_user(bot, callback_query)
 
     markup_diadoc_adminka = types.InlineKeyboardMarkup()

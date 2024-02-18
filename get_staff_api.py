@@ -32,7 +32,7 @@ def staff_api_users(token):
         file = open('data.json', 'w', encoding='utf-8')
         file.write(data)
         file.close()
-        print('Запрос к АПИ выполнен успешно')
+        print('Запрос к АПИ выполнен успешно',end='\n')
 
     except Exception as EX:
         print('Ошибка запроса данных по АПИ')
@@ -85,6 +85,6 @@ def check_token(token):
         print(EX.args)
 
 def get_start():
-    print('GET_STAFF_API')
+    print('Заущено обращение к АПИ')
     token = get_token()
     check_token(token)
