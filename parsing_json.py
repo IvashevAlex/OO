@@ -48,7 +48,7 @@ def parsing():
                 tg_name_changed = tg_username_changer(tg_name_changed)
                 
                 # new_users.write(str(newUsers[n1].get('email') + ',' + tg_name_changed + '\n'))
-                print(newUsers[n1].get('email'), ',', tg_name_changed)
+                print(newUsers[n1].get('email'), ',', tg_name_changed, end=' --- ')
 
                 # Проверяем наличие почты юзера в общей базе доступа
                 connection = pypyodbc.connect('Driver={SQL Server};'
@@ -65,8 +65,7 @@ def parsing():
 
                 # Если записи там нет, то вносим её туда
                 if count[0][0] == 0:
-                    print('Нет данных по ', str(newUsers[n1].get('email')), 'в true_access. Добавляем запись в БД')
-                    print('')
+                    print('Добавляем запись в БД', end='; ')
                     connection = pypyodbc.connect('Driver={SQL Server};'
                                         'Server=' + mySQLServer + ';'
                                         'Database=' + myDatabase + ';')
@@ -80,7 +79,7 @@ def parsing():
                     connection.close()
                 
                 else:
-                    pass
+                    print('запись есть БД', end='; ')
 
     # new_users.close()
     print('')
@@ -114,8 +113,7 @@ def parsing():
 
                 # Если записи там нет, то вносим её туда
                 if count[0][0] == 0:
-                    print('Нет данных по ', str(modifiedUsers[m1].get('email')), 'в true_access. Добавляем запись в БД')
-                    print('')
+                    print('Добавляем запись в БД (мод.)', end=' --- ')
                     connection = pypyodbc.connect('Driver={SQL Server};'
                                         'Server=' + mySQLServer + ';'
                                         'Database=' + myDatabase + ';')
@@ -139,7 +137,7 @@ def parsing():
     for n3 in range(firedUsers_len):
         firedUsers_email = dict()
         # fired_users.write(str(dict(firedUsers[n3]).get('email') + '\n'))
-        print(dict(firedUsers[n3]).get('email'))
+        print(dict(firedUsers[n3]).get('email'), end='; ')
 
         connection = pypyodbc.connect('Driver={SQL Server};'
                                 'Server=' + mySQLServer + ';'

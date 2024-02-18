@@ -85,6 +85,6 @@ def check_token(token):
         print(EX.args)
 
 def get_start():
-    print('GET_STAFF_API')
+    print('Заущено обращение к АПИ')
     token = get_token()
     check_token(token)

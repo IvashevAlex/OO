@@ -16,10 +16,10 @@ test_mode = test_mode_check.test_mode()
 @bot.message_handler(commands=["start"])
 def greeting(message):
     # try:
-    #     time_info = str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5]) + ' '
-    #     user_info = str(message.from_user.id) + ' ' + str(message.from_user.username) + ' '
-    #     result = time_info + user_info + ' --- /start\n'
-    #     print('--->', result)
+    time_info = str(time.localtime()[3]) + ':' + str(time.localtime()[4]) + ':' + str(time.localtime()[5]) + ' '
+    user_info = str(message.from_user.id) + ' ' + str(message.from_user.username) + ' '
+    result = time_info + user_info + ' --- /start\n'
+    print('--->', result)
     #     # log.write_actions_log(log.actions_log_file, '\n')
     #     # log.write_actions_log(log.actions_log_file, result)
 
