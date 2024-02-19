@@ -7,7 +7,7 @@ import log
 
 
 # Переменные
-ver = '1.1.0.0'
+ver = '1.1.0.1'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
