@@ -14,21 +14,23 @@ def auto_checker():
         return False
 
 print('Программа автодобавления пользователей запущена!')
+print('\n')
 
 while True:
     time.sleep(30) # давжды в минуту проверяем не настало ли время
     if auto_checker() == True:
         try:
             get_staff_api.get_start() # получение файла data.json
+            print('Данные успешно получены в', str(time.localtime()[3]) + ':' + str(time.localtime()[4]))
         except:
             print(str(time.localtime()[3]) + ':' + str(time.localtime()[4]), 'Ошибка обращения к АПИ')
         
         try:
             parsing_json.parsing()
+            print('Данные успешно обработаны в', str(time.localtime()[3]) + ':' + str(time.localtime()[4]))
         except:
-            print(str(time.localtime()[3]) + ':' + str(time.localtime()[4]), 'Ошибка парсинга ответа АПИ')
+            print(str(time.localtime()[3]) + ':' + str(time.localtime()[4]), 'Ошибка обработки ответа АПИ')
         
-        print('\n')
-        print('Данные успешно обновлены в', str(time.localtime()[3]) + ':' + str(time.localtime()[4]))
+        
         time.sleep(6600) # После обновления данных в течение 1,5 часов нет смысла проверять время
         
