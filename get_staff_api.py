@@ -1,6 +1,7 @@
 import requests
 import json
 import config
+from datetime import datetime, timedelta
 
 # Метод получающий значение токена из файла
 def get_token():
@@ -17,12 +18,16 @@ def get_token():
 
 # Метод отправляющий запрос в АПИ
 def staff_api_users(token):
+    today = datetime.today().date()
+    delta_date = timedelta(days=5)
+    date = str(today-delta_date)
+
     value_auth = 'Bearer ' + token
     url = config.staff_api_users_url
     method = config.staff_api_users_method
     payload = {}
     headers = {'Authorization': value_auth, 'Cookie': config.staff_api_users_Cookie}
-    params = config.staff_api_users_params
+    params = config.staff_api_users_params + date
 
     link = url + method + params
         
