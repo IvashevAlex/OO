@@ -52,7 +52,6 @@ def remove_access(message):
             connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
             cursor = connection.cursor()
             SQLQuery = sql_queries.check_in_true_access_mail(message.text.split(' ')[1])
-            print(SQLQuery)
             cursor.execute(SQLQuery)
             check_in_true_access_mail_result = cursor.fetchall()[0][0]
             connection.close()
@@ -63,12 +62,11 @@ def remove_access(message):
                     connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
                     cursor = connection.cursor()
                     SQLQuery = sql_queries.remove_true_access(message.text.split(' ')[1])
-                    print(SQLQuery)
                     cursor.execute(SQLQuery) 
                     connection.commit()
                     connection.close()
-                    bot.send_message(message.from_user.id, 'Юзер с почтой ' + str(message.text.split(' ')[1] + ' удалён из базы. \n \
-                    Теперь при новом цикле автодобавления он будет записан с новым юзернеймом.'))
+                    bot.send_message(message.from_user.id, 'Юзер с почтой ' + str(message.text.split(' ')[1] + ' удалён из базы. \n' \
+                    'При следующем цикле автодобавления он будет записан с новым юзернеймом.'))
                 
                 except Exception as EX:
                         print(EX.args)
