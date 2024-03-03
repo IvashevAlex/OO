@@ -17,11 +17,13 @@ today = dt.date.today()
 test_mode = test_mode_check.test_mode()
 
 if test_mode == False:
-    alex_id = admins[0] #ID для обработки сообщений об ошибке в вопросе
-    fafa_id = admins[1] #ID для обработки технической ошибки
+    # alex_id = admins[0] #ID для обработки сообщений об ошибке в вопросе
+    # fafa_id = admins[1] #ID для обработки технической ошибки
+    curator_1 = curators[0]
 else:
-    alex_id = admins[1] #ID для обработки сообщений об ошибке в вопросе
-    fafa_id = admins[1] #ID для обработки технической ошибки
+    # alex_id = admins[1] #ID для обработки сообщений об ошибке в вопросе
+    # fafa_id = admins[1] #ID для обработки технической ошибки
+    curator_1 = curators[1]
 
 data_base = {'BotUsers': {},
              'UserQuestions': {},
@@ -595,49 +597,76 @@ def continue_(bot, message):  # <--- функция обработки прос�
         # callback_check[message.from_user.id] = save_check[message.from_user.id]
 
     elif callback_check[message.chat.id] == '3':  # Если пользователь нажал на сообщить об ошибке и выбрал "об ошибке в вопросе"
-        print('IF 3')
+
         if tests_data[message.chat.id] == 'DD':
             product = 'Диадок'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'EDI':
             product = 'ЕДИ'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'extrn':
             product = 'Экстерн'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'UC':
             product = 'УЦ'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'MK':
             product = 'МК'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'FMS':
             product = 'ФМС'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'OFD':
             product = 'ОФД'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'BUH':
             product = 'Бухгалтерия'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'ELB':
             product = 'Эльба'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
         
         elif tests_data[message.chat.id] == 'KF':
             product = 'Фокус'       
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
         
         elif tests_data[message.chat.id] == 'WIC':
             product = 'WIC'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
         
         elif tests_data[message.chat.id] == 'OTHER':
             product = 'Вн. сервисы'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         elif tests_data[message.chat.id] == 'INST':
             product = 'Установка'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
         
 
-        text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
-        bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+        # text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+        # todo Реализовать логику отправки сообщения ответственному за продукт
+        # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
 
         bot.send_message(message.chat.id, text.tech_error_msg)
         callback_check[message.from_user.id] = save_check[message.from_user.id]
@@ -881,16 +910,6 @@ def query_data_handler(bot, data):
       elif callback_check.get(callback_query.from_user.id) in ('1', '2', '3'):
         callback_check[callback_query.from_user.id] = save_check[callback_query.from_user.id]
 
-    # elif data == 'Техническая ошибка':
-    #     markup = types.InlineKeyboardMarkup()
-    #     itembtn9 = types.InlineKeyboardButton('Отмена', callback_data='Отмена')
-    #     markup.add(itembtn9)
-
-    #     bot.answer_callback_query(callback_query.id)
-    #     bot.edit_message_text('Опиши полностью техническую ошибку, которая у тебя произошла.', chat_id=callback_query.from_user.id,
-    #                         message_id=callback_query.message.message_id, reply_markup=markup)
-
-    #     callback_check[callback_query.from_user.id] = '2'  # Присваиваем ИД переменную, чтобы дальше фильтровать
     
     elif data == 'Текстовая ошибка':
         markup = types.InlineKeyboardMarkup()
@@ -1104,7 +1123,6 @@ def query_data_handler(bot, data):
 
 add_modules()
 query_data_handler(bot, 'Отмена')
-# query_data_handler(bot, 'Техническая ошибка')
 query_data_handler(bot, 'Текстовая ошибка')
 query_data_handler(bot, 'Назад')
 query_data_handler(bot, 'Обновить таблицы')
