@@ -1050,17 +1050,33 @@ def query_data_handler(bot, data):
                     message_id=callback_query.message.message_id)
         bot.register_next_step_handler(message, sending_menu_calendar_delete)
 
-    # По хорошему нужно сделать проверку последней даты для предотвращения повторного нажатия
+    # Проверяет наличие текущей даты и при её отсутствии создает запись. Если запиь уже есть не делает ничего.
     elif data == 'Начать новый набор!':
         try:
             connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
             cursor = connection.cursor()
-            SQLQuery = sql_queries.create_new_wave()
-            cursor.execute(SQLQuery) 
-            connection.commit()
+            SQLQuery = sql_queries.check_wave_duplicates()
+            cursor.execute(SQLQuery)
+            check_wave_result = cursor.fetchall()
+            print(check_wave_result)
             connection.close()
-            bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(dt.date.today()) + '.')
-            time.sleep(1)
+        
+            if check_wave_result == 0:
+                try:
+                    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+                    cursor = connection.cursor()
+                    SQLQuery = sql_queries.create_new_wave()
+                    cursor.execute(SQLQuery) 
+                    connection.commit()
+                    connection.close()
+                    bot.send_message(callback_query.from_user.id, 'Добавлен новый набор с ' + str(dt.date.today()) + '.')
+                    time.sleep(1)
+                except Exception as EX:
+                    print(EX.args)
+            
+            if check_wave_result == 1:
+                print('Запись уже есть, новый набор уже объявлен с сегодняшнего дня!')
+
         except Exception as EX:
             print(EX.args)
 

@@ -76,8 +76,7 @@ def test_menu(bot, message):
         print('Ошибка отправки сообщения в test_menu')
 
 # Меню админа, вызываемое по команде "/admin"
-def Admin_menu(message, bot): #Описание функций для меню поместил в конец кода
-    # print('IN Admin_menu')
+def Admin_menu(message, bot): 
     modul_for_bot.callback_check[message.from_user.id] = 'admin'
     markup = types.InlineKeyboardMarkup()
     
@@ -469,9 +468,7 @@ def edit_sending_menu_calendar(message):
 
 # Задает указанному дню рассылки значение NULL
 def sending_menu_calendar_delete(message):
-    # print('IN sending_menu_calendar_delete')
     
-    # Start SQL
     try:
         connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
         cursor = connection.cursor()
@@ -479,10 +476,10 @@ def sending_menu_calendar_delete(message):
         cursor.execute(SQLQuery)
         connection.commit()
         connection.close()
+
     except Exception as EX:
         print('Ошибка работы с БД в edit_sending_menu_calendar:', end='')
         print(EX.args)
-    # End SQL
     
     try:
         bot.send_message(chat_id=message.from_user.id,  text='День очищен от рассылки!', message_id=message.message_id)

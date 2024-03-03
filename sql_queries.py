@@ -62,9 +62,15 @@ def get_full_list_of_dates():
 
 # Создать новый набор с сегодняшнего дня
 def create_new_wave():
-    time.sleep(1)
     return """INSERT INTO [dbo].[Settable] (StartDate)
               VALUES ('""" + str(dt.date.today()) + """'); 
+            """
+
+# Проверяет наличие сегодняшнего дня в списке дат начала набора 
+def check_wave_duplicates():
+    return """SELECT COUNT (*)
+                FROM [dbo].[Settable]
+                WHERE [StartDate] = ('""" + str(dt.date.today()) + """'); 
             """
 
 # Удаление не предусмотрено 
