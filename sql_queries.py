@@ -138,3 +138,12 @@ def check_in_true_access(UsersName):
     return str("""SELECT COUNT (*)
               FROM [dbo].[TrueAccess]
               WHERE [UserNameTG] = '""" + str(UsersName) + """'""")
+
+
+# ----------------------------- dbo.TrueAccess ------------------------------- 
+
+# Запрос на удаление записи из TrueAccess по почте
+def remove_true_access(mail):
+    return """DELETE 
+                FROM [dbo].[TrueAccess]
+                WHERE Email = '""" + str(mail) + """'"""
