@@ -7,7 +7,7 @@ import log
 
 
 # Переменные
-ver = '1.1.1.0'
+ver = '1.1.1.1'
 info = text.info
 test_mode = test_mode_check.test_mode()
 
@@ -42,6 +42,15 @@ def admin_menu(message):
     else:
         bot.send_message(message.from_user.id, text.no_admin_access)
 
+
+# Обработка команды /remove
+@bot.message_handler(commands=["remove"])
+def remove_access(message):
+    if message.chat.id in admins:
+        print(message)
+    else:
+        bot.send_message(message.from_user.id, text.no_admin_access)
+        
 
 # Обработка текстового сообщения "В меню"
 @bot.message_handler(func=lambda message: message.text == "В меню")
