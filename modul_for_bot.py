@@ -1075,7 +1075,8 @@ def query_data_handler(bot, data):
                     print(EX.args)
             
             if check_wave_result == 1:
-                print('Запись уже есть, новый набор уже объявлен с сегодняшнего дня!')
+                bot.send_message(callback_query.from_user.id, 'Новый набор уже был объявлен ранее. Сегодня повторного нажатия не требуется')
+                print('Новый набор уже был объявлен ранее!')
 
         except Exception as EX:
             print(EX.args)
