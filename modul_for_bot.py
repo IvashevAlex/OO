@@ -1057,7 +1057,7 @@ def query_data_handler(bot, data):
             cursor = connection.cursor()
             SQLQuery = sql_queries.check_wave_duplicates()
             cursor.execute(SQLQuery)
-            check_wave_result = cursor.fetchall()
+            check_wave_result = cursor.fetchall()[0][0]
             print(check_wave_result)
             connection.close()
         
