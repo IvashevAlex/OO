@@ -19,11 +19,42 @@ test_mode = test_mode_check.test_mode()
 if test_mode == False:
     alex_id = admins[0] #ID для обработки сообщений об ошибке в вопросе
     fafa_id = admins[1] #ID для обработки технической ошибки
-    curator_1 = curators[0]
+
+    curator_UC = curators[0]
+    curator_FMS = curators[0]
+    curator_MK = curators[0]
+    curator_EDI = curators[0]
+
+    curator_DD = curators[0]
+    curator_KE = curators[0]
+    curator_BH = curators[0]
+    curator_ELB = curators[0]
+
+    curator_OFD = curators[0]
+    curator_INST = curators[0]
+    curator_WIC = curators[0]
+    curator_OTHER = curators[0]
+    curator_KF = curators[0]
+
 else:
     alex_id = admins[1] #ID для обработки сообщений об ошибке в вопросе
     fafa_id = admins[1] #ID для обработки технической ошибки
-    curator_1 = curators[1]
+    
+    curator_UC = curators[1]
+    curator_FMS = curators[1]
+    curator_MK = curators[1]
+    curator_EDI = curators[1]
+
+    curator_DD = curators[1]
+    curator_KE = curators[1]
+    curator_BH = curators[1]
+    curator_ELB = curators[1]
+
+    curator_OFD = curators[1]
+    curator_INST = curators[1]
+    curator_WIC = curators[1]
+    curator_OTHER = curators[1]
+    curator_KF = curators[1]
 
 data_base = {'BotUsers': {},
              'UserQuestions': {},
@@ -603,7 +634,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
             text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_DD, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -614,7 +645,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
             text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_EDI, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -623,7 +654,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'extrn':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_KE, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -632,7 +663,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'UC':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_UC, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -641,7 +672,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'MK':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_MK, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -650,7 +681,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'FMS':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_FMS, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -659,7 +690,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'OFD':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_OFD, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -668,7 +699,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'BUH':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_BH, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -677,7 +708,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'ELB':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_ELB, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -686,7 +717,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'KF':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_KF, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -695,7 +726,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'WIC':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_WIC, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -704,7 +735,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'OTHER':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_OTHER, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
@@ -713,7 +744,7 @@ def continue_(bot, message):  # <--- функция обработки прос�
         elif tests_data[message.chat.id] == 'INST':
             try:
                 try:
-                    bot.send_message(curator_1, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curator_INST, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
                     bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
