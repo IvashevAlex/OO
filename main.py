@@ -47,24 +47,38 @@ def admin_menu(message):
 @bot.message_handler(commands=["remove"])
 def remove_access(message):
     if message.chat.id in admins:
+        
         try:
+            connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+            cursor = connection.cursor()
+            SQLQuery = sql_queries.check_in_true_access_mail(message.text.split(' ')[1])
+            print(SQLQuery)
+            cursor.execute(SQLQuery)
+            check_in_true_access_mail_result = cursor.fetchall()[0][0]
+            connection.close()
             
-            try:
-                connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
-                cursor = connection.cursor()
-                SQLQuery = sql_queries.remove_true_access(message.text.split(' ')[1])
-                cursor.execute(SQLQuery) 
-                connection.commit()
-                connection.close()
-                bot.send_message(message.from_user.id, 'Юзер с почтой' + str(message.text.split(' ')[1] + ' удалён из базы. \n\
-                                    Теперь при новом цикле автодобавления он будет записан с новым юзернеймом.'))
+            if check_in_true_access_mail_result == 1:
+
+                try:
+                    connection = pypyodbc.connect('Driver={SQL Server};''Server=' + mySQLServer + ';''Database=' + myDatabase + ';')
+                    cursor = connection.cursor()
+                    SQLQuery = sql_queries.remove_true_access(message.text.split(' ')[1])
+                    print(SQLQuery)
+                    cursor.execute(SQLQuery) 
+                    connection.commit()
+                    connection.close()
+                    bot.send_message(message.from_user.id, 'Юзер с почтой ' + str(message.text.split(' ')[1] + ' удалён из базы. \n \
+                    Теперь при новом цикле автодобавления он будет записан с новым юзернеймом.'))
+                
+                except Exception as EX:
+                        print(EX.args)
             
-            except Exception as EX:
-                    print(EX.args)
-            
-            print(message.text.split(' ')[1])
+            if check_in_true_access_mail_result == 0:
+                bot.send_message(message.from_user.id, 'Юзера с такой почтой нет в базе. Убедись, что нет опечаток.')
+                   
         except Exception as EX:
-            bot.send_message(message.from_user.id, 'Не указана почта! Команду необходимо указать как \"/remove mail@skbkontur.ru\"')
+            bot.send_message(message.from_user.id, 'Ошибка ' + str(EX) + '. \n' \
+                             'Убедись, что указал почту через пробел после команды.')
     else:
         bot.send_message(message.from_user.id, text.no_admin_access)
 

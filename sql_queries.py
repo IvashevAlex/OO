@@ -133,6 +133,8 @@ def get_list_of_users(lists_one, lists_two):
               WHERE AddUserDate BETWEEN '""" + str(lists_one) + """' AND '""" + str(lists_two) + """'"""
 
 
+# ----------------------------- dbo.TrueAccess ------------------------------- 
+
 # Проверка наличия юзернейма ТГ в таблице TrueAccess БД UsersDB
 def check_in_true_access(UsersName):
     return str("""SELECT COUNT (*)
@@ -140,7 +142,10 @@ def check_in_true_access(UsersName):
               WHERE [UserNameTG] = '""" + str(UsersName) + """'""")
 
 
-# ----------------------------- dbo.TrueAccess ------------------------------- 
+def check_in_true_access_mail(UsersMail):
+    return str("""SELECT COUNT (*)
+              FROM [dbo].[TrueAccess]
+              WHERE [Email] = '""" + str(UsersMail) + """'""")
 
 # Запрос на удаление записи из TrueAccess по почте
 def remove_true_access(mail):
