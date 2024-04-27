@@ -17,8 +17,8 @@ today = dt.date.today()
 test_mode = test_mode_check.test_mode()
 
 if test_mode == False:
-    alex_id = admins[0] #ID для обработки сообщений об ошибке в вопросе
-    fafa_id = admins[1] #ID для обработки технической ошибки
+    alex_id = admins[2] #ID для обработки сообщений об ошибке в вопросе
+    fafa_id = admins[2] #ID для обработки технической ошибки
 
     curator_UC = curators[0]
     curator_FMS = curators[0]
@@ -37,15 +37,15 @@ if test_mode == False:
     curator_KF = curators[0]
 
 else:
-    alex_id = admins[1] #ID для обработки сообщений об ошибке в вопросе
-    fafa_id = admins[1] #ID для обработки технической ошибки
+    alex_id = admins[2] #ID для обработки сообщений об ошибке в вопросе
+    fafa_id = admins[2] #ID для обработки технической ошибки
     
     curator_UC = curators[1]
     curator_FMS = curators[1]
     curator_MK = curators[1]
     curator_EDI = curators[1]
 
-    curator_DD = curators[1]
+    curator_DD = curators[0,1,2]
     curator_KE = curators[1]
     curator_BH = curators[1]
     curator_ELB = curators[1]
@@ -632,121 +632,215 @@ def continue_(bot, message):  # <--- функция обработки прос�
         if tests_data[message.chat.id] == 'DD':
             product = 'Диадок'
             text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
             try:
                 try:
-                    bot.send_message(curator_DD, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'EDI':
             product = 'ЕДИ'
             text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
             try:
                 try:
-                    bot.send_message(curator_EDI, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'extrn':
+            product = 'Экстерн'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
             try:
                 try:
-                    bot.send_message(curator_KE, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'UC':
+            product = 'УЦ'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
+
             try:
                 try:
-                    bot.send_message(curator_UC, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'MK':
+            product = 'Маркет'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
+
             try:
                 try:
-                    bot.send_message(curator_MK, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    #bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'FMS':
+            product = 'ФМС'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
             try:
                 try:
-                    bot.send_message(curator_FMS, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'OFD':
+            product = 'ОФД'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
+
             try:
                 try:
-                    bot.send_message(curator_OFD, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'BUH':
+            product = 'Бухгалтерия'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
+            
             try:
                 try:
-                    bot.send_message(curator_BH, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'ELB':
+            product = 'Эльба'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
+
             try:
                 try:
-                    bot.send_message(curator_ELB, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
         
         elif tests_data[message.chat.id] == 'KF':
+            product = 'Фокус'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
+
             try:
                 try:
-                    bot.send_message(curator_KF, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
         
         elif tests_data[message.chat.id] == 'WIC':
+            product = 'ВИК' 
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
+
             try:
                 try:
-                    bot.send_message(curator_WIC, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
-                except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
-            except:
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                except Exception as EX:
+                    print(EX.args)
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+            except Exception as EX_2:
                 print('Отправка ошибки не удалась!')
+                print(EX.args)
         
         elif tests_data[message.chat.id] == 'OTHER':
+            product = 'Другие сервисы'
+            text_error = f'<b>Консультант сообщает об ошибке в вопросе!</b>\nОтдел: {product}.\n\n{callback_check["text"][message.chat.id]}'
+            print(text_error)
+
             try:
                 try:
-                    bot.send_message(curator_OTHER, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
 
         elif tests_data[message.chat.id] == 'INST':
+            product = 'Установка'
             try:
                 try:
-                    bot.send_message(curator_INST, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[0], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[1], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(curators[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    bot.send_message(admins[2], text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
                 except:
-                    bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
+                    pass
+                    # bot.send_message(alex_id, text=f'{text_error}Комментарий: {message.text}\nОб ошибке сообщил - @{message.from_user.username}', parse_mode='HTML')
             except:
                 print('Отправка ошибки не удалась!')
         

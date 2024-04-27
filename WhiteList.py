@@ -219,6 +219,7 @@ def echo(callback_query):
 # Добавляет пользователю маркер о разрешении на доступ
 def add_user(message, data_base):
     try:
+        print('Начало добавления')
         connection = pypyodbc.connect('Driver={SQL Server};'
                                     'Server=' + mySQLServer + ';'
                                     'Database=' + myDatabase + ';')
@@ -226,22 +227,28 @@ def add_user(message, data_base):
         
         # Если запрос получен от админа, то формируем переменную res со значением id добовляемого пользователя
         if str(message.from_user.id) in mes:
+            print('Переменная res')
             res = data_base['BotUsers'][message.from_user.id]['UserAnswer']
         else:
+            print('ELSE')
             return
 
         print('Добавляем пользователя с номером', res)
 
         # SQL запрос на смену флага доступа для пользователя с id указанным в переменной res
-        SQLQuery = """UPDATE dbo.WhiteList
-                    SET UserMark = 1
-                    WHERE UserChat = """ + str(res) + """;"""
+        try:
+            SQLQuery = """UPDATE dbo.WhiteList
+                        SET UserMark = 1
+                        WHERE UserChat = """ + str(res) + """;"""
 
-        cursor.execute(SQLQuery)
-        bot.send_message(chat_id=message.from_user.id, text=f'Пользователь с id {str(res)} добавлен.')
+            cursor.execute(SQLQuery)
+            bot.send_message(chat_id=message.from_user.id, text=f'Пользователь с id {str(res)} добавлен.')
 
-        connection.commit()
-        connection.close()
+            connection.commit()
+            connection.close()
+        except Exception as EX:
+            print(EX.args)
+
     except:
         print('Ошибка добавления пользователя!')
         bot.send_message(chat_id=message.from_user.id, text='Ошибка добавления. Попробуй еще раз.')

@@ -11,7 +11,7 @@ def Elba_menu(name, bot):
         modul_for_bot.sql_user(bot, message)
         keyboards.test_menu(bot, message)
 
-
+# Тесты
 def test_elb(bot, callback_query):
     modul_for_bot.sql_user(bot, callback_query)
 
@@ -30,7 +30,7 @@ def test_elb(bot, callback_query):
     bot.edit_message_text("Выбери тему: ", chat_id=callback_query.from_user.id,
                           message_id=callback_query.message.message_id, reply_markup=markup)
 
-
+# Кейсы
 def prk_elb(bot, callback_query):
     modul_for_bot.sql_user(bot, callback_query)
 

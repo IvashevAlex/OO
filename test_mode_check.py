@@ -3,7 +3,7 @@ from config import *
 
 # По умолчанию тестовый режим включен. При запуске в продакшн устанавливаем значение False
 def test_mode():
-    return True
+    return False
 
 # Возвращает бота с нужным токеном в зависимости от режима
 def get_token(mode):
@@ -24,6 +24,6 @@ def get_server(mode):
 # Возвращает админские id в зависимости от режима
 def get_admins(mode):
     if mode == True:
-        return [str(admins[1]), str(admins[1])]
+        return [str(admins[2])]
     else:
-        return [str(admins[0]), str(admins[1])]
+        return [str(admins[2])]
